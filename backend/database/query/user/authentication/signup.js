@@ -15,10 +15,11 @@ async function signup(data) {
       return { message: "User created Successfully", status: 201 };
     })
     .catch((err) => {
-      console.log(err);
+      if (err?.code === "P2002")
+        return { message: "User already registered", status: 409 };
       return { message: "User registration failed", status: 500 };
     });
-  prisma.$disconnect();
+  await prisma.$disconnect();
   return response;
 }
 

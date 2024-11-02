@@ -45,6 +45,7 @@ async function sendOTP({ name, email }) {
     return false;
   }
 }
+
 async function verifyOTP({ email, otp }) {
   try {
     const dbResponse = await getUniqueEmailOTP(email, otp);

@@ -14,8 +14,15 @@ const verifyOTPSchema = Joi.object({
   email: Joi.string().email().required(),
   otp: Joi.number().required(),
 });
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
+const loginSchemaHeaders = Joi.string();
 module.exports = {
   signupSchema,
   sendOTPSchema,
   verifyOTPSchema,
+  loginSchema,
+  loginSchemaHeaders,
 };
