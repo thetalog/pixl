@@ -48,7 +48,7 @@ async function sendOTP({ name, email }) {
 async function verifyOTP({ email, otp }) {
   try {
     const dbResponse = await getUniqueEmailOTP(email, otp);
-    if (!dbResponse) return { message: "Wrong OTP!", status: 400 };
+    if (!dbResponse) return { message: "Something went wrong!", status: 500 };
     if (dbResponse.isEmailAlreadyVerified)
       return { message: "Email already verified!", status: 400 };
     const dateDuringOTPCreation = dbResponse.createAt.getDate();
