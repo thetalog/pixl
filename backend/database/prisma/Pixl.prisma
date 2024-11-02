@@ -8,23 +8,23 @@ generator client {
 }
 
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   @unique
-  isEmailVerified  Boolean
-  name    String
-  password String
-  emailOTP EmailOTP[]
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  email           String     @unique
+  isEmailVerified Boolean
+  name            String
+  password        String
+  emailOTP        EmailOTP[]
 }
 
 model EmailOTP {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   
-  name    String
-  otp     Int
-  isVerified Boolean @default(false)
-  verified DateTime?
-  userID  String?   @db.ObjectId
-  user    User?     @relation(fields: [userID], references: [id])
-  createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  email           String
+  name            String
+  otp             Int
+  isVerified      Boolean   @default(false)
+  emailVerifiedAt DateTime?
+  userID          String    @db.ObjectId
+  user            User      @relation(fields: [userID], references: [id])
+  createAt        DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }

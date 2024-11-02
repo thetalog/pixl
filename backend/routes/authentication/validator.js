@@ -10,8 +10,12 @@ const sendOTPSchema = Joi.object({
   name: Joi.string().min(3).max(30).required(),
   email: Joi.string().email().required(),
 });
-
+const verifyOTPSchema = Joi.object({
+  email: Joi.string().email().required(),
+  otp: Joi.number().required(),
+});
 module.exports = {
   signupSchema,
   sendOTPSchema,
+  verifyOTPSchema,
 };

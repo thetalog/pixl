@@ -1,6 +1,10 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const { emailOTP } = require("../database/query/user/authentication/emailOTP");
+const {
+  createEmailOTP,
+  getUniqueEmailOTP,
+  updateEmailOTP,
+} = require("../database/query/user/authentication/emailOTP");
 dotenv.config();
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
@@ -27,7 +31,7 @@ function generateOTP(length = 6) {
 async function sendOTP({ name, email }) {
   try {
     const OTP = generateOTP();
-    const dbResponse = await emailOTP(name, email, OTP);
+    const dbResponse = await createEmailOTP(name, email, OTP);
     if (!dbResponse) throw Error("Something went wrong!");
     // send mail with defined transport object
     const response = await transporter.sendMail({
@@ -41,5 +45,36 @@ async function sendOTP({ name, email }) {
     return false;
   }
 }
-
-module.exports = { sendOTP };
+async function verifyOTP({ email, otp }) {
+  try {
+    const dbResponse = await getUniqueEmailOTP(email, otp);
+    if (!dbResponse) return { message: "Wrong OTP!", status: 400 };
+    if (dbResponse.isEmailAlreadyVerified)
+      return { message: "Email already verified!", status: 400 };
+    const dateDuringOTPCreation = dbResponse.createAt.getDate();
+    const timeDuringOTPCreation = Math.round(
+      dbResponse.createAt.getTime() / 1000 / 60
+    );
+    const todayDate = new Date().getDate();
+    const todayTime = Math.round(new Date().getTime() / 1000 / 60);
+    if (
+      dateDuringOTPCreation === todayDate &&
+      timeDuringOTPCreation + 5 <= todayTime
+    ) {
+      return { message: "OTP Timeout", status: 400 };
+    } else {
+      if (parseInt(otp) !== dbResponse.otp)
+        return { message: "Wrong OTP!", status: 400 };
+      const response = await updateEmailOTP(
+        dbResponse.id,
+        email,
+        otp,
+        new Date().toISOString().replace("Z", "+00:00")
+      );
+      return { message: response, status: response ? 200 : 400 };
+    }
+  } catch (error) {
+    return { message: error?.message, status: 500 };
+  }
+}
+module.exports = { sendOTP, verifyOTP };
