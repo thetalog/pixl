@@ -10,10 +10,10 @@ router.post("/signup", async (req, res) => {
   if (isValidate?.error) {
     res.status(400).json({ message: "Validation Error" });
   } else {
-    const publicKey = fs.readFileSync(
-      "./routes/authentication/pixl.pem",
-      "utf8"
-    );
+    // const publicKey = fs.readFileSync(
+    //   "./routes/authentication/pixl.pem",
+    //   "utf8"
+    // );
     const privateKey = fs.readFileSync("./routes/authentication/pixl", "utf8");
 
     // const encryptedData = crypto.publicEncrypt(
@@ -32,8 +32,12 @@ router.post("/signup", async (req, res) => {
       },
       Buffer.from(req.body?.password, "base64")
     );
-    return res.send(decryptedData);
-    const response = await signup({ ...req?.body, isEmailVerified: false });
+    const hashedPassword = crypto.hash("SHA3-512", decryptedData);
+    const response = await signup({
+      ...req?.body,
+      isEmailVerified: false,
+      password: hashedPassword,
+    });
     res.status(response.status).json({
       message: response.message,
       data: response?.data,
