@@ -41,14 +41,16 @@ async function getUniqueEmailOTP(email, otp) {
       .findFirst({
         where: {
           email: email,
+          otp: parseInt(otp),
         },
       })
-      .then((data) =>
-        data
+      .then((data) => {
+        return data
           ? { ...data, isEmailAlreadyVerified: isUserFound.isEmailVerified }
-          : false
-      );
+          : false;
+      });
   } catch (error) {
+    console.log(error);
     return false;
   }
 }
