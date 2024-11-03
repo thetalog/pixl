@@ -1,6 +1,8 @@
 const { signup } = require("../database/query/user/authentication/signup");
 const fs = require("fs");
 const crypto = require("crypto");
+const { signJWT } = require("./jwt");
+
 async function signupController(body) {
   // const publicKey = fs.readFileSync(
   //   "./routes/authentication/pixl.pem",
@@ -33,7 +35,7 @@ async function signupController(body) {
   return {
     status: response.status,
     message: response.message,
-    data: { ...response?.data},
+    data: { ...response?.data },
   };
 }
 

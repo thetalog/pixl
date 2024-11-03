@@ -4,6 +4,7 @@ const {
 const { createLogin } = require("../database/query/user/authentication/login");
 const fs = require("fs");
 const crypto = require("crypto");
+const { signJWT } = require("./jwt");
 
 async function loginController(body) {
   try {
@@ -37,10 +38,19 @@ async function loginController(body) {
       body?.IPAddress,
       response?.message
     );
+    const jwtResponse = await signJWT(dbResponse?.email, dbResponse?.name);
+    if (jwtResponse?.status !== 201)
+      return {
+        status: 500,
+        message: "Something went wrong",
+      };
     return {
       status: response.status,
       message: response.message,
-      data: response?.data,
+      data:
+        response.status !== 404
+          ? { ...response?.data, token: jwtResponse?.data }
+          : response?.data,
     };
   } catch (error) {
     return {
