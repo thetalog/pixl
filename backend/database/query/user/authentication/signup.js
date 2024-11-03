@@ -12,7 +12,11 @@ async function signup(data) {
       },
     })
     .then((response) => {
-      return { message: "User created Successfully", status: 201 };
+      return {
+        message: "User created Successfully",
+        status: 201,
+        data: response,
+      };
     })
     .catch((err) => {
       if (err?.code === "P2002")

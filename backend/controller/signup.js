@@ -33,7 +33,7 @@ async function signupController(body) {
   return {
     status: response.status,
     message: response.message,
-    data: response?.data,
+    data: { ...response?.data},
   };
 }
 

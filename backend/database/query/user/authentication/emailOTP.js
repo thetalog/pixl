@@ -46,7 +46,12 @@ async function getUniqueEmailOTP(email, otp) {
       })
       .then((data) => {
         return data
-          ? { ...data, isEmailAlreadyVerified: isUserFound.isEmailVerified }
+          ? {
+              ...data,
+              isEmailAlreadyVerified: isUserFound.isEmailVerified,
+              name: isUserFound?.name,
+              email: isUserFound?.email,
+            }
           : false;
       });
   } catch (error) {

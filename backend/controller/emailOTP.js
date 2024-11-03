@@ -6,6 +6,8 @@ const {
   updateEmailOTP,
 } = require("../database/query/user/authentication/emailOTP");
 dotenv.config();
+const { signJWT } = require("./jwt");
+
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: parseInt(process.env.EMAIL_PORT),
@@ -49,7 +51,7 @@ async function sendOTP({ name, email }) {
 async function verifyOTP({ email, otp }) {
   try {
     const dbResponse = await getUniqueEmailOTP(email, otp);
-    if (!dbResponse) return { message: "Something went wrong!", status: 500 };
+    if (!dbResponse) return { message: "Wrong OTP!", status: 400 };
     if (dbResponse.isEmailAlreadyVerified)
       return { message: "Email already verified!", status: 400 };
     const dateDuringOTPCreation = dbResponse.createAt.getDate();
@@ -72,7 +74,18 @@ async function verifyOTP({ email, otp }) {
         otp,
         new Date().toISOString().replace("Z", "+00:00")
       );
-      return { message: response, status: response ? 200 : 400 };
+
+      const jwtResponse = await signJWT(dbResponse?.email, dbResponse?.name);
+      if (jwtResponse?.status !== 201)
+        return {
+          status: 500,
+          message: "Something went wrong",
+        };
+      return {
+        message: response,
+        status: response ? 200 : 400,
+        data: jwtResponse?.data,
+      };
     }
   } catch (error) {
     return { message: error?.message, status: 500 };

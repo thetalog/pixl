@@ -34,6 +34,7 @@ router.post(
       const response = await verifyOTP({ ...req.body });
       return res.status(response.status).json({
         message: response.message,
+        data: response?.data,
       });
     } catch (error) {
       return res.status(500).json({
