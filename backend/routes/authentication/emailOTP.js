@@ -7,7 +7,7 @@ router.post(
   (req, send, next) => {
     if (sendOTPSchema.validate(req.body).error?.details.length > 0)
       return res.status(400).json({ message: "Validation failed!" });
-    next();
+    return next();
   },
   async (req, res) => {
     try {

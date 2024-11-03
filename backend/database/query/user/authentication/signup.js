@@ -9,6 +9,7 @@ async function signup(data) {
         name: data?.name,
         isEmailVerified: data?.isEmailVerified,
         password: data?.password,
+        age: parseInt(data?.age),
       },
     })
     .then((response) => {
@@ -21,6 +22,7 @@ async function signup(data) {
     .catch((err) => {
       if (err?.code === "P2002")
         return { message: "User already registered", status: 409 };
+      console.log(err);
       return { message: "User registration failed", status: 500 };
     });
   await prisma.$disconnect();

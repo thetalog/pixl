@@ -18,7 +18,6 @@ router.post(
       const responseFromController = await signupController(req.body);
       res.status(responseFromController.status).json({
         message: responseFromController.message,
-        data: responseFromController.data,
       });
     } catch (error) {
       res.status(500).json({

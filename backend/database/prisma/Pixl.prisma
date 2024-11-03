@@ -13,6 +13,8 @@ model User {
   isEmailVerified Boolean
   name            String
   password        String
+  age             Int
+  latestJWT       String?
   emailOTP        EmailOTP[]
   login           Login[]
 }

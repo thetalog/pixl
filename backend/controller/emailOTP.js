@@ -5,6 +5,7 @@ const {
   getUniqueEmailOTP,
   updateEmailOTP,
 } = require("../database/query/user/authentication/emailOTP");
+const { updateUser } = require("../database/query/user/authentication/user");
 dotenv.config();
 const { signJWT } = require("./jwt");
 
@@ -80,6 +81,15 @@ async function verifyOTP({ email, otp }) {
         return {
           status: 500,
           message: "Something went wrong",
+        };
+      const responseJWTUpdate = await updateUser(
+        { email: dbResponse?.email },
+        { latestJWT: jwtResponse?.data }
+      );
+      if (!responseJWTUpdate)
+        return {
+          status: 500,
+          message: "Something went wrong!",
         };
       return {
         message: response,
