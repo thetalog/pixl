@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 async function authenticationController(authorizationToken) {
   try {
-    var publicKey = fs.readFileSync("./routes/authentication/pixl.pem");
+    var publicKey = fs.readFileSync("./routes/authentication/pixl");
     var decodedToken = jwt.verify(
       String(authorizationToken).split(" ")[1],
       publicKey,

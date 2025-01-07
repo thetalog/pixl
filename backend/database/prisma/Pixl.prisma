@@ -8,15 +8,109 @@ generator client {
 }
 
 model User {
-  id              String     @id @default(auto()) @map("_id") @db.ObjectId
-  email           String     @unique
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  email           String           @unique
   isEmailVerified Boolean
+  userName        String
   name            String
   password        String
   age             Int
   latestJWT       String?
   emailOTP        EmailOTP[]
+  taggedPosts     Media[]
+  postReactions   Reaction[]
+  postComments    Comment[]
+  subComments     SubComment[]
+  postShare       Share[]
+  posts           Post[]
+  postCollections PostCollection[]
   login           Login[]
+}
+
+model PostCollection {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @default("My Collection")
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  posts     Post[]
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Media {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  url         String
+  musicCredit String?
+  userTag     String   @db.ObjectId
+  user        User     @relation(fields: [userTag], references: [id])
+  postId      String   @db.ObjectId
+  post        Post     @relation(fields: [postId], references: [id])
+  createAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Reaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String
+  userTag   String   @db.ObjectId
+  user      User     @relation(fields: [userTag], references: [id])
+  postTag   String   @db.ObjectId
+  post      Post     @relation(fields: [postTag], references: [id])
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SubComment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  text       String
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id])
+  commentTag String   @db.ObjectId
+  comment    Comment  @relation(fields: [commentTag], references: [id])
+  createAt   DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Comment {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  text       String
+  userId     String       @db.ObjectId
+  user       User         @relation(fields: [userId], references: [id])
+  postTag    String       @db.ObjectId
+  post       Post         @relation(fields: [postTag], references: [id])
+  subComment SubComment[]
+  createAt   DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Share {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userTag   String   @db.ObjectId
+  user      User     @relation(fields: [userTag], references: [id])
+  postTag   String   @db.ObjectId
+  post      Post     @relation(fields: [postTag], references: [id])
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  media              Media[]
+  tags               String[]
+  location           String?
+  caption            String
+  reactions          Reaction[]
+  comments           Comment[]
+  shares             Share[]
+  userId             String          @db.ObjectId
+  user               User            @relation(fields: [userId], references: [id])
+  postCollectionId   String?         @db.ObjectId
+  postCollection     PostCollection? @relation(fields: [postCollectionId], references: [id])
+  postDisabled       Boolean         @default(false)
+  postDisabledReason String?
+  postDisabledAt     DateTime?
+  createAt           DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 }
 
 model Login {

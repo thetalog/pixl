@@ -8,7 +8,7 @@ async function signupController(body) {
   //   "./routes/authentication/pixl.pem",
   //   "utf8"
   // );
-  const privateKey = fs.readFileSync("./routes/authentication/pixl", "utf8");
+  const privateKey = fs.readFileSync("./routes/authentication/pixl.pem", "utf8");
 
   // const encryptedData = crypto.publicEncrypt(
   //   {
@@ -21,7 +21,8 @@ async function signupController(body) {
   const decryptedData = crypto.privateDecrypt(
     {
       key: privateKey,
-      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      passphrase: "1111",
+      padding: crypto.constants.RSA_NO_PADDING,
       oaepHash: "sha512",
     },
     Buffer.from(body?.password, "base64")

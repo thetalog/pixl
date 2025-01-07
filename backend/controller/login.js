@@ -8,16 +8,16 @@ const { signJWT } = require("./jwt");
 
 async function loginController(body) {
   try {
-    const privateKey = fs.readFileSync("./routes/authentication/pixl", "utf8");
+    const privateKey = fs.readFileSync("./routes/authentication/pixl.pem", "utf8");
     const decryptedData = crypto.privateDecrypt(
       {
         key: privateKey,
-        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
-        oaepHash: "sha512",
+        passphrase: "1111",
+        padding: crypto.constants.RSA_PKCS1_PADDING
       },
       Buffer.from(body?.password, "base64")
     );
-    const hashedPassword = crypto.hash("SHA3-512", decryptedData);
+    const hashedPassword = crypto.createHash("sha3-512").update(decryptedData).digest("hex");
     const dbResponse = await getUserByCreds(body?.email, hashedPassword);
     let response = {};
     if (!dbResponse) {
@@ -30,32 +30,12 @@ async function loginController(body) {
       response["status"] = 200;
       response["message"] = "Login successful!";
     }
-    await createLogin(
-      body?.email,
-      dbResponse?.id,
-      hashedPassword,
-      response["status"] === 200 ? true : false,
-      body?.IPAddress,
-      response?.message
-    );
-    const jwtResponse = await signJWT(dbResponse?.email, dbResponse?.name);
-    if (jwtResponse?.status !== 201)
-      return {
-        status: 500,
-        message: "Something went wrong",
-      };
-    return {
-      status: response.status,
-      message: response.message,
-      data:
-        response.status !== 404
-          ? { ...response?.data, token: jwtResponse?.data }
-          : response?.data,
-    };
+    return response;
   } catch (error) {
+    console.error(error);
     return {
       status: 500,
-      message: "Something went wrong!",
+      message: "Internal server error",
     };
   }
 }
