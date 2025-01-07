@@ -8,8 +8,8 @@ generator client {
 }
 
 model User {
-  id              String           @id @default(auto()) @map("_id") @db.ObjectId
-  email           String           @unique
+  id              String             @id @default(auto()) @map("_id") @db.ObjectId
+  email           String             @unique
   isEmailVerified Boolean
   userName        String
   name            String
@@ -28,8 +28,10 @@ model User {
   following       Following[]
   login           Login[]
   reels           Reels[]
-  updatedAt       DateTime         @updatedAt
-  createAt        DateTime         @default(now())
+  favouriteUsers  FavouriteUsers[]
+  notifications   UserNotification[]
+  updatedAt       DateTime           @updatedAt
+  createAt        DateTime           @default(now())
 }
 
 model Followers {
@@ -48,15 +50,37 @@ model Following {
   updatedAt DateTime @updatedAt
 }
 
+model UserNotification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  message   String
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FavouriteUsers {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Reels {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  url         String
-  musicCredit String?
-  comments    Comment[]
-  userId      String    @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
-  createAt    DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  url              String
+  musicCredit      String?
+  caption          String
+  tags             String[]
+  reactions        Reaction[]
+  comments         Comment[]
+  userId           String          @db.ObjectId
+  user             User            @relation(fields: [userId], references: [id])
+  postCollectionId String?         @db.ObjectId
+  postCollection   PostCollection? @relation(fields: [postCollectionId], references: [id])
+  createAt         DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 }
 
 model PostCollection {
@@ -65,6 +89,7 @@ model PostCollection {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   posts     Post[]
+  reels     Reels[]
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -86,8 +111,10 @@ model Reaction {
   type      String
   userTag   String   @db.ObjectId
   user      User     @relation(fields: [userTag], references: [id])
-  postTag   String   @db.ObjectId
-  post      Post     @relation(fields: [postTag], references: [id])
+  postTag   String?  @db.ObjectId
+  post      Post?    @relation(fields: [postTag], references: [id])
+  reelTag   String?  @db.ObjectId
+  reel      Reels?   @relation(fields: [reelTag], references: [id])
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
