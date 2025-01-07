@@ -8,30 +8,38 @@ generator client {
 }
 
 model User {
-  id              String             @id @default(auto()) @map("_id") @db.ObjectId
-  email           String             @unique
-  isEmailVerified Boolean
-  userName        String
-  name            String
-  password        String
-  age             Int
-  latestJWT       String?
-  emailOTP        EmailOTP[]
-  taggedPosts     Media[]
-  postReactions   Reaction[]
-  postComments    Comment[]
-  subComments     SubComment[]
-  postShare       Share[]
-  posts           Post[]
-  postCollections PostCollection[]
-  followers       Followers[]
-  following       Following[]
-  login           Login[]
-  reels           Reels[]
-  favouriteUsers  FavouriteUsers[]
-  notifications   UserNotification[]
-  updatedAt       DateTime           @updatedAt
-  createAt        DateTime           @default(now())
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  email             String             @unique
+  isEmailVerified   Boolean
+  userName          String
+  name              String
+  password          String
+  age               Int
+  latestJWT         String?
+  profilePic        String?
+  bio               String?
+  website           String?
+  profileVisibility String             @default("private")
+  emailOTP          EmailOTP[]
+  taggedPosts       Media[]
+  postReactions     Reaction[]
+  postComments      Comment[]
+  subComments       SubComment[]
+  postShare         Share[]
+  posts             Post[]
+  postCollections   PostCollection[]
+  followers         Followers[]
+  following         Following[]
+  login             Login[]
+  reels             Reels[]
+  favouriteUsers    FavouriteUsers[]
+  notifications     UserNotification[]
+  stories           Stories[]
+  storiesMentions   StoriesMentions[]
+  storiesSeen       StoriesSeen[]
+  storiesReactions  StoriesReactions[]
+  updatedAt         DateTime           @updatedAt
+  createdAt         DateTime           @default(now())
 }
 
 model Followers {
@@ -46,7 +54,7 @@ model Following {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   following User     @relation(fields: [userId], references: [id])
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -55,7 +63,49 @@ model UserNotification {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   message   String
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Stories {
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  url       String
+  userId    String             @db.ObjectId
+  user      User               @relation(fields: [userId], references: [id])
+  mentions  StoriesMentions[]
+  seen      StoriesSeen[]
+  reactions StoriesReactions[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model StoriesSeen {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   String   @db.ObjectId
+  story     Stories  @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StoriesReactions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   String   @db.ObjectId
+  story     Stories  @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StoriesMentions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   String   @db.ObjectId
+  story     Stories  @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -63,7 +113,7 @@ model FavouriteUsers {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -79,7 +129,7 @@ model Reels {
   user             User            @relation(fields: [userId], references: [id])
   postCollectionId String?         @db.ObjectId
   postCollection   PostCollection? @relation(fields: [postCollectionId], references: [id])
-  createAt         DateTime        @default(now())
+  createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 }
 
@@ -90,7 +140,7 @@ model PostCollection {
   user      User     @relation(fields: [userId], references: [id])
   posts     Post[]
   reels     Reels[]
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -102,7 +152,7 @@ model Media {
   user        User     @relation(fields: [userTag], references: [id])
   postId      String   @db.ObjectId
   post        Post     @relation(fields: [postId], references: [id])
-  createAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
@@ -115,7 +165,7 @@ model Reaction {
   post      Post?    @relation(fields: [postTag], references: [id])
   reelTag   String?  @db.ObjectId
   reel      Reels?   @relation(fields: [reelTag], references: [id])
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -126,7 +176,7 @@ model SubComment {
   user      User     @relation(fields: [userId], references: [id])
   commentId String   @db.ObjectId
   comment   Comment  @relation(fields: [commentId], references: [id])
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -140,7 +190,7 @@ model Comment {
   reelId     String?      @db.ObjectId
   reel       Reels?       @relation(fields: [reelId], references: [id])
   subComment SubComment[]
-  createAt   DateTime     @default(now())
+  createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
 
@@ -150,7 +200,7 @@ model Share {
   user      User     @relation(fields: [userTag], references: [id])
   postTag   String   @db.ObjectId
   post      Post     @relation(fields: [postTag], references: [id])
-  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
@@ -170,7 +220,7 @@ model Post {
   postDisabled       Boolean         @default(false)
   postDisabledReason String?
   postDisabledAt     DateTime?
-  createAt           DateTime        @default(now())
+  createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 }
 
@@ -181,7 +231,7 @@ model Login {
   isPasswordAuthenticated Boolean
   IPAddress               String
   responseMessage         String
-  createAt                DateTime @default(now())
+  createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   User                    User?    @relation(fields: [userId], references: [id])
   userId                  String?  @db.ObjectId
@@ -196,6 +246,6 @@ model EmailOTP {
   emailVerifiedAt DateTime?
   userID          String    @db.ObjectId
   user            User      @relation(fields: [userID], references: [id])
-  createAt        DateTime  @default(now())
+  createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
