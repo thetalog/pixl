@@ -28,8 +28,8 @@ model User {
   postShare         Share[]
   posts             Post[]
   postCollections   PostCollection[]
-  followers         Followers[]
-  following         Following[]
+  followInitiated   Follow[]           @relation("Initiator")
+  followReceived    Follow[]           @relation("Receiver")
   login             Login[]
   reels             Reels[]
   favouriteUsers    FavouriteUsers[]
@@ -42,20 +42,24 @@ model User {
   createdAt         DateTime           @default(now())
 }
 
-model Followers {
+model Follow {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
-  follower  User     @relation(fields: [userId], references: [id])
-  createAt  DateTime @default(now())
+  targetId  String   @db.ObjectId
+  user      User     @relation("Initiator", fields: [userId], references: [id])
+  target    User     @relation("Receiver", fields: [targetId], references: [id])
   updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([targetId])
 }
 
-model Following {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  following User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Tag {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  posts Post[]
+  reels Reels[]
 }
 
 model UserNotification {
@@ -122,7 +126,8 @@ model Reels {
   url              String
   musicCredit      String?
   caption          String
-  tags             String[]
+  tagId            String          @db.ObjectId
+  tag              Tag             @relation(fields: [tagId], references: [id])
   reactions        Reaction[]
   comments         Comment[]
   userId           String          @db.ObjectId
@@ -207,7 +212,8 @@ model Share {
 model Post {
   id                 String          @id @default(auto()) @map("_id") @db.ObjectId
   media              Media[]
-  tags               String[]
+  tagId              String          @db.ObjectId
+  tag                Tag             @relation(fields: [tagId], references: [id])
   location           String?
   caption            String
   reactions          Reaction[]
