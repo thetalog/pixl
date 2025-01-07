@@ -24,7 +24,39 @@ model User {
   postShare       Share[]
   posts           Post[]
   postCollections PostCollection[]
+  followers       Followers[]
+  following       Following[]
   login           Login[]
+  reels           Reels[]
+  updatedAt       DateTime         @updatedAt
+  createAt        DateTime         @default(now())
+}
+
+model Followers {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  follower  User     @relation(fields: [userId], references: [id])
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Following {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  following User     @relation(fields: [userId], references: [id])
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reels {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  url         String
+  musicCredit String?
+  comments    Comment[]
+  userId      String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
+  createAt    DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model PostCollection {
@@ -61,14 +93,14 @@ model Reaction {
 }
 
 model SubComment {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  text       String
-  userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  commentTag String   @db.ObjectId
-  comment    Comment  @relation(fields: [commentTag], references: [id])
-  createAt   DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  commentId String   @db.ObjectId
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {
@@ -76,8 +108,10 @@ model Comment {
   text       String
   userId     String       @db.ObjectId
   user       User         @relation(fields: [userId], references: [id])
-  postTag    String       @db.ObjectId
-  post       Post         @relation(fields: [postTag], references: [id])
+  postId     String?      @db.ObjectId
+  post       Post?        @relation(fields: [postId], references: [id])
+  reelId     String?      @db.ObjectId
+  reel       Reels?       @relation(fields: [reelId], references: [id])
   subComment SubComment[]
   createAt   DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
