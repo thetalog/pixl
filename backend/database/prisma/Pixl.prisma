@@ -8,38 +8,79 @@ generator client {
 }
 
 model User {
-  id                String             @id @default(auto()) @map("_id") @db.ObjectId
-  email             String             @unique
-  isEmailVerified   Boolean
-  userName          String
-  name              String
-  password          String
-  age               Int
-  latestJWT         String?
-  profilePic        String?
-  bio               String?
-  website           String?
-  profileVisibility String             @default("private")
-  emailOTP          EmailOTP[]
-  taggedPosts       Media[]
-  postReactions     Reaction[]
-  postComments      Comment[]
-  subComments       SubComment[]
-  postShare         Share[]
-  posts             Post[]
-  postCollections   PostCollection[]
-  followInitiated   Follow[]           @relation("Initiator")
-  followReceived    Follow[]           @relation("Receiver")
-  login             Login[]
-  reels             Reels[]
-  favouriteUsers    FavouriteUsers[]
-  notifications     UserNotification[]
-  stories           Stories[]
-  storiesMentions   StoriesMentions[]
-  storiesSeen       StoriesSeen[]
-  storiesReactions  StoriesReactions[]
-  updatedAt         DateTime           @updatedAt
-  createdAt         DateTime           @default(now())
+  id                     String               @id @default(auto()) @map("_id") @db.ObjectId
+  email                  String               @unique
+  isEmailVerified        Boolean
+  userName               String
+  name                   String
+  password               String
+  age                    Int
+  latestJWT              String?
+  profilePic             String?
+  bio                    String?
+  website                String?
+  profileVisibility      String               @default("private")
+  emailOTP               EmailOTP[]
+  taggedPosts            Media[]
+  postReactions          Reaction[]
+  postComments           Comment[]
+  subComments            SubComment[]
+  postShare              Share[]
+  posts                  Post[]
+  postCollections        PostCollection[]
+  followInitiated        Follow[]             @relation("Initiator")
+  followReceived         Follow[]             @relation("Receiver")
+  followInitiatedRequest FollowRequest[]      @relation("RequestInitiator")
+  followReceivedRequest  FollowRequest[]      @relation("RequestReceiver")
+  login                  Login[]
+  reels                  Reels[]
+  favouriteUsers         FavouriteUsers[]
+  notifications          UserNotification[]
+  stories                Stories[]
+  storiesMentions        StoriesMentions[]
+  storiesSeen            StoriesSeen[]
+  storiesReactions       StoriesReactions[]
+  liveStreams            LiveStream[]
+  liveStreamComments     LiveStreamComments[]
+  updatedAt              DateTime             @updatedAt
+  createdAt              DateTime             @default(now())
+}
+
+model LiveStream {
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String               @db.ObjectId
+  user      User                 @relation(fields: [userId], references: [id])
+  title     String
+  url       String
+  viewers   String[]
+  comments  LiveStreamComments[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+}
+
+model LiveStreamComments {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  user      User       @relation(fields: [userId], references: [id])
+  liveId    String     @db.ObjectId
+  live      LiveStream @relation(fields: [liveId], references: [id])
+  text      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model FollowRequest {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  targetId  String   @db.ObjectId
+  user      User     @relation("RequestInitiator", fields: [userId], references: [id])
+  target    User     @relation("RequestReceiver", fields: [targetId], references: [id])
+  status    String   @default("pending") // "pending", "accepted", "declined"
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([targetId])
 }
 
 model Follow {
