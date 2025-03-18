@@ -9,7 +9,7 @@
   "license": "ISC",
   "description": "",
   "prisma": {
-    "schema": "./database/prisma/Pixl.prisma"
+    "schema": "./prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^6.2.0",

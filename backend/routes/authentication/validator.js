@@ -5,6 +5,7 @@ const signupSchema = Joi.object({
   age: Joi.number().integer().min(13).required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
+  userName: Joi.string().min(3).max(30).required(),
 });
 const sendOTPSchema = Joi.object({
   name: Joi.string().min(3).max(30).required(),

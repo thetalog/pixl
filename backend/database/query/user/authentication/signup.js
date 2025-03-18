@@ -10,6 +10,7 @@ async function signup(data) {
         isEmailVerified: data?.isEmailVerified,
         password: data?.password,
         age: parseInt(data?.age),
+        userName: data?.userName,
       },
     })
     .then((response) => {
