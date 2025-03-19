@@ -1,4 +1,17 @@
 const AWS = require("aws-sdk");
+const fs = require("fs");
+
+function multerUploadsCleanup(files) {
+  for (const file of files) {
+    //remove the file from the uploads folder
+    try {
+      fs.unlinkSync(file.path);
+      console.log("✅ File deleted successfully!", file.path);
+    } catch (err) {
+      console.error("❌ Error deleting file:", err);
+    }
+  }
+}
 
 async function uploadFilesToMinIO(userId, postCount, files) {
   const s3 = new AWS.S3({
@@ -17,7 +30,7 @@ async function uploadFilesToMinIO(userId, postCount, files) {
     const uploadParams = {
       Bucket: bucketName,
       Key: `${userId}/${postCount + 1}/_${count}_${file.originalname}`, // File path inside MinIO
-      Body: file.buffer || "",
+      Body: fs.createReadStream(file.path) || "",
       ContentType: file.mimetype, // Set proper content type
     };
 
@@ -48,6 +61,7 @@ async function uploadFilesToMinIO(userId, postCount, files) {
     count++;
   }
 
+  multerUploadsCleanup(files);
   return uploadResults;
 }
 
