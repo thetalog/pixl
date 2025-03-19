@@ -17,10 +17,16 @@ router.post("/create-post", upload.array("files", 10), async (req, res) => {
         message: "tag, location, caption are required.",
       });
     }
-    const post = await createPost(tag, location, caption, req.files);
+    const post = await createPost(
+      req?.user?.id,
+      req?.user?.postsCount,
+      tag,
+      location,
+      caption,
+      req.files
+    );
     res.status(200).json(post);
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "Something went wrong.",
     });

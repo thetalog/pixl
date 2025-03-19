@@ -1,7 +1,6 @@
 const AWS = require("aws-sdk");
 
-function uploadFileToMinIO(userId, postId, file) {
-  // MinIO Configuration
+async function uploadFilesToMinIO(userId, postCount, files) {
   const s3 = new AWS.S3({
     endpoint: process.env.MINIO_ENDPOINT,
     accessKeyId: process.env.MINIO_ACCESS_KEY,
@@ -10,23 +9,46 @@ function uploadFileToMinIO(userId, postId, file) {
     signatureVersion: "v4",
   });
 
-  // Determine postCount based on file array length
-  const postCount = Array.isArray(file) ? file.length : 0;
+  const bucketName = process.env.MINIO_POSTS_BUCKET;
+  const uploadResults = [];
 
-  // Upload File to MinIO
-  const uploadParams = {
-    Bucket: process.env.MINIO_POSTS_BUCKET,
-    Key: `${userId}/${postId}/${file.originalname}_${postCount}`, // File path inside MinIO
-    Body: file.buffer,
-  };
+  let count = 0;
+  for (const file of files) {
+    const uploadParams = {
+      Bucket: bucketName,
+      Key: `${userId}/${postCount + 1}/_${count}_${file.originalname}`, // File path inside MinIO
+      Body: file.buffer || "",
+      ContentType: file.mimetype, // Set proper content type
+    };
 
-  s3.upload(uploadParams, (err, data) => {
-    if (err) {
-      console.error("Error uploading file:", err);
-    } else {
-      console.log("File uploaded successfully!", data.Location);
+    try {
+      const uploadResult = await s3.upload(uploadParams).promise();
+      console.log("✅ File uploaded successfully!", uploadResult.Location);
+      uploadResults.push(uploadResult.Location);
+    } catch (uploadError) {
+      if (uploadError.code === "NoSuchBucket") {
+        console.warn("⚠️ Bucket does not exist. Creating...");
+
+        // Create the bucket if it does not exist
+        await s3.createBucket({ Bucket: bucketName }).promise();
+        console.log("✅ Bucket created successfully!");
+
+        // Retry file upload after bucket creation
+        const retryResult = await s3.upload(uploadParams).promise();
+        console.log(
+          "✅ File uploaded after bucket creation!",
+          retryResult.Location
+        );
+        uploadResults.push(retryResult.Location);
+      } else {
+        console.error("❌ Error uploading file:", uploadError);
+        throw uploadError;
+      }
     }
-  });
+    count++;
+  }
+
+  return uploadResults;
 }
 
-module.exports = uploadFileToMinIO;
+module.exports = { uploadFilesToMinIO };

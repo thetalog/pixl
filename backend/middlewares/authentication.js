@@ -7,6 +7,7 @@ async function authenticationMiddleware(req, res, next) {
       const response = await authenticationController(
         req?.headers?.authorization
       );
+      req.user = response?.user;
       if (response?.status === 200) return next();
       return res.status(response?.status).send(response?.message);
     } else {

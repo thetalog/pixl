@@ -8,15 +8,16 @@ const { authenticationMiddleware } = require("./middlewares/authentication");
 require("dotenv").config();
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded body
+
 app.use(authRoutes);
 app.use(externalRoutes);
-app.use(postsRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hi there!!");
 });
 
 app.use(authenticationMiddleware);
+app.use(postsRoutes);
 
 app.listen(PORT, () => {
   console.info("App listening at", PORT);

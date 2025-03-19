@@ -15,13 +15,11 @@ model User {
   name                   String
   password               String
   age                    Int
-  latestJWT              String?
   profilePic             String?
   bio                    String?
   website                String?
   profileVisibility      String               @default("private")
   emailOTP               EmailOTP[]
-  taggedPosts            Media[]
   postReactions          Reaction[]
   postComments           Comment[]
   subComments            SubComment[]
@@ -224,8 +222,6 @@ model Media {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   url         String
   musicCredit String?
-  userTag     String   @db.ObjectId
-  user        User     @relation(fields: [userTag], references: [id])
   postId      String   @db.ObjectId
   post        Post     @relation(fields: [postId], references: [id])
   createdAt   DateTime @default(now())
