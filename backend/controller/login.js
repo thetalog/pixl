@@ -2,22 +2,15 @@ const {
   getUserByCreds,
 } = require("../database/query/user/authentication/user");
 const { createLogin } = require("../database/query/user/authentication/login");
-const fs = require("fs");
 const crypto = require("crypto");
 const { signJWT } = require("./jwt");
 
 async function loginController(body) {
   try {
-    const privateKey = fs.readFileSync("./routes/authentication/pixl.pem", "utf8");
-    const decryptedData = crypto.privateDecrypt(
-      {
-        key: privateKey,
-        passphrase: "1111",
-        padding: crypto.constants.RSA_PKCS1_PADDING
-      },
-      Buffer.from(body?.password, "base64")
-    );
-    const hashedPassword = crypto.createHash("sha3-512").update(decryptedData).digest("hex");
+    const hashedPassword = crypto
+      .createHash("sha3-512")
+      .update(body?.password)
+      .digest("hex");
     const dbResponse = await getUserByCreds(body?.email, hashedPassword);
     let response = {};
     if (!dbResponse) {
@@ -27,8 +20,15 @@ async function loginController(body) {
       response["status"] = dbResponse?.status;
       response["message"] = dbResponse?.message;
     } else {
-      response["status"] = 200;
-      response["message"] = "Login successful!";
+      const jwtResponse = await signJWT(body?.email, dbResponse?.name);
+      if (jwtResponse.status === 201) {
+        response["status"] = 200;
+        response["message"] = "Login successful!";
+        response["data"] = jwtResponse.data;
+      } else {
+        response["status"] = 500;
+        response["message"] = "Failed to create JWT!";
+      }
     }
     return response;
   } catch (error) {

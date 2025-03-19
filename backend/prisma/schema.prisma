@@ -44,6 +44,7 @@ model User {
   liveStreamComments     LiveStreamComments[]
   messages               Message[]
   groups                 GroupMember[]
+  postsCount             Int                  @default(0)
   updatedAt              DateTime             @updatedAt
   createdAt              DateTime             @default(now())
 }
@@ -284,7 +285,7 @@ model Post {
   media              Media[]
   tagId              String          @db.ObjectId
   tag                Tag             @relation(fields: [tagId], references: [id])
-  location           String?
+  location           Json?
   caption            String
   reactions          Reaction[]
   comments           Comment[]

@@ -1,11 +1,8 @@
-async function createPost(req, res, next) {
+async function createPost() {
   try {
-    res.status(200).json({
-      message: "Post created successfully.",
-    });
   } catch (error) {
-    res.status(500).json({
-      message: "Something went wrong.",
-    });
+    console.log(error);
   }
 }
+
+module.exports = { createPost };

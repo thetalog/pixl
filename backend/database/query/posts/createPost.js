@@ -1,19 +1,14 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function createPost(
-  media,
-  taggedPerson,
-  location,
-  caption
-) {
+async function createPost(media, taggedPerson, location, caption) {
   const response = await prisma.post
     .create({
       data: {
         media: media,
         taggedPerson: taggedPerson,
         location: location,
-        caption: caption
+        caption: caption,
       },
     })
     .then((response) => {

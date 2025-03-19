@@ -3,12 +3,14 @@ const app = express();
 const PORT = 3001;
 const authRoutes = require("./routes/authentication/root");
 const externalRoutes = require("./routes/external_api/root");
+const postsRoutes = require("./routes/posts/root");
 const { authenticationMiddleware } = require("./middlewares/authentication");
 require("dotenv").config();
-app.use(express.json());
-
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded body
 app.use(authRoutes);
 app.use(externalRoutes);
+app.use(postsRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hi there!!");
