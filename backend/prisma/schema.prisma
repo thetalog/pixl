@@ -20,10 +20,7 @@ model User {
   website                String?
   profileVisibility      String               @default("private")
   emailOTP               EmailOTP[]
-  postReactions          Reaction[]
-  postComments           Comment[]
   subComments            SubComment[]
-  postShare              Share[]
   posts                  Post[]
   // postCollections        PostCollection[]
   followInitiated        Follow[]             @relation("Initiator")
@@ -42,9 +39,13 @@ model User {
   liveStreamComments     LiveStreamComments[]
   messages               Message[]
   groups                 GroupMember[]
+  PostMentions           PostMentions[]
+  Reactions              Reaction[]
+  Comments               Comment[]
+  Shares                 Share[]
   postsCount             Int                  @default(0)
-  updatedAt              DateTime             @updatedAt
   createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
 }
 
 model Group {
@@ -124,11 +125,14 @@ model Follow {
   @@index([targetId])
 }
 
-model Tag {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  posts Post[]
-  reels Reels[]
+model PostMentions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId // User who is mentioned
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id], name: "PostToMentions")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UserNotification {
@@ -136,10 +140,11 @@ model UserNotification {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   message   String
+  type      String   // "mention", "comment", "like", etc.
+  postId    String?  @db.ObjectId // Optional: reference to a post if it's a mention notification
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 model Stories {
   id        String             @id @default(auto()) @map("_id") @db.ObjectId
   url       String
@@ -195,8 +200,7 @@ model Reels {
   url              String
   musicCredit      String?
   caption          String
-  tagId            String          @db.ObjectId
-  tag              Tag             @relation(fields: [tagId], references: [id])
+  taggedUsers        String[]        @db.ObjectId // Array of user IDs tagged in this post
   reactions        Reaction[]
   comments         Comment[]
   userId           String          @db.ObjectId
@@ -220,7 +224,7 @@ model Reels {
 
 model Media {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  url         String
+  url         String[]
   musicCredit String?
   postId      String   @db.ObjectId
   post        Post     @relation(fields: [postId], references: [id])
@@ -279,8 +283,7 @@ model Share {
 model Post {
   id                 String          @id @default(auto()) @map("_id") @db.ObjectId
   media              Media[]
-  tagId              String          @db.ObjectId
-  tag                Tag             @relation(fields: [tagId], references: [id])
+  taggedUsers        String[]        @db.ObjectId // Array of user IDs tagged in this post
   location           Json?
   caption            String
   reactions          Reaction[]
@@ -288,11 +291,13 @@ model Post {
   shares             Share[]
   userId             String          @db.ObjectId
   user               User            @relation(fields: [userId], references: [id])
+  mentions           PostMentions[]  @relation("PostToMentions") 
   // postCollectionId   String?         @db.ObjectId
   // postCollection     PostCollection? @relation(fields: [postCollectionId], references: [id])
   postDisabled       Boolean         @default(false)
   postDisabledReason String?
   postDisabledAt     DateTime?
+  
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 }

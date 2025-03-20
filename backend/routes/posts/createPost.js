@@ -10,17 +10,17 @@ router.post("/create-post", upload.array("files", 10), async (req, res) => {
     if (!req.body.data) {
       return res.status(400).json({ message: "Missing JSON data in request." });
     }
-    const { tag, location, caption } = JSON.parse(req.body?.data);
+    const { taggedUsers, location, caption } = JSON.parse(req.body?.data);
 
-    if (!tag || !location || !caption || !req.files) {
+    if (!taggedUsers || !location || !caption || !req.files) {
       return res.status(400).json({
-        message: "tag, location, caption are required.",
+        message: "taggedUsers, location, caption are required.",
       });
     }
     const post = await createPost(
       req?.user?.id,
       req?.user?.postsCount,
-      tag,
+      taggedUsers,
       location,
       caption,
       req.files
