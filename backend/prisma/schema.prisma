@@ -22,7 +22,6 @@ model User {
   emailOTP               EmailOTP[]
   subComments            SubComment[]
   posts                  Post[]
-  // postCollections        PostCollection[]
   followInitiated        Follow[]             @relation("Initiator")
   followReceived         Follow[]             @relation("Receiver")
   followInitiatedRequest FollowRequest[]      @relation("RequestInitiator")
@@ -131,6 +130,7 @@ model PostMentions {
   user      User     @relation(fields: [userId], references: [id])
   postId    String   @db.ObjectId
   post      Post     @relation(fields: [postId], references: [id], name: "PostToMentions")
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -205,22 +205,9 @@ model Reels {
   comments         Comment[]
   userId           String          @db.ObjectId
   user             User            @relation(fields: [userId], references: [id])
-  // postCollectionId String?         @db.ObjectId
-  // postCollection   PostCollection? @relation(fields: [postCollectionId], references: [id])
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 }
-
-// model PostCollection {
-//   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-//   name      String   @default("My Collection")
-//   userId    String   @db.ObjectId
-//   user      User     @relation(fields: [userId], references: [id])
-//   posts     Post[]
-//   reels     Reels[]
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
 
 model Media {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -292,12 +279,9 @@ model Post {
   userId             String          @db.ObjectId
   user               User            @relation(fields: [userId], references: [id])
   mentions           PostMentions[]  @relation("PostToMentions") 
-  // postCollectionId   String?         @db.ObjectId
-  // postCollection     PostCollection? @relation(fields: [postCollectionId], references: [id])
   postDisabled       Boolean         @default(false)
   postDisabledReason String?
   postDisabledAt     DateTime?
-  
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 }
