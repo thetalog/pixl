@@ -1,12 +1,12 @@
-const { dbCreatePost } = require("../../database/query/posts/createPost");
+const { dbCreateReel } = require("../../database/query/posts/createReel.js");
 const { uploadFilesToMinIO } = require("../object_storage/uploadFilesToMinIO");
-async function createPost(
+async function createReel(
   userId,
   postsCount,
-  taggedUsers,
-  location,
-  caption,
+  musicCredit,
   tags,
+  caption,
+  taggedUsers,
   file
 ) {
   try {
@@ -14,12 +14,12 @@ async function createPost(
     if (uploadResults?.length === 0) {
       return { message: "No files uploaded.", status: 500 };
     }
-    const response = await dbCreatePost(
+    const response = await dbCreateReel(
       userId,
-      taggedUsers,
-      location,
-      caption,
+      musicCredit,
       tags,
+      caption,
+      taggedUsers,
       uploadResults
     );
     if (response.status === 500) {
@@ -35,4 +35,4 @@ async function createPost(
   }
 }
 
-module.exports = { createPost };
+module.exports = { createReel };

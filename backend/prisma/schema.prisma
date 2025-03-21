@@ -39,6 +39,7 @@ model User {
   messages               Message[]
   groups                 GroupMember[]
   PostMentions           PostMentions[]
+  ReelMentions           ReelMentions[]
   Reactions              Reaction[]
   Comments               Comment[]
   Shares                 Share[]
@@ -124,6 +125,17 @@ model Follow {
   @@index([targetId])
 }
 
+model ReelMentions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId // User who is mentioned
+  user      User     @relation(fields: [userId], references: [id])
+  reelId    String   @db.ObjectId
+  reels     Reels    @relation(fields: [reelId], references: [id], name: "PostToMentions")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model PostMentions {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId // User who is mentioned
@@ -140,11 +152,12 @@ model UserNotification {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   message   String
-  type      String   // "mention", "comment", "like", etc.
+  type      String // "mention", "comment", "like", etc.
   postId    String?  @db.ObjectId // Optional: reference to a post if it's a mention notification
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model Stories {
   id        String             @id @default(auto()) @map("_id") @db.ObjectId
   url       String
@@ -196,25 +209,28 @@ model FavouriteUsers {
 }
 
 model Reels {
-  id               String          @id @default(auto()) @map("_id") @db.ObjectId
-  url              String
-  musicCredit      String?
-  caption          String
-  taggedUsers        String[]        @db.ObjectId // Array of user IDs tagged in this post
-  reactions        Reaction[]
-  comments         Comment[]
-  userId           String          @db.ObjectId
-  user             User            @relation(fields: [userId], references: [id])
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  media       Media[]
+  caption     String
+  tags        String[] // Array of tags
+  taggedUsers String[]       @db.ObjectId // Array of user IDs tagged in this post
+  reactions   Reaction[]
+  comments    Comment[]
+  mentions    ReelMentions[] @relation("PostToMentions")
+  userId      String         @db.ObjectId
+  user        User           @relation(fields: [userId], references: [id])
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
 model Media {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   url         String[]
   musicCredit String?
-  postId      String   @db.ObjectId
-  post        Post     @relation(fields: [postId], references: [id])
+  postId      String?   @db.ObjectId
+  post        Post?     @relation(fields: [postId], references: [id])
+  reelId      String?   @db.ObjectId
+  reel        Reels?    @relation(fields: [reelId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -268,22 +284,23 @@ model Share {
 }
 
 model Post {
-  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
   media              Media[]
-  taggedUsers        String[]        @db.ObjectId // Array of user IDs tagged in this post
+  taggedUsers        String[]       @db.ObjectId // Array of user IDs tagged in this post
+  tags               String[]
   location           Json?
   caption            String
   reactions          Reaction[]
   comments           Comment[]
   shares             Share[]
-  userId             String          @db.ObjectId
-  user               User            @relation(fields: [userId], references: [id])
-  mentions           PostMentions[]  @relation("PostToMentions") 
-  postDisabled       Boolean         @default(false)
+  userId             String         @db.ObjectId
+  user               User           @relation(fields: [userId], references: [id])
+  mentions           PostMentions[] @relation("PostToMentions")
+  postDisabled       Boolean        @default(false)
   postDisabledReason String?
   postDisabledAt     DateTime?
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 }
 
 model Login {

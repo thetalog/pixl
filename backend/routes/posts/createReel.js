@@ -1,30 +1,32 @@
 const express = require("express");
 const router = express.Router();
-const { createPost } = require("../../controller/posts/createPost.js");
+const { createReel } = require("../../controller/posts/createReel.js");
 const multer = require("multer");
 
 const upload = multer({ dest: "uploads/" });
 
-router.post("/create-post", upload.array("files", 10), async (req, res) => {
+router.post("/create-reel", upload.single("file"), async (req, res) => {
   try {
     if (!req.body.data) {
       return res.status(400).json({ message: "Missing JSON data in request." });
     }
-    const { taggedUsers, location, caption, tags } = JSON.parse(req.body?.data);
+    const { musicCredit, tags, caption, taggedUsers } = JSON.parse(
+      req.body?.data
+    );
 
-    if (!taggedUsers || !location || !caption || !tags || !req.files) {
+    if (!musicCredit || !tags || !caption || !taggedUsers || !req.file) {
       return res.status(400).json({
-        message: "taggedUsers, location, caption, tags are required.",
+        message: "musicCredit, tags, caption, taggedUsers are required.",
       });
     }
-    const post = await createPost(
+    const post = await createReel(
       req?.user?.id,
       req?.user?.postsCount,
-      taggedUsers,
-      location,
-      caption,
+      musicCredit,
       tags,
-      req.files
+      caption,
+      taggedUsers,
+      req.file
     );
     res.status(200).json(post);
   } catch (error) {
