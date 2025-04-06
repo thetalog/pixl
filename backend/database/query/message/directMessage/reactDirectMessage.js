@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbRetractDirectMessage(user, messageId, senderUsername, re) {
+async function dbReactDirectMessage(user, messageId, senderUsername, emoji) {
   const getSenderUser = await prisma.user.findUnique({
     where: {
       userName: senderUsername,
@@ -32,18 +32,23 @@ async function dbRetractDirectMessage(user, messageId, senderUsername, re) {
         receiverId: user?.id,
       },
       data: {
-        retracted: true,
+        reactions: {
+          create: {
+            userId: user?.id,
+            emoji: emoji,
+          },
+        },
       },
     })
     .then(async (response) => {
-      return { message: "Direct Message Retract Successfully", status: 201 };
+      return { message: "Direct Message React Successfully", status: 201 };
     })
     .catch((error) => {
       console.log(error);
-      return { message: "Direct Message Retract failed", status: 500 };
+      return { message: "Direct Message React failed", status: 500 };
     });
   await prisma.$disconnect();
   return response;
 }
 
-module.exports = { dbRetractDirectMessage };
+module.exports = { dbReactDirectMessage };

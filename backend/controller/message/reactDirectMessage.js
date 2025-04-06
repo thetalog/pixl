@@ -1,16 +1,17 @@
 const {
-  dbRetractDirectMessage,
-} = require("../../database/query/message/directMessage/retractDirectMessage.js");
+  dbReactDirectMessage,
+} = require("../../database/query/message/directMessage/reactDirectMessage.js");
 
-async function retractDirectMessage(user, messageId, senderUsername) {
+async function reactDirectMessage(user, messageId, senderUsername, emoji) {
   try {
-    const response = await dbRetractDirectMessage(
+    const response = await dbReactDirectMessage(
       user,
       messageId,
-      senderUsername
+      senderUsername,
+      emoji
     );
     if (response.status === 500) {
-      return { message: "Retract Direct Message failed.", status: 500 };
+      return { message: "React Direct Message failed.", status: 500 };
     }
     if (response.status === 404) {
       return { message: response.message, status: 404 };
@@ -19,7 +20,7 @@ async function retractDirectMessage(user, messageId, senderUsername) {
       return { message: response.message, status: 400 };
     }
     return {
-      message: "Retract Direct Message successfully.",
+      message: "React Direct Message successfully.",
       status: 201,
     };
   } catch (error) {
@@ -28,4 +29,4 @@ async function retractDirectMessage(user, messageId, senderUsername) {
   }
 }
 
-module.exports = { retractDirectMessage };
+module.exports = { reactDirectMessage };

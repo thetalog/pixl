@@ -44,6 +44,7 @@ model User {
   Reactions              Reaction[]
   Comments               Comment[]
   Shares                 Share[]
+  MessageReactions       MessageReaction[]
   postsCount             Int                  @default(0)
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
@@ -66,6 +67,18 @@ model GroupMember {
   // role    String
 }
 
+model MessageReaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   Message  @relation(fields: [messageId], references: [id])
+  messageId String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  emoji     String?
+  emojiCode String?
+  createdAt DateTime @default(now())
+}
+
+
 model Message {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   message    String
@@ -79,6 +92,12 @@ model Message {
   seen       Boolean  @default(false)
   seenBy     String[] @db.ObjectId
   mediaUrl   String[]
+  reactions  MessageReaction[]  
+  // Self-referencing relation: reply-to-message
+  replyTo    String?   @db.ObjectId
+  replyToMsg Message?  @relation("ReplyChain", fields: [replyTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies    Message[] @relation("ReplyChain")
+
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
