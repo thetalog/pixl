@@ -5,7 +5,7 @@ const multer = require("multer");
 
 const upload = multer({ dest: "uploads/" });
 
-router.post("/create-post", upload.array("files", 10), async (req, res) => {
+router.post("/create-post", upload.single("file", 10), async (req, res) => {
   try {
     if (!req.body.data) {
       return res.status(400).json({ message: "Missing JSON data in request." });

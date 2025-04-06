@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "minio": 'docker run -d   --name minio   -p 9000:9000   -p 9001:9001   -v /mnt/extra/docker_vol:/data   -e MINIO_ROOT_USER=minioadmin   -e MINIO_ROOT_PASSWORD=minioadmin123   quay.io/minio/minio server /data --console-address ":9001"'
+    "prisma": "npx prisma generate && npx prisma db push",
+    "minio": "docker run -d   --name minio   -p 9000:9000   -p 9001:9001   -v /mnt/extra/docker_vol:/data   -e MINIO_ROOT_USER=minioadmin   -e MINIO_ROOT_PASSWORD=minioadmin123   quay.io/minio/minio server /data --console-address ':9001'"
   },
   "author": "",
   "license": "ISC",

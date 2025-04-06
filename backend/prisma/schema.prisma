@@ -36,7 +36,8 @@ model User {
   storiesReactions       StoriesReactions[]
   liveStreams            LiveStream[]
   liveStreamComments     LiveStreamComments[]
-  messages               Message[]
+  sentMessages           Message[]            @relation("SentMessages")
+  receivedMessages       Message[]            @relation("ReceivedMessages")
   groups                 GroupMember[]
   PostMentions           PostMentions[]
   ReelMentions           ReelMentions[]
@@ -66,13 +67,20 @@ model GroupMember {
 }
 
 model Message {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  content   String
-  timestamp DateTime @default(now())
-  sender    User     @relation(fields: [senderId], references: [id])
-  senderId  String   @db.ObjectId
-  group     Group    @relation(fields: [groupId], references: [id])
-  groupId   String   @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  message    String
+  retracted  Boolean  @default(false)
+  receiver   User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId String?  @db.ObjectId
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  senderId   String   @db.ObjectId
+  group      Group?   @relation(fields: [groupId], references: [id])
+  groupId    String?  @db.ObjectId
+  seen       Boolean  @default(false)
+  seenBy     String[] @db.ObjectId
+  mediaUrl   String[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model LiveStream {
@@ -227,10 +235,10 @@ model Media {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   url         String[]
   musicCredit String?
-  postId      String?   @db.ObjectId
-  post        Post?     @relation(fields: [postId], references: [id])
-  reelId      String?   @db.ObjectId
-  reel        Reels?    @relation(fields: [reelId], references: [id])
+  postId      String?  @db.ObjectId
+  post        Post?    @relation(fields: [postId], references: [id])
+  reelId      String?  @db.ObjectId
+  reel        Reels?   @relation(fields: [reelId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

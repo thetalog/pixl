@@ -1,5 +1,5 @@
 const { dbCreateReel } = require("../../database/query/posts/createReel.js");
-const { uploadFilesToMinIO } = require("../object_storage/uploadFilesToMinIO");
+const { uploadPostOrReelToMinIO } = require("../object_storage/uploadFilesToMinIO");
 async function createReel(
   userId,
   postsCount,
@@ -10,7 +10,7 @@ async function createReel(
   file
 ) {
   try {
-    const uploadResults = await uploadFilesToMinIO(userId, postsCount, file);
+    const uploadResults = await uploadPostOrReelToMinIO(userId, postsCount, file);
     if (uploadResults?.length === 0) {
       return { message: "No files uploaded.", status: 500 };
     }

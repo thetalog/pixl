@@ -11,13 +11,13 @@ async function authenticationController(authorizationToken) {
       secretKey,
       {
         algorithm: "HS256",
-      }
+      },
     );
     const isUserFound = await getUserByEmailName(
       decodedToken?.email,
-      decodedToken?.name
+      decodedToken?.name,
     );
-    if (isUserFound.id !== "") {
+    if (isUserFound?.id !== "") {
       if (decodedToken?.exp < Math.round(new Date().getTime() / 1000)) {
         return { status: 401, message: "Token expired!" };
       } else {

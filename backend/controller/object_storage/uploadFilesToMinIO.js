@@ -48,7 +48,7 @@ async function ensureBucketExists(bucketName) {
 }
 
 // Function to upload files to MinIO
-async function uploadFilesToMinIO(userId, postCount, files) {
+async function uploadPostOrReelToMinIO(userId, postCount, files) {
   const bucketName = process.env.MINIO_POSTS_BUCKET;
   const uploadResults = [];
   await ensureBucketExists(bucketName);
@@ -78,4 +78,36 @@ async function uploadFilesToMinIO(userId, postCount, files) {
   return uploadResults;
 }
 
-module.exports = { uploadFilesToMinIO };
+// Function to upload files to MinIO
+async function uploadDirectMediaToMinIO(userId,  files) {
+  const bucketName = process.env.MINIO_CONVERSATION_DIRECT_MESSAGE_BUCKET;
+  const uploadResults = [];
+  await ensureBucketExists(bucketName);
+
+  const filesArray = Array.isArray(files) ? files : [files];
+
+  for (let count = 0; count < filesArray.length; count++) {
+    const file = filesArray[count];
+    const objectName = `${userId}/_${count}_${file.originalname}`;
+
+    try {
+      await minioClient.fPutObject(bucketName, objectName, file.path, {
+        "Content-Type": file.mimetype,
+      });
+      const fileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${objectName}`;
+      console.log("✅ File uploaded successfully!", fileUrl);
+      uploadResults.push(fileUrl);
+    } catch (err) {
+      console.error("❌ Error uploading file:", err);
+      throw err;
+    }
+  }
+
+  // Cleanup uploaded files locally
+  multerUploadsCleanup(files);
+
+  return uploadResults;
+}
+
+module.exports = { uploadPostOrReelToMinIO, uploadDirectMediaToMinIO
+};
