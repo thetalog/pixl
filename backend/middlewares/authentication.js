@@ -5,7 +5,7 @@ async function authenticationMiddleware(req, res, next) {
   try {
     if (req?.headers?.authorization) {
       const response = await authenticationController(
-        req?.headers?.authorization
+        req?.headers?.authorization,
       );
       req.user = response?.user;
       if (response?.status === 200) return next();
