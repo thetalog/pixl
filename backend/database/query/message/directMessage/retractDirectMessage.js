@@ -18,10 +18,11 @@ async function dbRetractDirectMessage(user, messageId, senderUsername, re) {
       id: messageId,
       senderId: getSenderUser.id,
       receiverId: user?.id,
+      retracted: false,
     },
   });
   if (!getmessage) {
-    return { message: "Message not found", status: 404 };
+    return { message: "Message not found or already retracted.", status: 404 };
   }
   const senderId = getSenderUser.id;
   const response = await prisma.message

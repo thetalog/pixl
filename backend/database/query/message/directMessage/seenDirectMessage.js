@@ -19,26 +19,29 @@ async function dbSeenDirectMessage(user, senderUsername) {
       where: {
         senderId: senderId,
         receiverId: user?.id,
-        seen: false,
+        seen: {
+          none: {
+            userId: user?.id,
+          },
+        },
       },
     })
     .then(async (response) => {
-        if (response.length === 0) {
-            return { message: "No new messages", status: 404 };
-        }
-        else{
-            await prisma.message.updateMany({
-                where: {
-                senderId: senderId,
-                receiverId: user?.id,
-                seen: false,
-                },  
-                data: {
-                seen: true,
-                },
-            });
-          return { message: "Direct Message Seen Successfully", status: 201 };
-        }
+      if (response.length === 0) {
+        return { message: "No new messages", status: 404 };
+      } else {
+        const seenData = response.map((msg) => ({
+          messageId: msg.id,
+          userId: user?.id,
+        }));
+
+        // Create the 'seen' records
+        await prisma.messageSeen.createMany({
+          data: seenData,
+        });
+
+        return { message: "Direct Message Seen Successfully", status: 201 };
+      }
     })
     .catch((error) => {
       console.log(error);
