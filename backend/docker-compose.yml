@@ -1,5 +1,19 @@
 services:
- # mongodb replicaset primary
+  minio:
+    container_name: minio
+    image: quay.io/minio/minio
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - /mnt/extra/docker_volume/minio:/data
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    command: "server /data --console-address ':9001'"
+    restart: unless-stopped
+
+  # mongodb replicaset primary
   mongod1:
     container_name: mongod1
     image: mongo:latest
@@ -14,8 +28,8 @@ services:
       - /mnt/extra/docker_volume/mongo_vol1:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
-    restart: unless-stopped
     command: "mongod --replSet dbrs --keyFile /data/replica.key; bash /docker-entrypoint-initdb.d/init-mongo.sh;"
+    restart: unless-stopped
 
   # mongodb replicaset secondary
   mongod2:
@@ -28,8 +42,8 @@ services:
     volumes:
       - /mnt/extra/docker_volume/mongo_vol2:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-    restart: unless-stopped
     command: "mongod --replSet dbrs --keyFile /data/replica.key"
+    restart: unless-stopped
 
   # mongodb replicaset arbiter
   mongod3:
@@ -42,8 +56,8 @@ services:
     volumes:
       - /mnt/extra/docker_volume/mongo_vol3:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-    restart: unless-stopped
     command: "mongod --replSet dbrs --keyFile /data/replica.key"
+    restart: unless-stopped
 
 networks:
   backend_mongo_net: 
