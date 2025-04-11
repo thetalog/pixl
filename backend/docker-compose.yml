@@ -1,64 +1,84 @@
 services:
-  minio:
-    container_name: minio
-    image: quay.io/minio/minio
-    ports:
-      - 9000:9000
-      - 9001:9001
-    volumes:
-      - /mnt/extra/docker_volume/minio:/data
-    environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin123
-    command: "server /data --console-address ':9001'"
-    restart: unless-stopped
-
-  # mongodb replicaset primary
   mongod1:
     container_name: mongod1
     image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    networks:
-      - backend_mongo_net
     ports:
       - 27017:27017
     volumes:
       - /mnt/extra/docker_volume/mongo_vol1:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
-    command: "mongod --replSet dbrs --keyFile /data/replica.key; bash /docker-entrypoint-initdb.d/init-mongo.sh;"
+      - /home/anya/Documents/code/pixl/backend//entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+    networks:
+      - backend_mongo_net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
+    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
     restart: unless-stopped
-
-  # mongodb replicaset secondary
+    
   mongod2:
     container_name: mongod2
     image: mongo:latest
-    networks:
-      - backend_mongo_net
     ports:
       - 27018:27017
     volumes:
       - /mnt/extra/docker_volume/mongo_vol2:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-    command: "mongod --replSet dbrs --keyFile /data/replica.key"
+    networks:
+      - backend_mongo_net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
+    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
     restart: unless-stopped
 
-  # mongodb replicaset arbiter
   mongod3:
     container_name: mongod3
     image: mongo:latest
-    networks:
-      - backend_mongo_net
     ports:
       - 27019:27017
     volumes:
       - /mnt/extra/docker_volume/mongo_vol3:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-    command: "mongod --replSet dbrs --keyFile /data/replica.key"
+    networks:
+      - backend_mongo_net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
+    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
+    restart: unless-stopped
+  
+  mongod4:
+    container_name: mongod4
+    image: mongo:latest
+    ports:
+      - 27020:27017
+    volumes:
+      - /mnt/extra/docker_volume/mongo_vol4:/data/db
+      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+    networks:
+      - backend_mongo_net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
+    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
+    restart: unless-stopped
+
+  mongo-init-replica:
+    image: mongo:latest
+    depends_on:
+      - mongod1
+      - mongod2
+      - mongod3
+      - mongod4
+    volumes:
+      - ./checkprimary.sh:/checkprimary.sh
+      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+    entrypoint: ["/checkprimary.sh"]
+    networks:
+      - backend_mongo_net
     restart: unless-stopped
 
 networks:
-  backend_mongo_net: 
+  backend_mongo_net:
     driver: bridge

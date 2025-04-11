@@ -22,8 +22,8 @@ async function authenticationController(authorizationToken) {
         return { status: 401, message: "Token expired!" };
       } else {
         if (
-          decodedToken?.email === isUserFound.email &&
-          decodedToken?.name === isUserFound.name
+          decodedToken?.email === isUserFound?.email &&
+          decodedToken?.name === isUserFound?.name
         ) {
           return {
             status: 200,

@@ -1,5 +1,5 @@
 const express = require("express");
-const {seenDirectMessage} = require("../../controller/message/seenDirectMessage.js");
+const {seenDirectMessage} = require("../../../controller/message/seenDirectMessage.js");
 
 const router = express.Router();
 router.patch("/seen-direct-message", async (req, res) => {

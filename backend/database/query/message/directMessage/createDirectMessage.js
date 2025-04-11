@@ -17,7 +17,7 @@ async function dbSendDirectMessage(user, receiverUsername, message, mediaUrl) {
         receiverId: receiverId,
         senderId: user?.id,
         message: message,
-        mediaUrl: mediaUrl,
+        mediaUrl: mediaUrl ? mediaUrl : [],
     },})
     .then(async (response) => {
       return { message: "Direct Message Sent Successfully", status: 201 };

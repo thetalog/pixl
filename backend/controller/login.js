@@ -13,6 +13,7 @@ async function loginController(body) {
       .digest("hex");
 
     const dbResponse = await getUserByCreds(body?.email, hashedPassword);
+
     let response = {};
     if (!dbResponse) {
       response["status"] = 400;

@@ -7,8 +7,8 @@ async function sendDirectMessage(
     media
 ) {
   try {
-    const uploadResults = await uploadDirectMediaToMinIO(user?.id, media);
-    if (uploadResults?.length === 0) {
+    const uploadResults = media?.length !== 0 && await uploadDirectMediaToMinIO(user?.id, media);
+    if (media?.length !== 0 && uploadResults?.length === 0) {
       return { message: "No files uploaded.", status: 500 };
     }
     const response = await dbSendDirectMessage(

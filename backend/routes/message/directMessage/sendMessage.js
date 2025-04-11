@@ -1,11 +1,11 @@
 const express = require("express");
-const {sendDirectMessage} = require("../../controller/message/sendDirectMessage");
+const {sendDirectMessage} = require("../../../controller/message/sendDirectMessage");
 
 const router = express.Router();
 const multer = require("multer");
 
 const upload = multer({ dest: "uploads/" });
-router.post("/send-direct-message", upload.array("files"), async (req, res) => {
+router.post("/send-message", upload.array("files"), async (req, res) => {
   try {
     const body = JSON.parse(req.body.postData);
     if (!body) {
