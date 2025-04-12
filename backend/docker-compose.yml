@@ -87,7 +87,7 @@ services:
               mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
     restart: unless-stopped
 
-  mongo-init-replica:
+  mongod-init:
     container_name: mongod-init
     image: mongodb/mongodb-community-server
     depends_on:
@@ -108,5 +108,4 @@ services:
 networks:
   mongo_net:
     driver: bridge
-
-# db.auth("admin","adminadmin1")
+    

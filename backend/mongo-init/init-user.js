@@ -1,3 +1,4 @@
+//mongo-init/init-user.js
 db.createUser({
     user: "admin",
     pwd: "adminadmin1",

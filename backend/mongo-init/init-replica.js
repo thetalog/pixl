@@ -1,8 +1,7 @@
 // mongo-init/init-replica.js
-const conn = new Mongo();
+const conn = new Mongo("mongodb://admin:adminadmin1@mongod1:27017/admin");
 const admin = conn.getDB("admin");
-
-admin.auth("admin", "adminadmin1");
+admin.auth("admin", "adminadmin1");  // optional if already authenticated
 
 rs.initiate({
   _id: "rs0",
