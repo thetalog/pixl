@@ -104,6 +104,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
+    restart: always
 
 networks:
   mongo_net:
