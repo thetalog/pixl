@@ -3,94 +3,110 @@ services:
     image: minio/minio:latest
     container_name: minio
     ports:
-      - "9000:9000"     # MinIO API
-      - "9001:9001"     # MinIO Console
+      - "9000:9000"    
+      - "9001:9001"     
     environment:
-      MINIO_ROOT_USER: minioadmin      # change as needed
-      MINIO_ROOT_PASSWORD: minioadmin  # change as needed
+      MINIO_ROOT_USER: minioadmin    
+      MINIO_ROOT_PASSWORD: minioadmin  
     volumes:
       - /mnt/extra/docker_volume/minio_vol:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
+
   mongod1:
     container_name: mongod1
-    image: mongo:latest
+    image: mongodb/mongodb-community-server
     ports:
       - 27017:27017
+    command: ["mongod", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
     volumes:
       - /mnt/extra/docker_volume/mongo_vol1:/data/db
-      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+      - ./replica.key:/data/replica.key
+      - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
     networks:
-      - backend_mongo_net
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
-    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
+      - mongo_net
+    env_file:
+      - .env
     restart: unless-stopped
+
     
   mongod2:
     container_name: mongod2
-    image: mongo:latest
+    image: mongodb/mongodb-community-server
     ports:
       - 27018:27017
     volumes:
       - /mnt/extra/docker_volume/mongo_vol2:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
     networks:
-      - backend_mongo_net
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
-    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
+      - mongo_net
+    env_file:
+      - .env
+    command:
+             - /bin/sh
+             - -c
+             - |
+              mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
     restart: unless-stopped
 
   mongod3:
     container_name: mongod3
-    image: mongo:latest
+    image: mongodb/mongodb-community-server
     ports:
       - 27019:27017
     volumes:
       - /mnt/extra/docker_volume/mongo_vol3:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
     networks:
-      - backend_mongo_net
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
-    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
+      - mongo_net
+    env_file:
+      - .env
+    command:
+             - /bin/sh
+             - -c
+             - |
+              mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
     restart: unless-stopped
   
   mongod4:
     container_name: mongod4
-    image: mongo:latest
+    image: mongodb/mongodb-community-server
     ports:
       - 27020:27017
     volumes:
       - /mnt/extra/docker_volume/mongo_vol4:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
     networks:
-      - backend_mongo_net
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
-    command: mongod --replSet dbrs --keyFile /data/replica.key --bind_ip_all --auth
+      - mongo_net
+    env_file:
+      - .env
+    command:
+             - /bin/sh
+             - -c
+             - |
+              mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
     restart: unless-stopped
 
   mongo-init-replica:
-    image: mongo:latest
+    container_name: mongod-init
+    image: mongodb/mongodb-community-server
     depends_on:
       - mongod1
       - mongod2
       - mongod3
       - mongod4
     volumes:
-      - /home/anya/Documents/code/pixl/backend//entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh:ro
-      - ./checkprimary.sh:/checkprimary.sh
-      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+      - ./mongo-init/init-replica.js:/mongo-init/init-replica.js:ro
+      - ./scripts/init-replica.sh:/init-replica.sh:ro
     networks:
-      - backend_mongo_net
-    restart: unless-stopped
+      - mongo_net
+    entrypoint: ["bash", "/init-replica.sh"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
 
 networks:
-  backend_mongo_net:
+  mongo_net:
     driver: bridge
+
+# db.auth("admin","adminadmin1")
