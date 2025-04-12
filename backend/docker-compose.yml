@@ -9,7 +9,7 @@ services:
       MINIO_ROOT_USER: minioadmin      # change as needed
       MINIO_ROOT_PASSWORD: minioadmin  # change as needed
     volumes:
-      - /mnt/extra/docker_vol/minio_vol:/data
+      - /mnt/extra/docker_volume/minio_vol:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
   mongod1:
