@@ -7,7 +7,6 @@ services:
     volumes:
       - /mnt/extra/docker_volume/mongo_vol1:/data/db
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-      - /home/anya/Documents/code/pixl/backend//entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
     networks:
       - backend_mongo_net
     environment:
@@ -72,9 +71,9 @@ services:
       - mongod3
       - mongod4
     volumes:
+      - /home/anya/Documents/code/pixl/backend//entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh:ro
       - ./checkprimary.sh:/checkprimary.sh
       - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
-    entrypoint: ["/checkprimary.sh"]
     networks:
       - backend_mongo_net
     restart: unless-stopped
