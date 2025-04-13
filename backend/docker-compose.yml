@@ -67,7 +67,7 @@ services:
              - |
               mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
     restart: unless-stopped
-  
+    
   mongod4:
     container_name: mongod4
     image: mongodb/mongodb-community-server

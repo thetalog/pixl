@@ -1,5 +1,5 @@
-const { dbSendDirectMessage } = require("../../database/query/message/directMessage/createDirectMessage");
-const { uploadDirectMediaToMinIO } = require("../object_storage/uploadFilesToMinIO");   
+const { dbSendDirectMessage } = require("../../../database/query/message/direct/createDirectMessage");
+const { uploadDirectMediaToMinIO } = require("../../object_storage/uploadFilesToMinIO");   
 async function sendDirectMessage(
   user,
   receiverUsername,

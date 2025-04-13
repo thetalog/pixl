@@ -1,4 +1,4 @@
-const { dbSeenDirectMessage } = require("../../database/query/message/directMessage/seenDirectMessage.js");
+const { dbSeenDirectMessage } = require("../../../database/query/message/direct/seenDirectMessage.js");
   
 async function seenDirectMessage(
   user,

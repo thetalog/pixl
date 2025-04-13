@@ -38,7 +38,8 @@ model User {
   liveStreamComments     LiveStreamComments[]
   sentMessages           Message[]            @relation("SentMessages")
   receivedMessages       Message[]            @relation("ReceivedMessages")
-  groups                 GroupMember[]
+  groups                 Group[]
+  groupMember                GroupMember[]
   PostMentions           PostMentions[]
   ReelMentions           ReelMentions[]
   Reactions              Reaction[]
@@ -54,7 +55,9 @@ model User {
 model Group {
   id       String        @id @default(auto()) @map("_id") @db.ObjectId
   name     String?
-  type     String
+  adminId  String @db.ObjectId
+  admin    User @relation(fields: [adminId], references: [id])
+  displayPicture  String?
   members  GroupMember[]
   messages Message[]
 }
@@ -65,7 +68,7 @@ model GroupMember {
   userId  String @db.ObjectId
   group   Group  @relation(fields: [groupId], references: [id])
   groupId String @db.ObjectId
-  // role    String
+  role    String?
 }
 
 model MessageReaction {

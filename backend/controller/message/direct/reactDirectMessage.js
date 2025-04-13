@@ -1,6 +1,6 @@
 const {
   dbReactDirectMessage,
-} = require("../../database/query/message/directMessage/reactDirectMessage.js");
+} = require("../../../database/query/message/directMessage/reactDirectMessage.js");
 
 async function reactDirectMessage(user, messageId, senderUsername, emoji) {
   try {
