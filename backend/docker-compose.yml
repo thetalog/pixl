@@ -81,7 +81,7 @@ services:
     ports:
       - 27020:27017
     volumes:
-      - ${DOCKER_VOLUME}/mongo_vol4:/data/db
+      - ${DOCKER_VOLUME}/mongo4_vol:/data/db
       - ./replica.key:/data/replica.key
     networks:
       - mongo_net
