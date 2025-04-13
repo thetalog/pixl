@@ -3,13 +3,13 @@ services:
     image: minio/minio:latest
     container_name: minio
     ports:
-      - "9000:9000"    
-      - "9001:9001"     
+      - "9000:9000"
+      - "9001:9001"
     environment:
-      MINIO_ROOT_USER: minioadmin    
-      MINIO_ROOT_PASSWORD: minioadmin  
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - /mnt/extra/docker_volume/minio_vol:/data
+      - ${DOCKER_VOLUME}/minio_vol:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
 
@@ -18,9 +18,17 @@ services:
     image: mongodb/mongodb-community-server
     ports:
       - 27017:27017
-    command: ["mongod", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
+    command:
+      [
+        "mongod",
+        "--replSet",
+        "rs0",
+        "--keyFile",
+        "/data/replica.key",
+        "--bind_ip_all",
+      ]
     volumes:
-      - /mnt/extra/docker_volume/mongo_vol1:/data/db
+      - ${DOCKER_VOLUME}/mongo1_vol:/data/db
       - ./replica.key:/data/replica.key
       - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
     networks:
@@ -29,24 +37,23 @@ services:
       - .env
     restart: unless-stopped
 
-    
   mongod2:
     container_name: mongod2
     image: mongodb/mongodb-community-server
     ports:
       - 27018:27017
     volumes:
-      - /mnt/extra/docker_volume/mongo_vol2:/data/db
-      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+      - ${DOCKER_VOLUME}/mongo2_vol:/data/db
+      - ./replica.key:/data/replica.key
     networks:
       - mongo_net
     env_file:
       - .env
     command:
-             - /bin/sh
-             - -c
-             - |
-              mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
+      - /bin/sh
+      - -c
+      - |
+        mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
     restart: unless-stopped
 
   mongod3:
@@ -55,36 +62,36 @@ services:
     ports:
       - 27019:27017
     volumes:
-      - /mnt/extra/docker_volume/mongo_vol3:/data/db
-      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+      - ${DOCKER_VOLUME}/mongo3_vol:/data/db
+      - ./replica.key:/data/replica.key
     networks:
       - mongo_net
     env_file:
       - .env
     command:
-             - /bin/sh
-             - -c
-             - |
-              mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
+      - /bin/sh
+      - -c
+      - |
+        mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
     restart: unless-stopped
-    
+
   mongod4:
     container_name: mongod4
     image: mongodb/mongodb-community-server
     ports:
       - 27020:27017
     volumes:
-      - /mnt/extra/docker_volume/mongo_vol4:/data/db
-      - /home/anya/Documents/code/pixl/backend/replica.key:/data/replica.key
+      - ${DOCKER_VOLUME}/mongo_vol4:/data/db
+      - ./replica.key:/data/replica.key
     networks:
       - mongo_net
     env_file:
       - .env
     command:
-             - /bin/sh
-             - -c
-             - |
-              mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all 
+      - /bin/sh
+      - -c
+      - |
+        mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
     restart: unless-stopped
 
   mongod-init:
@@ -109,4 +116,3 @@ services:
 networks:
   mongo_net:
     driver: bridge
-    
