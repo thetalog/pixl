@@ -4,4 +4,3 @@ db.createUser({
     pwd: "adminadmin1",
     roles: [ { role: "root", db: "admin" } ]
   });
-  

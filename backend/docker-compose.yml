@@ -18,19 +18,11 @@ services:
     image: mongodb/mongodb-community-server
     ports:
       - 27017:27017
-    command:
-      [
-        "mongod",
-        "--replSet",
-        "rs0",
-        "--keyFile",
-        "/data/replica.key",
-        "--bind_ip_all",
-      ]
     volumes:
-      - ${DOCKER_VOLUME}/mongo1_vol:/data/db
-      - ./replica.key:/data/replica.key
+      - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
+      - ${PWD}/replica.key:/data/replica.key
       - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
+    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all"
     networks:
       - mongo_net
     env_file:
@@ -44,16 +36,13 @@ services:
       - 27018:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo2_vol:/data/db
-      - ./replica.key:/data/replica.key
+      - ${PWD}/replica.key:/data/replica.key
     networks:
       - mongo_net
     env_file:
       - .env
-    command:
-      - /bin/sh
-      - -c
-      - |
-        mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
+    entrypoint: [""]
+    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all --auth"
     restart: unless-stopped
 
   mongod3:
@@ -63,16 +52,13 @@ services:
       - 27019:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo3_vol:/data/db
-      - ./replica.key:/data/replica.key
+      - ${PWD}/replica.key:/data/replica.key
     networks:
       - mongo_net
     env_file:
       - .env
-    command:
-      - /bin/sh
-      - -c
-      - |
-        mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
+    entrypoint: [""]
+    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all --auth"
     restart: unless-stopped
 
   mongod4:
@@ -82,16 +68,13 @@ services:
       - 27020:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo4_vol:/data/db
-      - ./replica.key:/data/replica.key
+      - ${PWD}/replica.key:/data/replica.key
     networks:
       - mongo_net
     env_file:
       - .env
-    command:
-      - /bin/sh
-      - -c
-      - |
-        mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
+    entrypoint: [""]
+    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all --auth"
     restart: unless-stopped
 
   mongod-init:
@@ -107,10 +90,9 @@ services:
       - ./scripts/init-replica.sh:/init-replica.sh:ro
     networks:
       - mongo_net
-    entrypoint: ["bash", "/init-replica.sh"]
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminadmin1
+    entrypoint: ["/bin/sh", "/init-replica.sh"]
+    env_file:
+      - .env
     restart: always
 
 networks:
