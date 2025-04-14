@@ -1,5 +1,7 @@
 const express = require("express");
-const {sendDirectMessage} = require("../../../controller/message/sendDirectMessage");
+const {
+  sendDirectMessage,
+} = require("../../../controller/message/direct/sendDirectMessage");
 
 const router = express.Router();
 const multer = require("multer");
@@ -17,12 +19,21 @@ router.post("/send-message", upload.array("files"), async (req, res) => {
     if (!body?.message) {
       return res.status(400).json({ message: "Message is required" });
     }
-    const sendDirectMessageResponse = await sendDirectMessage(req.user, body?.receiverUsername, body?.message, req?.files);
+    const sendDirectMessageResponse = await sendDirectMessage(
+      req.user,
+      body?.receiverUsername,
+      body?.message,
+      req?.files
+    );
     if (sendDirectMessageResponse.status === 500) {
-      return res.status(500).json({ message: sendDirectMessageResponse.message });
+      return res
+        .status(500)
+        .json({ message: sendDirectMessageResponse.message });
     }
     if (sendDirectMessageResponse.status !== 200) {
-      return res.status(400).json({ message: sendDirectMessageResponse.message });
+      return res
+        .status(400)
+        .json({ message: sendDirectMessageResponse.message });
     }
     res.status(200).json(sendDirectMessageResponse);
   } catch (error) {

@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   retractDirectMessage,
-} = require("../../../controller/message/retractDirectMessage.js");
+} = require("../../../controller/message/direct/retractDirectMessage.js");
 
 const router = express.Router();
 router.delete("/retract-direct-message", async (req, res) => {

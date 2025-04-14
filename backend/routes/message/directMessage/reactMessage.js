@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   reactDirectMessage,
-} = require("../../../controller/message/reactDirectMessage.js");
+} = require("../../../controller/message/direct/reactDirectMessage.js");
 
 const router = express.Router();
 router.put("/react-direct-message", async (req, res) => {

@@ -17,8 +17,7 @@ const directMessage = router.use("/direct", sendDirectMessage,
   retractDirectMessage,
   reactDirectMessage)
 
-const groupMessage = router.use("/group", createGroup,
-    )
+const groupMessage = router.use("/group", createGroup,)
   
 router.use(
   "/message",

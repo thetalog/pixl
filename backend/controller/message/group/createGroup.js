@@ -1,22 +1,30 @@
-const { dbCreateGroup } = require("../../../database/query/message/group/createGroup.js");
-const { uploadDirectMediaToMinIO } = require("../../object_storage/uploadFilesToMinIO");   
-
-async function sendDirectMessage(
+const {
+  dbCreateGroup,
+} = require("../../../database/query/message/group/createGroup.js");
+const {
+  uploadGroupDPMediaToMinIO,
+} = require("../../object_storage/uploadFilesToMinIO");
+const generateGroupIds = require("./generateGroupId.js");
+async function createGroup(
   user,
-  receiverUsername,
-    message,
-    media
+  groupName,
+  groupDisplayPicture,
+  addedUsernames
 ) {
   try {
-    const uploadResults = media?.length !== 0 && await uploadDirectMediaToMinIO(user?.id, media);
-    if (media?.length !== 0 && uploadResults?.length === 0) {
+    const groupId = generateGroupIds();
+    const uploadResults = await uploadGroupDPMediaToMinIO(
+      groupId,
+      groupDisplayPicture
+    );
+    if (uploadResults?.length === 0) {
       return { message: "No files uploaded.", status: 500 };
     }
     const response = await dbCreateGroup(
       user,
       groupName,
-      groupDisplayPicture,
       addedUsernames,
+      groupId,
       uploadResults
     );
     if (response.status === 500) {
@@ -32,4 +40,4 @@ async function sendDirectMessage(
   }
 }
 
-module.exports = { sendDirectMessage };
+module.exports = { createGroup };
