@@ -4,7 +4,7 @@ const {
 const {
   uploadGroupDPMediaToMinIO,
 } = require("../../object_storage/uploadFilesToMinIO");
-const generateGroupIds = require("./generateGroupId.js");
+const generateGroupIds = require("../../../utils/generateId.js");
 async function createGroup(
   user,
   groupName,

@@ -1,7 +1,7 @@
 const express = require("express");
 const {
-  sendDirectMessage,
-} = require("../../../controller/message/direct/sendDirectMessage");
+  sendMessage,
+} = require("../../../controller/message/group/sendMessage.js");
 
 const router = express.Router();
 const multer = require("multer");
@@ -19,23 +19,23 @@ router.post("/send-message", upload.array("files"), async (req, res) => {
     if (!body?.message) {
       return res.status(400).json({ message: "Message is required" });
     }
-    const sendDirectMessageResponse = await sendDirectMessage(
+    const sendGroupMessageResponse = await sendMessage(
       req.user,
-      body?.receiverUsername,
+      body?.groupId,
       body?.message,
       req?.files
     );
-    if (sendDirectMessageResponse.status === 500) {
+    if (sendGroupMessageResponse.status === 500) {
       return res
         .status(500)
-        .json({ message: sendDirectMessageResponse.message });
+        .json({ message: sendGroupMessageResponse.message });
     }
-    if (sendDirectMessageResponse.status !== 200) {
+    if (sendGroupMessageResponse.status !== 200) {
       return res
         .status(400)
-        .json({ message: sendDirectMessageResponse.message });
+        .json({ message: sendGroupMessageResponse.message });
     }
-    res.status(200).json(sendDirectMessageResponse);
+    res.status(200).json(sendGroupMessageResponse);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

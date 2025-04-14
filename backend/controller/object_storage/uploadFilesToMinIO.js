@@ -149,7 +149,35 @@ async function uploadDirectMediaToMinIO(userId, files) {
 
   return uploadResults;
 }
+// Function to upload files to MinIO
+async function uploadGroupMediaToMinIO(groupId, conversationId, files) {
+  const bucketName = process.env.MINIO_CONVERSATION_GROUP_MESSAGE_BUCKET;
+  const uploadResults = [];
+  await ensureBucketExists(bucketName);
 
+  const filesArray = Array.isArray(files) ? files : [files];
+
+  for (let count = 0; count < filesArray.length; count++) {
+    const file = filesArray[count];
+    const objectName = `${groupId}/${conversationId}/_${count}_${file.originalname}`;
+
+    try {
+      await minioClient.fPutObject(bucketName, objectName, file.path, {
+        "Content-Type": file.mimetype,
+      });
+      const fileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${objectName}`;
+      console.log("✅ File uploaded successfully!", fileUrl);
+      uploadResults.push(fileUrl);
+    } catch (err) {
+      console.error("❌ Error uploading file:", err);
+      throw err;
+    }
+  }
+  // Cleanup uploaded files locally
+  multerUploadsCleanup(files);
+
+  return uploadResults;
+}
 async function uploadGroupDPMediaToMinIO(groupId, file) {
   const bucketName = process.env.MINIO_CONVERSATION_GROUP_DP_BUCKET;
   const uploadResults = [];
@@ -178,4 +206,5 @@ module.exports = {
   uploadPostOrReelToMinIO,
   uploadDirectMediaToMinIO,
   uploadGroupDPMediaToMinIO,
+  uploadGroupMediaToMinIO,
 };

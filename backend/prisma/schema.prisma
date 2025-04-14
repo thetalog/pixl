@@ -39,39 +39,41 @@ model User {
   sentMessages           Message[]            @relation("SentMessages")
   receivedMessages       Message[]            @relation("ReceivedMessages")
   groups                 Group[]
-  groupMember                GroupMember[]
+  groupMember            GroupMember[]
   PostMentions           PostMentions[]
   ReelMentions           ReelMentions[]
   Reactions              Reaction[]
   Comments               Comment[]
   Shares                 Share[]
   MessageReactions       MessageReaction[]
-  MessageSeen         MessageSeen[]
+  MessageSeen            MessageSeen[]
   postsCount             Int                  @default(0)
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
 }
 
 model Group {
-  id       String        @id @default(auto()) @map("_id") @db.ObjectId
-  groupId  String        @unique
-  name     String?
-  adminId  String @db.ObjectId
-  admin    User @relation(fields: [adminId], references: [id])
-  displayPicture  String?
-  members  GroupMember[]
-  messages Message[]
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  groupId        String        @unique
+  name           String?
+  adminId        String        @db.ObjectId
+  admin          User          @relation(fields: [adminId], references: [id])
+  displayPicture String?
+  members        GroupMember[]
+  messages       Message[]
 }
-enum  GroupMemberRole{
+
+enum GroupMemberRole {
   admin
   member
 }
+
 model GroupMember {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String @db.ObjectId
-  group   Group  @relation(fields: [groupId], references: [id])
-  groupId String @db.ObjectId
+  id      String           @id @default(auto()) @map("_id") @db.ObjectId
+  user    User             @relation(fields: [userId], references: [id])
+  userId  String           @db.ObjectId
+  group   Group            @relation(fields: [groupId], references: [id])
+  groupId String           @db.ObjectId
   role    GroupMemberRole?
 }
 
@@ -96,25 +98,25 @@ model MessageSeen {
 }
 
 model Message {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  message    String
-  retracted  Boolean  @default(false)
-  receiver   User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  receiverId String?  @db.ObjectId
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
-  senderId   String   @db.ObjectId
-  group      Group?   @relation(fields: [groupId], references: [id])
-  groupId    String?  @db.ObjectId
-  seen       MessageSeen[] @relation("MessageSeen")
-  mediaUrl   String[]
-  reactions  MessageReaction[]   @relation("MessageReaction")
+  id             String            @id @default(auto()) @map("_id") @db.ObjectId
+  message        String
+  retracted      Boolean           @default(false)
+  receiver       User?             @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId     String?           @db.ObjectId
+  sender         User              @relation("SentMessages", fields: [senderId], references: [id])
+  senderId       String            @db.ObjectId
+  group          Group?            @relation(fields: [groupId], references: [id])
+  groupId        String?           @db.ObjectId
+  seen           MessageSeen[]     @relation("MessageSeen")
+  mediaUrl       String[]
+  reactions      MessageReaction[] @relation("MessageReaction")
   // Self-referencing relation: reply-to-message
-  replyTo    String?   @db.ObjectId
-  replyToMsg Message?  @relation("ReplyChain", fields: [replyTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  replies    Message[] @relation("ReplyChain")
-
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  replyTo        String?           @db.ObjectId
+  replyToMsg     Message?          @relation("ReplyChain", fields: [replyTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies        Message[]         @relation("ReplyChain")
+  conversationId String?           @unique
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 }
 
 model LiveStream {

@@ -1,6 +1,6 @@
 const {
   dbRetractDirectMessage,
-} = require("../../../database/query/message/direct/retractDirectMessage.js");
+} = require("../../../database/query/message/direct/retractMessage.js");
 
 async function retractDirectMessage(user, messageId, senderUsername) {
   try {

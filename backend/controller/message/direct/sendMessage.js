@@ -1,13 +1,13 @@
-const { dbSendDirectMessage } = require("../../../database/query/message/direct/createDirectMessage");
-const { uploadDirectMediaToMinIO } = require("../../object_storage/uploadFilesToMinIO");   
-async function sendDirectMessage(
-  user,
-  receiverUsername,
-    message,
-    media
-) {
+const {
+  dbSendDirectMessage,
+} = require("../../../database/query/message/direct/sendMessage");
+const {
+  uploadDirectMediaToMinIO,
+} = require("../../object_storage/uploadFilesToMinIO");
+async function sendDirectMessage(user, receiverUsername, message, media) {
   try {
-    const uploadResults = media?.length !== 0 && await uploadDirectMediaToMinIO(user?.id, media);
+    const uploadResults =
+      media?.length !== 0 && (await uploadDirectMediaToMinIO(user?.id, media));
     if (media?.length !== 0 && uploadResults?.length === 0) {
       return { message: "No files uploaded.", status: 500 };
     }

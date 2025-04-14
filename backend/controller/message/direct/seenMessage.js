@@ -1,14 +1,10 @@
-const { dbSeenDirectMessage } = require("../../../database/query/message/direct/seenDirectMessage.js");
-  
-async function seenDirectMessage(
-  user,
-  senderUsername,
-) {
+const {
+  dbSeenDirectMessage,
+} = require("../../../database/query/message/direct/seenMessage.js");
+
+async function seenDirectMessage(user, senderUsername) {
   try {
-    const response = await dbSeenDirectMessage(
-      user,
-      senderUsername
-    );
+    const response = await dbSeenDirectMessage(user, senderUsername);
     if (response.status === 500) {
       return { message: "Seen Direct Message failed.", status: 500 };
     }
