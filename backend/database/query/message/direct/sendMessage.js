@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbSendDirectMessage(user, receiverUsername, message, mediaUrl) {
+async function dbSendMessage(user, receiverUsername, message, mediaUrl) {
   const getReceiverUser = await prisma.user.findUnique({
     where: {
       userName: receiverUsername,
@@ -18,7 +18,8 @@ async function dbSendDirectMessage(user, receiverUsername, message, mediaUrl) {
         senderId: user?.id,
         message: message,
         mediaUrl: mediaUrl ? mediaUrl : [],
-    },})
+      },
+    })
     .then(async (response) => {
       return { message: "Direct Message Sent Successfully", status: 201 };
     })
@@ -30,4 +31,4 @@ async function dbSendDirectMessage(user, receiverUsername, message, mediaUrl) {
   return response;
 }
 
-module.exports = { dbSendDirectMessage };
+module.exports = { dbSendMessage };

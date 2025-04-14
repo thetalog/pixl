@@ -1,14 +1,10 @@
 const {
-  dbRetractDirectMessage,
+  dbRetractMessage,
 } = require("../../../database/query/message/direct/retractMessage.js");
 
-async function retractDirectMessage(user, messageId, senderUsername) {
+async function retractMessage(user, messageId, senderUsername) {
   try {
-    const response = await dbRetractDirectMessage(
-      user,
-      messageId,
-      senderUsername
-    );
+    const response = await dbRetractMessage(user, messageId, senderUsername);
     if (response.status === 500) {
       return { message: "Retract Direct Message failed.", status: 500 };
     }
@@ -28,4 +24,4 @@ async function retractDirectMessage(user, messageId, senderUsername) {
   }
 }
 
-module.exports = { retractDirectMessage };
+module.exports = { retractMessage };

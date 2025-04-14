@@ -1,21 +1,23 @@
 const express = require("express");
-const {seenDirectMessage} = require("../../../controller/message/seenDirectMessage.js");
+const {
+  seenMessage,
+} = require("../../../controller/message/group/seenMessage.js");
 
 const router = express.Router();
-router.patch("/seen-direct-message", async (req, res) => {
+router.patch("/seen-message", async (req, res) => {
   try {
-    const senderUsername = req.body.senderUsername
-    if (!senderUsername) {
-      return res.status(400).json({ message: "senderUsername is required" });
+    const groupId = req.body.groupId;
+    if (!groupId) {
+      return res.status(400).json({ message: "groupId is required" });
     }
-    const seenDirectMessageResponse = await seenDirectMessage(req.user, senderUsername);
-    if (seenDirectMessageResponse.status === 500) {
-      return res.status(500).json({ message: seenDirectMessageResponse.message });
+    const seenMessageResponse = await seenMessage(req.user, groupId);
+    if (seenMessageResponse.status === 500) {
+      return res.status(500).json({ message: seenMessageResponse.message });
     }
-    if (seenDirectMessageResponse.status !== 200) {
-      return res.status(400).json({ message: seenDirectMessageResponse.message });
+    if (seenMessageResponse.status !== 200) {
+      return res.status(400).json({ message: seenMessageResponse.message });
     }
-    res.status(200).json(seenDirectMessageResponse);
+    res.status(200).json(seenMessageResponse);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

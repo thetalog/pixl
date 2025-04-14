@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbReactDirectMessage(user, messageId, senderUsername, emoji) {
+async function dbReactMessage(user, messageId, senderUsername, emoji) {
   const getSenderUser = await prisma.user.findUnique({
     where: {
       userName: senderUsername,
@@ -51,4 +51,4 @@ async function dbReactDirectMessage(user, messageId, senderUsername, emoji) {
   return response;
 }
 
-module.exports = { dbReactDirectMessage };
+module.exports = { dbReactMessage };

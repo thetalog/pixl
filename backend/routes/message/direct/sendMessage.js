@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  sendDirectMessage,
+  sendMessage,
 } = require("../../../controller/message/direct/sendMessage");
 
 const router = express.Router();
@@ -19,23 +19,19 @@ router.post("/send-message", upload.array("files"), async (req, res) => {
     if (!body?.message) {
       return res.status(400).json({ message: "Message is required" });
     }
-    const sendDirectMessageResponse = await sendDirectMessage(
+    const sendMessageResponse = await sendMessage(
       req.user,
       body?.receiverUsername,
       body?.message,
       req?.files
     );
-    if (sendDirectMessageResponse.status === 500) {
-      return res
-        .status(500)
-        .json({ message: sendDirectMessageResponse.message });
+    if (sendMessageResponse.status === 500) {
+      return res.status(500).json({ message: sendMessageResponse.message });
     }
-    if (sendDirectMessageResponse.status !== 200) {
-      return res
-        .status(400)
-        .json({ message: sendDirectMessageResponse.message });
+    if (sendMessageResponse.status !== 200) {
+      return res.status(400).json({ message: sendMessageResponse.message });
     }
-    res.status(200).json(sendDirectMessageResponse);
+    res.status(200).json(sendMessageResponse);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

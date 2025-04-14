@@ -7,7 +7,7 @@ const reactDirectMessage = require("./direct/reactMessage.js");
 
 const createGroup = require("./group/createGroup.js");
 const sendGroupMessage = require("./group/sendMessage.js");
-// const seenGroupMessage = require("./groupMessage/seenMessage.js");
+const seenGroupMessage = require("./group/seenMessage.js");
 // const retractGroupMessage = require("./groupMessage/retractMessage.js");
 // const reactGroupMessage = require("./groupMessage/reactMessage.js");
 
@@ -19,7 +19,12 @@ const directMessage = router.use(
   reactDirectMessage
 );
 
-const groupMessage = router.use("/group", createGroup, sendGroupMessage);
+const groupMessage = router.use(
+  "/group",
+  createGroup,
+  sendGroupMessage,
+  seenGroupMessage
+);
 
 router.use("/message", directMessage, groupMessage);
 

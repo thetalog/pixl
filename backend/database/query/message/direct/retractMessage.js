@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbRetractDirectMessage(user, messageId, senderUsername, re) {
+async function dbRetractMessage(user, messageId, senderUsername, re) {
   const getSenderUser = await prisma.user.findUnique({
     where: {
       userName: senderUsername,
@@ -47,4 +47,4 @@ async function dbRetractDirectMessage(user, messageId, senderUsername, re) {
   return response;
 }
 
-module.exports = { dbRetractDirectMessage };
+module.exports = { dbRetractMessage };

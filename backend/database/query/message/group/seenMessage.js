@@ -1,24 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbSeenMessage(user, senderUsername) {
-  const getSenderUser = await prisma.user.findUnique({
-    where: {
-      userName: senderUsername,
-    },
-  });
-  if (!getSenderUser) {
-    return { message: "Sender not found", status: 404 };
-  }
-  if (getSenderUser?.id === user?.id) {
-    return { message: "Sender and receiver are same", status: 400 };
-  }
-  const senderId = getSenderUser.id;
+async function dbSeenMessage(user, groupId) {
   const response = await prisma.message
     .findMany({
       where: {
-        senderId: senderId,
-        receiverId: user?.id,
+        groupId: {
+          equals: groupId,
+        },
         seen: {
           none: {
             userId: user?.id,
@@ -40,12 +29,12 @@ async function dbSeenMessage(user, senderUsername) {
           data: seenData,
         });
 
-        return { message: "Direct Message Seen Successfully", status: 201 };
+        return { message: "Group Message Seen Successfully", status: 201 };
       }
     })
     .catch((error) => {
       console.log(error);
-      return { message: "Direct Message Seen failed", status: 500 };
+      return { message: "Group Message Seen failed", status: 500 };
     });
   await prisma.$disconnect();
   return response;
