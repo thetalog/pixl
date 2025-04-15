@@ -16,15 +16,17 @@ services:
   mongod1:
     container_name: mongod1
     hostname: mongod1
-    image: mongodb/mongodb-community-server
+    image: mongo
     ports:
       - 27018:27018
     volumes:
       - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
       - ${PWD}/replica.key:/data/replica.key
       - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js
-      - ./scripts/init-mongod1.sh:/init-mongod1.sh
-    entrypoint: ["/bin/bash", "/init-mongod1.sh"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    command: ["mongod", "--port", "27018", "--auth", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
     networks:
       - mongo_net
     restart: unless-stopped
@@ -32,62 +34,51 @@ services:
   mongod2:
     container_name: mongod2
     hostname: mongod2
-    image: mongodb/mongodb-community-server
+    image: mongo
     ports:
       - 27019:27019
     volumes:
       - ${DOCKER_VOLUME}/mongo2_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
-      - ./scripts/init-mongod2.sh:/init-mongod2.sh
     networks:
       - mongo_net
-    entrypoint: ["/bin/bash", "/init-mongod2.sh"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    command: ["mongod", "--port", "27019", "--auth", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
     restart: unless-stopped
 
   mongod3:
     container_name: mongod3
     hostname: mongod3
-    image: mongodb/mongodb-community-server
+    image: mongo
     ports:
       - 27020:27020
     volumes:
       - ${DOCKER_VOLUME}/mongo3_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
-      - ./scripts/init-mongod3.sh:/init-mongod3.sh
     networks:
       - mongo_net
-    entrypoint: ["/bin/bash", "/init-mongod3.sh"]
-    restart: unless-stopped
-
-  mongod4:
-    container_name: mongod4
-    hostname: mongod4
-    image: mongodb/mongodb-community-server
-    ports:
-      - 27021:27021
-    volumes:
-      - ${DOCKER_VOLUME}/mongo4_vol:/data/db
-      - ${PWD}/replica.key:/data/replica.key
-      - ./scripts/init-mongod4.sh:/init-mongod4.sh
-    networks:
-      - mongo_net
-    entrypoint: ["/bin/bash", "/init-mongod4.sh"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    command: ["mongod", "--port", "27020", "--auth", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
     restart: unless-stopped
 
   mongod-init:
     container_name: mongod-init
-    image: mongodb/mongodb-community-server
+    image: mongo
     depends_on:
       - mongod1
       - mongod2
       - mongod3
-      - mongod4
     volumes:
       - ./mongo-init/init-replica.js:/mongo-init/init-replica.js:ro
       - ./scripts/init-replica.sh:/init-replica.sh:ro
     networks:
       - mongo_net
     entrypoint: ["/bin/sh", "-c", "sleep 15 & /init-replica.sh"]
+    restart: unless-stopped
 
 networks:
   mongo_net:

@@ -14,12 +14,7 @@ until mongosh --host mongod3 --port 27020 --eval "db.adminCommand('ping')" >/dev
 done
 echo "✅ mongod3 is ready."
 
-until mongosh --host mongod4 --port 27021 --eval "db.adminCommand('ping')" >/dev/null 2>&1; do
-  echo "⏳ Waiting for mongod4 to be ready..."
-done
-echo "✅ mongod4 is ready."
-
-sleep 10
+sleep 2
 echo "🚀 Initiating replica set..."
-mongosh --host mongod1 --port 27018 -u admin -p adminadmin1 --authenticationDatabase admin /mongo-init/init-replica.js
+mongosh --host mongod1 --port 27018 -u root -p root /mongo-init/init-replica.js
 echo "🚀 Replica set initiated."
