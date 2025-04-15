@@ -15,9 +15,10 @@ services:
 
   mongod1:
     container_name: mongod1
+    hostname: mongod1
     image: mongodb/mongodb-community-server
     ports:
-      - 27018:27017
+      - 27018:27018
     volumes:
       - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
       - ${PWD}/replica.key:/data/replica.key
@@ -30,59 +31,47 @@ services:
 
   mongod2:
     container_name: mongod2
+    hostname: mongod2
     image: mongodb/mongodb-community-server
     ports:
-      - 27019:27017
+      - 27019:27019
     volumes:
       - ${DOCKER_VOLUME}/mongo2_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
+      - ./scripts/init-mongod2.sh:/init-mongod2.sh
     networks:
       - mongo_net
-    entrypoint: [""]
-    command: >
-      /bin/bash -c "
-        chmod 400 /data/replica.key && 
-        chown 999:999 /data/replica.key && 
-        exec mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
-      "
+    entrypoint: ["/bin/bash", "/init-mongod2.sh"]
     restart: unless-stopped
 
   mongod3:
     container_name: mongod3
+    hostname: mongod3
     image: mongodb/mongodb-community-server
     ports:
-      - 27020:27017
+      - 27020:27020
     volumes:
       - ${DOCKER_VOLUME}/mongo3_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
+      - ./scripts/init-mongod3.sh:/init-mongod3.sh
     networks:
       - mongo_net
-    entrypoint: [""]
-    command: >
-        /bin/bash -c "
-          chmod 400 /data/replica.key && 
-          chown 999:999 /data/replica.key && 
-          exec mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
-        "
+    entrypoint: ["/bin/bash", "/init-mongod3.sh"]
     restart: unless-stopped
 
   mongod4:
     container_name: mongod4
+    hostname: mongod4
     image: mongodb/mongodb-community-server
     ports:
-      - 27021:27017
+      - 27021:27021
     volumes:
       - ${DOCKER_VOLUME}/mongo4_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
+      - ./scripts/init-mongod4.sh:/init-mongod4.sh
     networks:
       - mongo_net
-    entrypoint: [""]
-    command: >
-      /bin/bash -c "
-        chmod 400 /data/replica.key && 
-        chown 999:999 /data/replica.key && 
-        exec mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
-      "
+    entrypoint: ["/bin/bash", "/init-mongod4.sh"]
     restart: unless-stopped
 
   mongod-init:
