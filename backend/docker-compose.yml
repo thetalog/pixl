@@ -22,7 +22,7 @@ services:
       - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
       - ${PWD}/replica.key:/data/replica.key
       - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
-    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all"
+    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all "
     networks:
       - mongo_net
     env_file:
