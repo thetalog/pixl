@@ -17,64 +17,72 @@ services:
     container_name: mongod1
     image: mongodb/mongodb-community-server
     ports:
-      - 27017:27017
+      - 27018:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
       - ${PWD}/replica.key:/data/replica.key
-      - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js:ro
-    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all "
+      - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js
+      - ./scripts/init-mongod1.sh:/init-mongod1.sh
+    entrypoint: ["/bin/bash", "/init-mongod1.sh"]
     networks:
       - mongo_net
-    env_file:
-      - .env
     restart: unless-stopped
 
   mongod2:
     container_name: mongod2
     image: mongodb/mongodb-community-server
     ports:
-      - 27018:27017
+      - 27019:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo2_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
     networks:
       - mongo_net
-    env_file:
-      - .env
     entrypoint: [""]
-    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all --auth"
+    command: >
+      /bin/bash -c "
+        chmod 400 /data/replica.key && 
+        chown 999:999 /data/replica.key && 
+        exec mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
+      "
     restart: unless-stopped
 
   mongod3:
     container_name: mongod3
     image: mongodb/mongodb-community-server
     ports:
-      - 27019:27017
+      - 27020:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo3_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
     networks:
       - mongo_net
-    env_file:
-      - .env
     entrypoint: [""]
-    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all --auth"
+    command: >
+        /bin/bash -c "
+          chmod 400 /data/replica.key && 
+          chown 999:999 /data/replica.key && 
+          exec mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
+        "
     restart: unless-stopped
 
   mongod4:
     container_name: mongod4
     image: mongodb/mongodb-community-server
     ports:
-      - 27020:27017
+      - 27021:27017
     volumes:
       - ${DOCKER_VOLUME}/mongo4_vol:/data/db
       - ${PWD}/replica.key:/data/replica.key
     networks:
       - mongo_net
-    env_file:
-      - .env
     entrypoint: [""]
-    command: "mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all --auth"
+    command: >
+      /bin/bash -c "
+        chmod 400 /data/replica.key && 
+        chown 999:999 /data/replica.key && 
+        exec mongod --replSet rs0 --keyFile /data/replica.key --bind_ip_all
+      "
     restart: unless-stopped
 
   mongod-init:
@@ -90,10 +98,7 @@ services:
       - ./scripts/init-replica.sh:/init-replica.sh:ro
     networks:
       - mongo_net
-    entrypoint: ["/bin/sh", "/init-replica.sh"]
-    env_file:
-      - .env
-    restart: always
+    entrypoint: ["/bin/sh", "-c", "sleep 15 & /init-replica.sh"]
 
 networks:
   mongo_net:

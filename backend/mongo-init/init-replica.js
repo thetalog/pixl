@@ -1,5 +1,5 @@
 // mongo-init/init-replica.js
-const conn = new Mongo("mongodb://admin:adminadmin1@mongod1:27017/admin");
+const conn = new Mongo("mongodb://admin:adminadmin1@mongod1:27017,mongod2:27017,mongod3:27017,mongod4:27017/?replicaSet=rs0&authSource=admin");
 const admin = conn.getDB("admin");
 admin.auth("admin", "adminadmin1"); // optional if already authenticated
 

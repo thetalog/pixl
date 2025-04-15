@@ -1,0 +1,1 @@
+mongodb://admin:adminadmin1@localhost:27018,localhost:27019,localhost:27020,localhost:27021/?replicaSet=rs0&authSource=admin
