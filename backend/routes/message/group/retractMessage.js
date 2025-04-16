@@ -1,35 +1,35 @@
 const express = require("express");
 const {
-  retractDirectMessage,
-} = require("../../../controller/message/retractDirectMessage.js");
+  retractMessage,
+} = require("../../../controller/message/group/retractMessage.js");
 
 const router = express.Router();
-router.delete("/retract-direct-message", async (req, res) => {
+router.delete("/retract-message", async (req, res) => {
   try {
-    const senderUsername = req.body.senderUsername;
-    if (!senderUsername) {
-      return res.status(400).json({ message: "senderUsername is required" });
+    const groupId = req.body.groupId;
+    if (!groupId) {
+      return res.status(400).json({ message: "groupId is required" });
     }
     const messageId = req.body.messageId;
     if (!messageId) {
       return res.status(400).json({ message: "messageId is required" });
     }
-    const retractDirectMessageResponse = await retractDirectMessage(
+    const retractGroupMessageResponse = await retractMessage(
       req.user,
+      groupId,
       messageId,
-      senderUsername
     );
-    if (retractDirectMessageResponse.status === 500) {
+    if (retractGroupMessageResponse.status === 500) {
       return res
         .status(500)
-        .json({ message: retractDirectMessageResponse.message });
+        .json({ message: retractGroupMessageResponse.message });
     }
-    if (retractDirectMessageResponse.status !== 200) {
+    if (retractGroupMessageResponse.status !== 200) {
       return res
         .status(400)
-        .json({ message: retractDirectMessageResponse.message });
+        .json({ message: retractGroupMessageResponse.message });
     }
-    res.status(200).json(retractDirectMessageResponse);
+    res.status(200).json(retractGroupMessageResponse);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
