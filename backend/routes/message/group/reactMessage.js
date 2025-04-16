@@ -1,14 +1,14 @@
 const express = require("express");
 const {
-  reactDirectMessage,
-} = require("../../../controller/message/reactDirectMessage.js");
+  reactMessage,
+} = require("../../../controller/message/group/reactMessage.js");
 
 const router = express.Router();
-router.put("/react-direct-message", async (req, res) => {
+router.put("/react-message", async (req, res) => {
   try {
-    const senderUsername = req.body.senderUsername;
-    if (!senderUsername) {
-      return res.status(400).json({ message: "senderUsername is required" });
+    const groupId = req.body.groupId;
+    if (!groupId) {
+      return res.status(400).json({ message: "groupId is required" });
     }
     const messageId = req.body.messageId;
     if (!messageId) {
@@ -18,23 +18,23 @@ router.put("/react-direct-message", async (req, res) => {
     if (!emoji) {
       return res.status(400).json({ message: "emoji is required" });
     }
-    const reactDirectMessageResponse = await reactDirectMessage(
+    const reactGroupMessageResponse = await reactMessage(
       req.user,
+      groupId,
       messageId,
-      senderUsername,
       emoji
     );
-    if (reactDirectMessageResponse.status === 500) {
+    if (reactGroupMessageResponse.status === 500) {
       return res
         .status(500)
-        .json({ message: reactDirectMessageResponse.message });
+        .json({ message: reactGroupMessageResponse.message });
     }
-    if (reactDirectMessageResponse.status !== 200) {
+    if (reactGroupMessageResponse.status !== 200) {
       return res
         .status(400)
-        .json({ message: reactDirectMessageResponse.message });
+        .json({ message: reactGroupMessageResponse.message });
     }
-    res.status(200).json(reactDirectMessageResponse);
+    res.status(200).json(reactGroupMessageResponse);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

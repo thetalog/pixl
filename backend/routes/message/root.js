@@ -9,7 +9,7 @@ const createGroup = require("./group/createGroup.js");
 const sendGroupMessage = require("./group/sendMessage.js");
 const seenGroupMessage = require("./group/seenMessage.js");
 // const retractGroupMessage = require("./groupMessage/retractMessage.js");
-// const reactGroupMessage = require("./groupMessage/reactMessage.js");
+const reactGroupMessage = require("./group/reactMessage.js");
 
 const directMessage = router.use(
   "/direct",
@@ -23,7 +23,8 @@ const groupMessage = router.use(
   "/group",
   createGroup,
   sendGroupMessage,
-  seenGroupMessage
+  seenGroupMessage,
+  reactGroupMessage
 );
 
 router.use("/message", directMessage, groupMessage);
