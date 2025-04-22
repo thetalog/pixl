@@ -10,21 +10,28 @@ async function dbFollowRequest(user, targetUsername) {
   if (!getTargetUser) {
     return { message: "Receiver not found", status: 404 };
   }
-  const receiverId = getTargetUser.id;
-  const response = await prisma.followRequest
+  const targetUserId = getTargetUser.id;
+  const response = await prisma.follow
     .create({
       data: {
-        senderId: user.id,
-        targetId: receiverId,
-        status: FollowStatus.pending,
+        target: {
+          connect: {
+            id: targetUserId,
+          },
+        },
+        user: {
+          connect: {
+            id: user?.id,
+          },
+        },
       },
     })
     .then(async (response) => {
-      return { message: "Follow Request Sent Successfully", status: 201 };
+      return { message: "Followed Successfully", status: 201 };
     })
     .catch((error) => {
       console.log(error);
-      return { message: "Follow Request failed", status: 500 };
+      return { message: "Follow failed", status: 500 };
     });
   await prisma.$disconnect();
   return response;

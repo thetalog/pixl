@@ -6,7 +6,11 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
-
+enum ProfileVisibility{
+  PRIVATE
+  PUBLIC
+  BANNED
+}
 model User {
   id                     String               @id @default(auto()) @map("_id") @db.ObjectId
   email                  String               @unique
@@ -18,7 +22,7 @@ model User {
   profilePic             String?
   bio                    String?
   website                String?
-  profileVisibility      String               @default("private")
+  profileVisibility      ProfileVisibility             @default(PRIVATE)
   emailOTP               EmailOTP[]
   subComments            SubComment[]
   posts                  Post[]
@@ -144,7 +148,7 @@ model LiveStreamComments {
 enum FollowStatus {
   PENDING
   ACCEPTED
-  DECLINED
+  REJECTED
 }
 model FollowRequest {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -152,7 +156,7 @@ model FollowRequest {
   targetId  String   @db.ObjectId
   user      User     @relation("RequestInitiator", fields: [userId], references: [id])
   target    User     @relation("RequestReceiver", fields: [targetId], references: [id])
-  status    FollowStatus @default(PENDING) // "PENDING", "ACCEPTED", "DECLINED"
+  status    FollowStatus @default(PENDING) // "PENDING", "ACCEPTED", "REJECTED"
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 
