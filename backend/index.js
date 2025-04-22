@@ -5,6 +5,8 @@ const authRoutes = require("./routes/authentication/root");
 const externalRoutes = require("./routes/external_api/root");
 const postsRoutes = require("./routes/posts/root");
 const messageRoutes = require("./routes/message/root");
+const followRoutes = require("./routes/follow/root");
+
 const { authenticationMiddleware } = require("./middlewares/authentication");
 require("dotenv").config();
 app.use(express.json()); // For parsing application/json
@@ -20,6 +22,7 @@ app.get("/", (req, res) => {
 app.use(authenticationMiddleware);
 app.use(postsRoutes);
 app.use(messageRoutes);
+app.use(followRoutes);
 
 app.listen(PORT, () => {
   console.info("App listening at", PORT);

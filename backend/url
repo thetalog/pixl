@@ -1,1 +1,7 @@
-mongodb://admin:adminadmin1@localhost:27018,localhost:27019,localhost:27020,localhost:27021/?replicaSet=rs0&authSource=admin
+mongodb://root:root@65.20.76.228:27018,65.20.76.228:27019,65.20.76.228:27020/?replicaSet=rs0&authSource=admin
+
+sshpass -p '1108jimni' 
+ssh -L 27018:localhost:27018 -L 27019:localhost:27019 -L 27020:localhost:27020 root@65.20.76.228 -N
+
+
+mongodb://root:root@65.20.76.228:27018,65.20.76.228:27019,65.20.76.228:27020/?replicaSet=rs0&authSource=admin

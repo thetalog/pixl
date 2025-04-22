@@ -16,6 +16,7 @@ async function dbRetractMessage(user,groupId, messageId, ) {
       messages: {
         some: {
           id: messageId,
+          senderId: user.userId,
         },
       },
     },
