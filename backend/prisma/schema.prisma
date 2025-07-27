@@ -149,6 +149,9 @@ enum FollowStatus {
   PENDING
   ACCEPTED
   REJECTED
+  UNFOLLOWED
+  BLOCKED
+  UNBLOCKED
 }
 model FollowRequest {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId

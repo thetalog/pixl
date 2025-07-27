@@ -6,6 +6,7 @@ const externalRoutes = require("./routes/external_api/root");
 const postsRoutes = require("./routes/posts/root");
 const messageRoutes = require("./routes/message/root");
 const followRoutes = require("./routes/follow/root");
+const unfollowRoutes = require("./routes/unfollow/root");
 
 const { authenticationMiddleware } = require("./middlewares/authentication");
 require("dotenv").config();
@@ -23,6 +24,7 @@ app.use(authenticationMiddleware);
 app.use(postsRoutes);
 app.use(messageRoutes);
 app.use(followRoutes);
+app.use(unfollowRoutes);
 
 app.listen(PORT, () => {
   console.info("App listening at", PORT);
