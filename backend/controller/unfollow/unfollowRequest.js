@@ -9,12 +9,12 @@ async function unfollowRequest(user, targetUsername) {
       targetUsername
     );
     if (targetHasPrivateAccount) {
-      const response = await dbFollowRequest(user, targetUsername);
+      const response = await dbUnfollowRequest(user, targetUsername);
       if (response.status === 500) {
-        return { message: "Follow Request failed.", status: 500 };
+        return { message: "Unfollow Request failed.", status: 500 };
       }
       return {
-        message: "Unfollow Request successfully.",
+        message: "Unfollowed successful.",
         status: 201,
       };
     } else {
@@ -23,7 +23,7 @@ async function unfollowRequest(user, targetUsername) {
         return { message: "Unfollow failed.", status: 500 };
       }
       return {
-        message: "Unfollowed successfull.",
+        message: "Unfollowed successful.",
         status: 201,
       };
     }

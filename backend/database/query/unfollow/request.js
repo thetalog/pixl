@@ -31,7 +31,7 @@ async function dbUnfollowRequest(user, targetUsername) {
         },
       })
       .then(async (response) => {
-        return { message: "Unfollowed Successfull", status: 201 };
+        return { message: "Unfollowed Successful", status: 201 };
       })
       .catch((error) => {
         return { message: "Unfollow Request failed", status: 500 };
