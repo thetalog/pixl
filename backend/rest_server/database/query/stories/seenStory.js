@@ -1,0 +1,25 @@
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
+async function dbSeenStory(userID, storyID) {
+  const response = await prisma.stories
+    .update({
+      where: {
+        id: storyID,
+      },
+      data: {
+        seen: {
+          create: {
+            userId: userID,
+          },
+        },
+      },
+    })
+    .catch((error) => {
+      return { message: "Story seen failed", status: 500 };
+    });
+  await prisma.$disconnect();
+  return { message: "Story seen.", status: 200 };
+}
+
+module.exports = { dbSeenStory };

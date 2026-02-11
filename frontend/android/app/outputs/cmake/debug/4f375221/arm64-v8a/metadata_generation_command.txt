@@ -1,0 +1,21 @@
+                        -H/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=24
+-DANDROID_PLATFORM=android-24
+-DANDROID_ABI=arm64-v8a
+-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a
+-DANDROID_NDK=/home/anya/Android/Sdk/ndk/27.0.12077973
+-DCMAKE_ANDROID_NDK=/home/anya/Android/Sdk/ndk/27.0.12077973
+-DCMAKE_TOOLCHAIN_FILE=/home/anya/Android/Sdk/ndk/27.0.12077973/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/home/anya/Android/Sdk/cmake/3.22.1/bin/ninja
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a
+-DCMAKE_FIND_ROOT_PATH=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/prefab/arm64-v8a/prefab
+-B/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a
+-GNinja
+-Wno-dev
+--no-warn-unused-cli
+-DCMAKE_BUILD_TYPE=debug
+                        Build command args: []
+                        Version: 2

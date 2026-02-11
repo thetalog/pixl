@@ -1,0 +1,10 @@
+{
+  "mediaServer": {
+    "net": {
+      "webrtc": {
+        "stunServerAddress": "stun.l.google.com",
+        "stunServerPort": 19302
+      }
+    }
+  }
+}

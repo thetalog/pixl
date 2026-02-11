@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="kurento-room-server-6.6.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/kurento-room-server-6.6.0.jar!/" />
+      <root url="file://$PROJECT_DIR$/backend/livestream_server" />
+      <root url="file://$PROJECT_DIR$/backend/livestream_server" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/backend/livestream_server" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/backend/livestream_server" recursive="false" />
+  </library>
+</component>

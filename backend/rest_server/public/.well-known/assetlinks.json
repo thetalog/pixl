@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nativebridge.pixl",
+      "sha256_cert_fingerprints": [
+        "BB:62:0D:4D:26:8C:71:28:6F:BE:20:3A:A0:69:C6:53:A0:5A:AC:B8:C6:38:26:4B:80:20:BC:6E:6A:CF:41:2E"
+      ]
+    }
+  }
+]

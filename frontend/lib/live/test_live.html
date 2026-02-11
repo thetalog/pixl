@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<body style="background:black">
+
+<video id="v" autoplay playsinline style="width:100%;height:100%"></video>
+
+<script>
+console.log("Viewer loaded");
+
+const wsUrl = "ws://192.168.1.2:9090/live/1dc3e042-f7c0-476c-bc6d-385810ddde18?role=viewer";
+
+console.log("Connecting to", wsUrl);
+
+const ws = new WebSocket(wsUrl);
+
+const pc = new RTCPeerConnection();
+
+pc.ontrack = e => {
+  console.log("Remote track");
+  v.srcObject = e.streams[0];
+};
+
+pc.onicecandidate = e => {
+  if(e.candidate){
+    ws.send(JSON.stringify({
+      type:'ice',
+      candidate:e.candidate.candidate,
+      sdpMid:e.candidate.sdpMid,
+      sdpMLineIndex:e.candidate.sdpMLineIndex
+    }));
+  }
+};
+
+ws.onopen = () => console.log("WS connected");
+
+ws.onmessage = async e => {
+
+  console.log("WS message:", e.data);
+
+  const msg = JSON.parse(e.data);
+
+  if(msg.type === 'ready'){
+    console.log("Server ready");
+
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    ws.send(JSON.stringify({
+      type:'offer',
+      sdp:offer.sdp
+    }));
+  }
+
+  if(msg.type === 'answer'){
+    console.log("Got answer");
+    await pc.setRemoteDescription({
+      type:'answer',
+      sdp:msg.sdp
+    });
+  }
+
+  if(msg.type === 'ice'){
+    await pc.addIceCandidate(msg);
+  }
+};
+
+ws.onerror = e => console.error("WS error", e);
+</script>
+
+</body>
+</html>

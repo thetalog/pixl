@@ -1,0 +1,429 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ProfileVisibility {
+  PRIVATE
+  PUBLIC
+  BANNED
+}
+
+model User {
+  id                     String               @id @default(auto()) @map("_id") @db.ObjectId
+  email                  String               @unique
+  isEmailVerified        Boolean
+  userName               String               @unique
+  name                   String
+  password               String
+  dateOfBirth            DateTime?
+  gender                 String?
+  age                    Int
+  profilePic             String?
+  bio                    String?
+  website                String?
+  profileVisibility      ProfileVisibility    @default(PRIVATE)
+  emailOTP               EmailOTP[]
+  subComments            SubComment[]
+  posts                  Post[]
+  followInitiated        Follow[]             @relation("Initiator")
+  followReceived         Follow[]             @relation("Receiver")
+  followInitiatedRequest FollowRequest[]      @relation("RequestInitiator")
+  followReceivedRequest  FollowRequest[]      @relation("RequestReceiver")
+  login                  Login[]
+  reels                  Reels[]
+  favouriteUsers         FavouriteUsers[]
+  notifications          UserNotification[]
+  stories                Stories[]
+  storiesMentions        StoriesMentions[]
+  storiesSeen            StoriesSeen[]
+  storiesReactions       StoriesReactions[]
+  liveStreams            LiveStream[]
+  liveStreamComments     LiveStreamComments[]
+  sentMessages           Message[]            @relation("SentMessages")
+  receivedMessages       Message[]            @relation("ReceivedMessages")
+  groups                 Group[]
+  groupMember            GroupMember[]
+  PostMentions           PostMentions[]
+  ReelMentions           ReelMentions[]
+  Reactions              Reaction[]
+  Comments               Comment[]
+  Shares                 Share[]
+  MessageReactions       MessageReaction[]
+  MessageSeen            MessageSeen[]
+  postsCount             Int                  @default(0)
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+}
+
+model Group {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  groupId        String        @unique
+  name           String?
+  adminId        String        @db.ObjectId
+  admin          User          @relation(fields: [adminId], references: [id])
+  displayPicture String?
+  members        GroupMember[]
+  messages       Message[]
+}
+
+enum GroupMemberRole {
+  admin
+  member
+}
+
+model GroupMember {
+  id      String           @id @default(auto()) @map("_id") @db.ObjectId
+  user    User             @relation(fields: [userId], references: [id])
+  userId  String           @db.ObjectId
+  group   Group            @relation(fields: [groupId], references: [id])
+  groupId String           @db.ObjectId
+  role    GroupMemberRole?
+}
+
+model MessageReaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   Message  @relation("MessageReaction", fields: [messageId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  messageId String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  emoji     String?
+  emojiCode String?
+  createdAt DateTime @default(now())
+}
+
+model MessageSeen {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  message   Message  @relation("MessageSeen", fields: [messageId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  messageId String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id             String            @id @default(auto()) @map("_id") @db.ObjectId
+  message        String
+  retracted      Boolean           @default(false)
+  receiver       User?             @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId     String?           @db.ObjectId
+  sender         User              @relation("SentMessages", fields: [senderId], references: [id])
+  senderId       String            @db.ObjectId
+  group          Group?            @relation(fields: [groupId], references: [id])
+  groupId        String?           @db.ObjectId
+  seen           MessageSeen[]     @relation("MessageSeen")
+  mediaUrl       String[]
+  reactions      MessageReaction[] @relation("MessageReaction")
+  // Self-referencing relation: reply-to-message
+  replyTo        String?           @db.ObjectId
+  replyToMsg     Message?          @relation("ReplyChain", fields: [replyTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies        Message[]         @relation("ReplyChain")
+  conversationId String?           @unique
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+model LiveStream {
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String               @db.ObjectId
+  user      User                 @relation(fields: [userId], references: [id])
+  title     String
+  url       String
+  viewers   String[]
+  comments  LiveStreamComments[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+}
+
+model LiveStreamComments {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  user      User       @relation(fields: [userId], references: [id])
+  liveId    String     @db.ObjectId
+  live      LiveStream @relation(fields: [liveId], references: [id])
+  text      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+enum FollowStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  UNFOLLOWED
+  BLOCKED
+  UNBLOCKED
+}
+
+model FollowRequest {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String       @db.ObjectId
+  targetId  String       @db.ObjectId
+  user      User         @relation("RequestInitiator", fields: [userId], references: [id])
+  target    User         @relation("RequestReceiver", fields: [targetId], references: [id])
+  status    FollowStatus @default(PENDING) // "PENDING", "ACCEPTED", "REJECTED"
+  updatedAt DateTime     @updatedAt
+  createdAt DateTime     @default(now())
+
+  @@unique([userId, targetId])
+  @@index([userId])
+  @@index([targetId])
+}
+
+model Follow {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  targetId  String   @db.ObjectId
+  user      User     @relation("Initiator", fields: [userId], references: [id])
+  target    User     @relation("Receiver", fields: [targetId], references: [id])
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([userId, targetId])
+  @@index([userId])
+  @@index([targetId])
+}
+
+model ReelMentions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId // User who is mentioned
+  user      User     @relation(fields: [userId], references: [id])
+  reelId    String   @db.ObjectId
+  reels     Reels    @relation(fields: [reelId], references: [id], name: "PostToMentions")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostMentions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId // User who is mentioned
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id], name: "PostToMentions")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserNotification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  message   String
+  type      String // "mention", "comment", "like", etc.
+  postId    String?  @db.ObjectId // Optional: reference to a post if it's a mention notification
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Stories {
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  media     Media              @relation(fields: [mediaId], references: [id])
+  userId    String             @db.ObjectId
+  user      User               @relation(fields: [userId], references: [id])
+  mentions  StoriesMentions[]
+  seen      StoriesSeen[]
+  reactions StoriesReactions[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  mediaId   String             @db.ObjectId
+}
+
+model StoriesSeen {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   String   @db.ObjectId
+  story     Stories  @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, storyId])
+}
+
+model StoriesReactions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   String   @db.ObjectId
+  story     Stories  @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StoriesMentions {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  storyId   String   @db.ObjectId
+  story     Stories  @relation(fields: [storyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FavouriteUsers {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reels {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  media       Media[]
+  caption     String
+  tags        String[] // Array of tags
+  taggedUsers String[] // Array of usernames tagged in this reel
+  reactions   Reaction[]
+  comments    Comment[]
+  mentions    ReelMentions[] @relation("PostToMentions")
+  userId      String         @db.ObjectId
+  user        User           @relation(fields: [userId], references: [id])
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+model Media {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  url         String
+  musicCredit String?
+  mimeType    MediaType
+  thumbnail   String?
+  postId      String?   @db.ObjectId
+  post        Post?     @relation(fields: [postId], references: [id])
+  reelId      String?   @db.ObjectId
+  reel        Reels?    @relation(fields: [reelId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  stories     Stories[]
+}
+
+enum ReactionType {
+  HEART
+  EMOJI
+  GIF
+}
+
+model Reaction {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  type          ReactionType @default(HEART)
+  otherTypeCode String?
+  userId        String       @db.ObjectId
+  user          User         @relation(fields: [userId], references: [id])
+  postId        String?      @db.ObjectId
+  post          Post?        @relation(fields: [postId], references: [id])
+  reelId        String?      @db.ObjectId
+  reel          Reels?       @relation(fields: [reelId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@unique([userId, postId])
+  @@index([postId]) // ✅ fast fetch post reactions
+  @@index([userId])
+}
+
+model SubComment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  commentId String   @db.ObjectId
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  text       String
+  userId     String       @db.ObjectId
+  user       User         @relation(fields: [userId], references: [id])
+  postId     String?      @db.ObjectId
+  post       Post?        @relation(fields: [postId], references: [id])
+  reelId     String?      @db.ObjectId
+  reel       Reels?       @relation(fields: [reelId], references: [id])
+  subComment SubComment[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Share {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userTag   String   @db.ObjectId
+  user      User     @relation(fields: [userTag], references: [id])
+  postTag   String   @db.ObjectId
+  post      Post     @relation(fields: [postTag], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UICategory {
+  IGTV
+  SHOP
+  STYLE
+  SPORTS
+  AUTO
+  MUSIC
+  MOVIES
+  UNSET
+}
+
+model Post {
+  id                 String         @id @default(auto()) @map("_id") @db.ObjectId
+  media              Media[]
+  taggedUsers        String[] // Array of usernames tagged in this post
+  systemTags         String[]
+  userTags           String[]
+  location           Json?
+  caption            String
+  reactionsCount     Int?
+  comments           Comment[]
+  shares             Share[]
+  uiCategory         UICategory     @default(UNSET)
+  userId             String         @db.ObjectId
+  user               User           @relation(fields: [userId], references: [id])
+  mentions           PostMentions[] @relation("PostToMentions")
+  postDisabled       Boolean        @default(false)
+  postDisabledReason String?
+  postDisabledAt     DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  reactions          Reaction[]
+}
+
+model Login {
+  id                      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email                   String
+  enteredPassword         String
+  isPasswordAuthenticated Boolean
+  IPAddress               String
+  responseMessage         String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  User                    User?    @relation(fields: [userId], references: [id])
+  userId                  String?  @db.ObjectId
+}
+
+model EmailOTP {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  email           String
+  name            String
+  otp             Int
+  isVerified      Boolean   @default(false)
+  emailVerifiedAt DateTime?
+  userID          String    @db.ObjectId
+  user            User      @relation(fields: [userID], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}

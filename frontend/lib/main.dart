@@ -1,0 +1,244 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pixl/create_action_dropdown.dart';
+import 'package:pixl/post/create_post.dart';
+import 'package:pixl/profile/view_profile.dart';
+import 'package:pixl/stories/create_story.dart';
+import './providers/auth_provider.dart';
+import './providers/mapping_follow_user.dart';
+import 'screen_router.dart';
+import 'login/login.dart';
+import './routes/deep_link_service.dart';
+import './routes/navigator_key.dart';
+import 'package:app_links/app_links.dart';
+import 'view_post/view_post.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:pixl/config.dart';
+
+const _secureStorage = FlutterSecureStorage();
+final deepLinkService = DeepLinkService();
+
+final logger = Logger();
+Future<void> _checkPermissions() async {
+  var status = await Permission.bluetooth.request();
+  if (status.isPermanentlyDenied) {
+    print('Bluetooth Permission disabled');
+  }
+  status = await Permission.bluetoothConnect.request();
+  if (status.isPermanentlyDenied) {
+    print('Bluetooth Connect Permission disabled');
+  }
+}
+
+void main() async {
+  // debugPaintSizeEnabled = true;
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  await _checkPermissions();
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+  };
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  void setupFirebaseMessaging() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        // Show notification when app is in foreground
+        print(
+            'Foreground notification: ${notification.title} - ${notification.body}');
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Notification clicked when app was in background');
+    });
+  }
+
+  setupFirebaseMessaging();
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  String? token = await FirebaseMessaging.instance.getToken();
+  // logger.i("[DEBUG] FCM TOKEN: $token");
+
+  deepLinkService.startListening();
+  final AppLinks _appLinks = AppLinks();
+  Future<dynamic> fetchPost(postId) async {
+    final String apiUrl =
+        Config.buildApiUrl('/posts/get-single-public-posts?postId=$postId');
+    final String token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ikplc3NpY2ExQGV4YW1wbGUuY29tIiwibmFtZSI6Ikplc3NpY2ExIiwidXNlck5hbWUiOiJKZXNzaWNhMSIsImV4cCI6MTc3MjAzNjA0NCwiaWF0IjoxNzY5NDQ0MDQ0fQ.UkkrVwmSjcVODZFzGWE_CU5__uw-uiVgitv4IWoFAV0";
+
+    final res = await http.get(
+      Uri.parse(apiUrl),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+    );
+
+    if (res.statusCode != 200) {
+      throw Exception("Failed: ${res.statusCode} | ${res.body}");
+    }
+
+    final jsonData = jsonDecode(res.body);
+    final post = jsonData["data"];
+    return post;
+  }
+
+  void handleLink(Uri uri) async {
+    print("Opened via link: $uri");
+
+    final postId = uri.queryParameters['postId'];
+    final by = uri.queryParameters['by'];
+
+    print("postId = $postId");
+    print("by = $by");
+
+    if (postId == null || postId.isEmpty) {
+      print("Invalid deep link: missing postId");
+      return;
+    }
+
+    try {
+      final post = await fetchPost(postId);
+
+      if (post == null) {
+        print("Post not found");
+        return;
+      }
+
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (_) => ViewPost(
+            post: post,
+            byShareId: by,
+            canEdit: false,
+          ),
+        ),
+      );
+    } catch (e) {
+      print("Error fetching post: $e");
+    }
+  }
+
+  Future<void> initDeepLinks() async {
+    // App opened from terminated state
+    final Uri? initialUri = await _appLinks.getInitialLink();
+    if (initialUri != null) {
+      handleLink(initialUri);
+    }
+
+    // App opened from background
+    _appLinks.uriLinkStream.listen((Uri uri) {
+      handleLink(uri);
+    });
+  }
+
+  await initDeepLinks();
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+// ✅ MyApp is now ConsumerWidget (NOT StatefulWidget)
+class MyApp extends ConsumerStatefulWidget {
+  MyApp({super.key});
+  @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  final _pageViewController = PageController(initialPage: 1);
+
+  Future<void> loadUserNameProvider() async {
+    final userName = await _secureStorage.read(key: 'profile_username');
+    logger.i("Loaded username from secure storage: $userName");
+    if (!mounted) return;
+    if (userName != null && userName.isNotEmpty) {
+      await ref.read(profileProvider.notifier).updateUsername(userName);
+    } else {
+      // optional: set empty or skip
+      await ref.read(profileProvider.notifier).updateUsername("");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserNameProvider();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tokenAsync = ref.watch(tokenProvider);
+    final profileAsync = ref.watch(profileProvider);
+
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      home: Scaffold(
+          appBar: AppBar(
+            title: Row(
+              children: [
+                const Text(
+                  'Pixl',
+                  style: TextStyle(fontFamily: 'Lekerli-one', fontSize: 15),
+                ),
+                Expanded(
+                  child: SizedBox(),
+                  flex: 6,
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: CreateActionDropdown(),
+                  ),
+                  flex: 4,
+                ),
+              ],
+            ),
+            backgroundColor: const Color(0xFF0D1B2A),
+            foregroundColor: Colors.white,
+            toolbarHeight: 30,
+          ),
+          body: PageView(
+            scrollDirection: Axis.horizontal,
+            controller: _pageViewController,
+            children: [
+              Container(
+                child: CreateStory(),
+              ),
+              tokenAsync.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text("Error: $e")),
+                data: (token) {
+                  if (token != null) {
+                    print("✓ JWT token found: $token");
+                    return const ScreenRouter();
+                  }
+                  print("❌ No JWT token found, showing login");
+                  return const LoginScreen();
+                },
+              ),
+            ],
+          )),
+    );
+  }
+}

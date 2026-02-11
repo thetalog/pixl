@@ -1,0 +1,85 @@
+{
+  "buildFiles": [
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/CMakeLists.txt",
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/CM_linux_packages.cmake",
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/anya/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/anya/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "yuv_common_objects::@65971e152f36faa1b30f": {
+      "artifactName": "yuv_common_objects",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "yuvconvert::@65971e152f36faa1b30f": {
+      "artifactName": "yuvconvert",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/yuvconvert",
+      "runtimeFiles": []
+    },
+    "yuv_neon64::@65971e152f36faa1b30f": {
+      "artifactName": "yuv_neon64",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "rtsp_serve::@6890427a1f51a3e7e1df": {
+      "artifactName": "rtsp_serve",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/librtsp_serve.so",
+      "runtimeFiles": []
+    },
+    "yuv_sve::@65971e152f36faa1b30f": {
+      "artifactName": "yuv_sve",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "yuv_shared::@65971e152f36faa1b30f": {
+      "artifactName": "yuv_shared",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/libyuv.so",
+      "runtimeFiles": []
+    },
+    "cpuid::@65971e152f36faa1b30f": {
+      "artifactName": "cpuid",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/cpuid",
+      "runtimeFiles": []
+    },
+    "yuvconstants::@65971e152f36faa1b30f": {
+      "artifactName": "yuvconstants",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/yuvconstants",
+      "runtimeFiles": []
+    },
+    "cryptopp::@6890427a1f51a3e7e1df": {
+      "artifactName": "cryptopp",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a/libcryptopp.a",
+      "runtimeFiles": []
+    },
+    "yuv_sme::@65971e152f36faa1b30f": {
+      "artifactName": "yuv_sme",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "yuv::@65971e152f36faa1b30f": {
+      "artifactName": "yuv",
+      "abi": "arm64-v8a",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a/libyuv/libyuv.a",
+      "runtimeFiles": []
+    }
+  }
+}

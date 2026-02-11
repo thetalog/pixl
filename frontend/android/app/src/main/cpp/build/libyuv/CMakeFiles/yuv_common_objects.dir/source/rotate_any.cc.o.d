@@ -1,0 +1,27 @@
+libyuv/CMakeFiles/yuv_common_objects.dir/source/rotate_any.cc.o: \
+  /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/source/rotate_any.cc \
+  /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/include/libyuv/rotate.h \
+  /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/include/libyuv/basic_types.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1/stddef.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1/__config \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1/__config_site \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/features.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/sys/cdefs.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/android/versioning.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/android/api-level.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/bits/get_device_api_level_inlines.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/android/ndk-version.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/stddef.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_ptrdiff_t.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_size_t.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_wchar_t.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_null.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_nullptr_t.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_max_align_t.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/__stddef_offsetof.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1/stdint.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include/stdint.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/stdint.h \
+  /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/bits/wchar_limits.h \
+  /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/include/libyuv/rotate_row.h \
+  /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/include/libyuv/cpu_support.h

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$USER_HOME$/develop/flutter/packages/flutter_tools/gradle" name="gradle">
+                <projects>
+                  <project path="$USER_HOME$/develop/flutter/packages/flutter_tools/gradle" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="testRunner" value="CHOOSE_PER_TEST" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/frontend/pixl_clean/android" />
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/app_links-7.0.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/connectivity_plus-7.0.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/device_info_plus-12.3.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-10.3.10/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_analytics-12.1.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.4.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-16.1.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.33/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_secure_storage-10.0.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_vlc_player-7.4.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_webrtc-1.3.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.13+13/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/livekit_client-2.6.2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus-9.0.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler_android-13.0.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/photo_manager-3.8.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/video_player_android-2.9.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/video_thumbnail-0.5.6/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/wakelock_plus-1.4.0/android" />
+            <option value="$PROJECT_DIR$/frontend/pixl_clean/android" />
+            <option value="$PROJECT_DIR$/frontend/pixl_clean/android/app" />
+            <option value="$USER_HOME$/develop/flutter/packages/flutter_tools/gradle" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

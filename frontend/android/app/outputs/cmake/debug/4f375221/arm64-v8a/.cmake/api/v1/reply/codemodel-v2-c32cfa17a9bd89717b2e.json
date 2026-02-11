@@ -1,0 +1,185 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				},
+				{
+					"build" : "libyuv",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libyuv-debug-1c7072685ea308b58ec6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "lib/libyuv",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					]
+				}
+			],
+			"name" : "debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "pixl",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "YUV",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "cpuid::@65971e152f36faa1b30f",
+					"jsonFile" : "target-cpuid-debug-3d8a3465f5d09b1b3dd1.json",
+					"name" : "cpuid",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "cryptopp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-cryptopp-debug-05bf67e9f93b50f2b234.json",
+					"name" : "cryptopp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rtsp_serve::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rtsp_serve-debug-c14a6241c16de9c87d19.json",
+					"name" : "rtsp_serve",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuv::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuv-debug-ffc00430dd13dfd5f1bb.json",
+					"name" : "yuv",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuv_common_objects::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuv_common_objects-debug-2a69e1a1f859b2b88724.json",
+					"name" : "yuv_common_objects",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuv_neon64::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuv_neon64-debug-59b52758860a30554f87.json",
+					"name" : "yuv_neon64",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuv_shared::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuv_shared-debug-33704a9b5d1cff5d7fbd.json",
+					"name" : "yuv_shared",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuv_sme::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuv_sme-debug-bcd6e9eaec68563b584e.json",
+					"name" : "yuv_sme",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuv_sve::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuv_sve-debug-d5db1c32787562b71cd6.json",
+					"name" : "yuv_sve",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuvconstants::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuvconstants-debug-85f2da82fd9a0cec96f6.json",
+					"name" : "yuvconstants",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yuvconvert::@65971e152f36faa1b30f",
+					"jsonFile" : "target-yuvconvert-debug-1fc9879b5e90af8684c7.json",
+					"name" : "yuvconvert",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a",
+		"source" : "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

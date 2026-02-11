@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.kurento:kurento-client:7.1.0"
+    implementation "org.java-websocket:Java-WebSocket:1.5.4"
+}
+
+mainClassName = "BackendServer"

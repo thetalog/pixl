@@ -1,0 +1,47 @@
+{
+    "configurations": [
+        {
+            "name": "Android ARM64 (NDK)",
+            "includePath": [
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/include",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source/common",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source/input",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source/encoder",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source/output",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source/compat",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/x265_git/source/build-android-arm64",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/include",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/cryptopp",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/openssl/include",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/lib/openssl/crypto",
+                "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include",
+                "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/sys/",
+                "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android",
+                "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1",
+                "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include",
+                "${workspaceFolder}/frontend/pixl_clean/android/app/src/main/cpp/**"
+            ],
+            "defines": [
+                "__ANDROID__",
+                "ANDROID",
+                "__ANDROID_API__=21",
+                "SOCKLEN_T=socklen_t"
+            ],
+            "intelliSenseMode": "linux-clang-arm64",
+            "cStandard": "c17",
+            "compilerPath": "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android21-clang++",
+            "cppStandard": "c++20",
+            "browse": {
+                "path": [
+                    "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}

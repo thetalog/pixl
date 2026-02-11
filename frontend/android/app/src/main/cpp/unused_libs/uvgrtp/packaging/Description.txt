@@ -1,0 +1,4 @@
+DESCRIPTION
+===========
+
+uvgRTP is an open-source library for RTP/SRTP media delivery. You need to install Crypto++ in order to use SRTP in uvgRTP.

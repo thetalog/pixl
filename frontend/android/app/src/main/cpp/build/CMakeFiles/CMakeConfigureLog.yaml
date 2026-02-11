@@ -1,0 +1,697 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The target system is: Android - 1 - aarch64
+      The host system is: Linux - 6.17.0-6-generic - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android24 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is Clang, found in:
+        /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/3.31.6/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android24 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification is Clang, found in:
+        /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/3.31.6/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f3891/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f3891.dir/build.make CMakeFiles/cmTC_f3891.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK'
+        Building C object CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android24
+        Thread model: posix
+        InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+         (in-process)
+         "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android24 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK -resource-dir /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-unknown-linux-gnu
+        ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include
+        End of search list.
+        Linking C executable cmTC_f3891
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f3891.dir/link.txt --verbose=1
+        Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android24
+        Thread model: posix
+        InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+         "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_f3891 /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -o cmTC_f3891
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        implicit include dirs: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f3891/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_f3891.dir/build.make CMakeFiles/cmTC_f3891.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK']
+        ignore line: [Building C object CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Android (13691557  +pgo  +bolt  +lto  +mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android24]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android24 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-h9CaVK -resource-dir /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-unknown-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking C executable cmTC_f3891]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f3891.dir/link.txt --verbose=1]
+        ignore line: [Android (13691557  +pgo  +bolt  +lto  +mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android24]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin]
+        link line: [ "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_f3891 /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_f3891] ==> ignore
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o] ==> obj [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-rosegment] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_f3891.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o] ==> obj [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o]
+        linker tool for 'C': /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld
+        remove lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+        implicit libs: [-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o]
+        implicit dirs: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.4 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6bc60/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_6bc60.dir/build.make CMakeFiles/cmTC_6bc60.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj'
+        Building CXX object CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android24
+        Thread model: posix
+        InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+         (in-process)
+         "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++" -cc1 -triple aarch64-none-linux-android24 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj -resource-dir /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-unknown-linux-gnu
+        ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
+         /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include
+        End of search list.
+        Linking CXX executable cmTC_6bc60
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6bc60.dir/link.txt --verbose=1
+        Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android24
+        Thread model: posix
+        InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+         "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_6bc60 /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_6bc60
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1]
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1]
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        implicit include dirs: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6bc60/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_6bc60.dir/build.make CMakeFiles/cmTC_6bc60.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj']
+        ignore line: [Building CXX object CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Android (13691557  +pgo  +bolt  +lto  +mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android24]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++" -cc1 -triple aarch64-none-linux-android24 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-Uf1oHj -resource-dir /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include -internal-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target x86_64-unknown-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking CXX executable cmTC_6bc60]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6bc60.dir/link.txt --verbose=1]
+        ignore line: [Android (13691557  +pgo  +bolt  +lto  +mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android24]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin]
+        link line: [ "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_6bc60 /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24 -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_6bc60] ==> ignore
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o] ==> obj [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-L/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib] ==> dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-rosegment] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_6bc60.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-Bstatic] ==> search static
+          arg [-lc++] ==> lib [c++]
+          arg [-Bdynamic] ==> search dynamic
+          arg [-lm] ==> lib [m]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o] ==> obj [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o]
+        linker tool for 'CXX': /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld
+        remove lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib] ==> [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+        implicit libs: [c++;m;-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtbegin_dynamic.o;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24/crtend_android.o]
+        implicit dirs: [/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/24;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android;/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.4 (compatible with GNU linkers)
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1250 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:15 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+      Target: x86_64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1250 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:15 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple (clang|LLVM) version)":
+      Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+      Target: x86_64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1237 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:15 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is Clang using "--version" matched "(clang version)":
+      Android (13691557, +pgo, +bolt, +lto, +mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+      Target: x86_64-unknown-linux-gnu
+      Thread model: posix
+      InstalledDir: /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "lib/libyuv/CMakeLists.txt:138 (check_c_source_compiles)"
+    checks:
+      - "Performing Test CAN_COMPILE_SME"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-0aSCZo"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-0aSCZo"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "ON"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CAN_COMPILE_SME"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-0aSCZo'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_aa6fc/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_aa6fc.dir/build.make CMakeFiles/cmTC_aa6fc.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-0aSCZo'
+        Building C object CMakeFiles/cmTC_aa6fc.dir/src.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DCAN_COMPILE_SME  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -march=armv9-a+i8mm+sme -fPIC -MD -MT CMakeFiles/cmTC_aa6fc.dir/src.c.o -MF CMakeFiles/cmTC_aa6fc.dir/src.c.o.d -o CMakeFiles/cmTC_aa6fc.dir/src.c.o -c /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-0aSCZo/src.c
+        Linking C static library libcmTC_aa6fc.a
+        /usr/bin/cmake -P CMakeFiles/cmTC_aa6fc.dir/cmake_clean_target.cmake
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aa6fc.dir/link.txt --verbose=1
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar qc libcmTC_aa6fc.a CMakeFiles/cmTC_aa6fc.dir/src.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib libcmTC_aa6fc.a
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-0aSCZo'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "CMakeLists.txt:189 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f5fc9/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f5fc9.dir/build.make CMakeFiles/cmTC_f5fc9.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN'
+        Building C object CMakeFiles/cmTC_f5fc9.dir/src.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_f5fc9.dir/src.c.o -MF CMakeFiles/cmTC_f5fc9.dir/src.c.o.d -o CMakeFiles/cmTC_f5fc9.dir/src.c.o -c /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN/src.c
+        /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN/src.c:13:3: error: call to undeclared function 'pthread_cancel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           13 |   pthread_cancel(thread);
+              |   ^
+        /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN/src.c:13:3: note: did you mean 'pthread_once'?
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/pthread.h:264:5: note: 'pthread_once' declared here
+          264 | int pthread_once(pthread_once_t* _Nonnull __once, void (* _Nonnull __init_routine)(void));
+              |     ^
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_f5fc9.dir/build.make:82: CMakeFiles/cmTC_f5fc9.dir/src.c.o] Error 1
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-fHoYjN'
+        gmake: *** [Makefile:134: cmTC_f5fc9/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "CMakeLists.txt:189 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-wzaI3b"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-wzaI3b"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-wzaI3b'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3d157/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_3d157.dir/build.make CMakeFiles/cmTC_3d157.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-wzaI3b'
+        Building C object CMakeFiles/cmTC_3d157.dir/CheckFunctionExists.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -fPIE -MD -MT CMakeFiles/cmTC_3d157.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_3d157.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_3d157.dir/CheckFunctionExists.c.o -c /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-wzaI3b/CheckFunctionExists.c
+        Linking C executable cmTC_3d157
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3d157.dir/link.txt --verbose=1
+        ld.lld: error: unable to find library -lpthreads
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_3d157.dir/CheckFunctionExists.c.o -o cmTC_3d157  -lpthreads -latomic -lm
+        gmake[1]: *** [CMakeFiles/cmTC_3d157.dir/build.make:103: cmTC_3d157] Error 1
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-wzaI3b'
+        gmake: *** [Makefile:134: cmTC_3d157/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "CMakeLists.txt:189 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-UupVxI"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-UupVxI"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-UupVxI'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_44ca0/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_44ca0.dir/build.make CMakeFiles/cmTC_44ca0.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-UupVxI'
+        Building C object CMakeFiles/cmTC_44ca0.dir/CheckFunctionExists.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -fPIE -MD -MT CMakeFiles/cmTC_44ca0.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_44ca0.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_44ca0.dir/CheckFunctionExists.c.o -c /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-UupVxI/CheckFunctionExists.c
+        Linking C executable cmTC_44ca0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_44ca0.dir/link.txt --verbose=1
+        ld.lld: error: unable to find library -lpthread
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_44ca0.dir/CheckFunctionExists.c.o -o cmTC_44ca0  -lpthread -latomic -lm
+        gmake[1]: *** [CMakeFiles/cmTC_44ca0.dir/build.make:103: cmTC_44ca0] Error 1
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-UupVxI'
+        gmake: *** [Makefile:134: cmTC_44ca0/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:136 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:179 (_threads_check_flag_pthread)"
+      - "CMakeLists.txt:189 (find_package)"
+    checks:
+      - "Check if compiler accepts -pthread"
+    directories:
+      source: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-6zLZfs"
+      binary: "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-6zLZfs"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-24"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android24"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "THREADS_HAVE_PTHREAD_ARG"
+      cached: true
+      stdout: |
+        Change Dir: '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-6zLZfs'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d61a3/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_d61a3.dir/build.make CMakeFiles/cmTC_d61a3.dir/build
+        gmake[1]: Entering directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-6zLZfs'
+        Building C object CMakeFiles/cmTC_d61a3.dir/CheckForPthreads.c.o
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_d61a3.dir/CheckForPthreads.c.o -MF CMakeFiles/cmTC_d61a3.dir/CheckForPthreads.c.o.d -o CMakeFiles/cmTC_d61a3.dir/CheckForPthreads.c.o -c /home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-6zLZfs/CheckForPthreads.c
+        Linking C executable cmTC_d61a3
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d61a3.dir/link.txt --verbose=1
+        /home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android24 --sysroot=/home/anya/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_d61a3.dir/CheckForPthreads.c.o -o cmTC_d61a3  -pthread -latomic -lm
+        gmake[1]: Leaving directory '/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/build/CMakeFiles/CMakeScratch/TryCompile-6zLZfs'
+        
+      exitCode: 0
+...
