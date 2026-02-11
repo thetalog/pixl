@@ -1,6 +1,4 @@
-const {
-  dbReactDirectMessage,
-} = require("../../../database/query/message/direct/reactMessage");
+const { addDirectMessageReaction } = require("../../../database/message/direct/reactMessage");
 
 exports.reactDirectMessageController = async (req, res) => {
   try {
@@ -29,7 +27,7 @@ exports.reactDirectMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbReactDirectMessage(
+    const response = await addDirectMessageReaction(
       user,
       messageId,
       senderUsername,

@@ -1,6 +1,4 @@
-const {
-  dbSeenMessage,
-} = require("../../../database/query/message/direct/seenMessage");
+const { markDirectMessageAsSeen } = require("../../../database/message/direct/seenMessage");
 
 exports.seenDirectMessageController = async (req, res) => {
   try {
@@ -17,7 +15,7 @@ exports.seenDirectMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbSeenMessage(user, senderUsername);
+    const response = await markDirectMessageAsSeen(user, senderUsername);
 
     if (response?.status === 500) {
       return res.status(500).json({

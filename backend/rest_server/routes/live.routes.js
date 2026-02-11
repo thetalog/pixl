@@ -10,7 +10,7 @@ const {
     addLiveCommentController,
     getLiveCommentsController,
     startLiveCommentSocketController,
-} = require("../controller/live/live");
+} = require("../controller/live/liveStream");
 
 router.post("/start", startLiveController);
 router.delete("/:liveId", endLiveController);

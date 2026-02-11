@@ -1,6 +1,4 @@
-const {
-  dbSeenMessage,
-} = require("../../../database/query/message/group/seenMessage");
+const { markGroupMessageAsSeen } = require("../../../database/message/group/seenMessage");
 
 exports.seenGroupMessageController = async (req, res) => {
   try {
@@ -17,7 +15,7 @@ exports.seenGroupMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbSeenMessage(user, groupId);
+    const response = await markGroupMessageAsSeen(user, groupId);
 
     if (response?.status === 500) {
       return res.status(500).json({

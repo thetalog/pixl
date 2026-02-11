@@ -1,14 +1,14 @@
 const express = require("express");
-const { checkUsernameExist } = require("../controller/checkUsernameExist");
-const { searchUserController } = require("../controller/users/searchSingleUser");
-const { searchUsersController } = require("../controller/users/searchUsers");
+const { checkUsernameExist } = require("../controller/user/checkUsername");
+const { searchUserController } = require("../controller/user/searchSingleUser");
+const { searchUsersController } = require("../controller/user/searchUsers");
 const { getOwnProfileController } = require("../controller/profile/getOwnProfile");
-const { approveFollowController } = require("../controller/follow/approve");
-const { rejectFollowController } = require("../controller/follow/reject");
-const { requestFollowController } = require("../controller/follow/request");
-const { getIncomingFollowRequestsController } = require("../controller/follow/getIncomingFollowRequest.js");
+const { approveFollowController } = require("../controller/follow/approveFollow");
+const { rejectFollowController } = require("../controller/follow/rejectFollow");
+const { requestFollowController } = require("../controller/follow/requestFollow");
+const { getIncomingFollowRequestsController } = require("../controller/follow/getIncomingFollowRequests.js");
 const { changeProfileVisibilityController } = require("../controller/follow/changeProfileVisibility.js");
-const { removeFollowRequestController } = require("../controller/follow/removeFollowingRequest.js");
+const { removeFollowRequestController } = require("../controller/follow/removeFollowRequest.js");
 const { removeFollowingController } = require("../controller/follow/removeFollowing.js");
 const { getFollowStatusController } = require("../controller/follow/getFollowStatus.js");
 

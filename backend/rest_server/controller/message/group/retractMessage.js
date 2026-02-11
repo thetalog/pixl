@@ -1,6 +1,4 @@
-const {
-  dbRetractMessage,
-} = require("../../../database/query/message/group/retractMessage");
+const { retractGroupMessage } = require("../../../database/message/group/retractMessage");
 
 exports.retractGroupMessageController = async (req, res) => {
   try {
@@ -23,7 +21,7 @@ exports.retractGroupMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbRetractMessage(
+    const response = await retractGroupMessage(
       user,
       groupId,
       messageId

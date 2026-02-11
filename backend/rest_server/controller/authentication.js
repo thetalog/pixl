@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { getUserByEmailName } = require("../database/query/user/authentication/user");
+const { getUserByEmailName } = require("../database/auth/user");
 
 async function authenticationController(authorizationToken) {
   try {

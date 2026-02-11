@@ -1,5 +1,5 @@
-const { searchUsers } = require("../../database/query/user/searchUsers");
-const { updateProfile } = require("../../database/query/user/updateProfile");
+const { searchUsers } = require("../../database/user/search");
+const { updateProfile } = require("../../database/profile/update");
 
 exports.updateProfileController = async (req, res) => {
     try {

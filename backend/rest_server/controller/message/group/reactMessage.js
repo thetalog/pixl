@@ -1,6 +1,4 @@
-const {
-  dbReactGroupMessage,
-} = require("../../../database/query/message/group/reactMessage");
+const { addGroupMessageReaction } = require("../../../database/message/group/reactMessage");
 
 exports.reactGroupMessageController = async (req, res) => {
   try {
@@ -29,7 +27,7 @@ exports.reactGroupMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbReactGroupMessage(
+    const response = await addGroupMessageReaction(
       user,
       groupId,
       messageId,

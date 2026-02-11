@@ -1,5 +1,5 @@
-import axios from "axios";
-import { GoogleAuth } from "google-auth-library";
+const axios = require("axios");
+const { GoogleAuth } = require("google-auth-library");
 
 const PROJECT_ID = "pixl-caf6b"; // your Firebase project id
 
@@ -9,7 +9,7 @@ const auth = new GoogleAuth({
     // OR omit keyFile if running on GCP
 });
 
-export async function sendFCM({ token, title, body, data = {} }) {
+async function sendFCM({ token, title, body, data = {} }) {
     const client = await auth.getClient();
     const accessToken = await client.getAccessToken();
 
@@ -35,3 +35,5 @@ export async function sendFCM({ token, title, body, data = {} }) {
 
     return res.data;
 }
+
+module.exports = { sendFCM };

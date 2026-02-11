@@ -1,6 +1,4 @@
-const {
-  dbRetractMessage,
-} = require("../../../database/query/message/direct/retractMessage");
+const { retractDirectMessage } = require("../../../database/message/direct/retractMessage");
 
 exports.retractDirectMessageController = async (req, res) => {
   try {
@@ -23,7 +21,7 @@ exports.retractDirectMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbRetractMessage(
+    const response = await retractDirectMessage(
       user,
       messageId,
       senderUsername

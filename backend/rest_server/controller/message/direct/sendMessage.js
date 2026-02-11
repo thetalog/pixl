@@ -1,10 +1,8 @@
-const {
-  dbSendMessage,
-} = require("../../../database/query/message/direct/sendMessage");
+const { sendDirectMessage } = require("../../../database/message/direct/sendMessage");
 
 const {
   uploadDirectMediaToMinIO,
-} = require("../../object_storage/uploadFilesToMinIO");
+} = require("../../storage/uploadToMinIO");
 
 exports.sendDirectMessageController = async (req, res) => {
   try {
@@ -45,7 +43,7 @@ exports.sendDirectMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbSendMessage(
+    const response = await sendDirectMessage(
       user,
       receiverUsername,
       message,

@@ -1,10 +1,4 @@
-const {
-    dbCheckIfTargetExist,
-} = require("../../database/query/follow/dbCheckIfTargetExist");
-
-const {
-    dbGetFollowStatus,
-} = require("../../database/query/follow/dbGetFollowStatus");
+const { checkFollowStatus } = require("../../database/follow/checkStatus");
 
 exports.getFollowStatusController = async (req, res) => {
     try {
@@ -18,19 +12,9 @@ exports.getFollowStatusController = async (req, res) => {
             });
         }
 
-        /* ================= CHECK TARGET ================= */
-
-        const targetExists = await dbCheckIfTargetExist(targetUsername);
-
-        if (targetExists?.error) {
-            return res.status(404).json({
-                message: "Target user not found.",
-            });
-        }
-
         /* ================= FOLLOW STATUS ================= */
 
-        const response = await dbGetFollowStatus(req.user, targetUsername);
+        const response = await checkFollowStatus(req.user, targetUsername);
 
         if (response?.status === 500) {
             return res.status(500).json({

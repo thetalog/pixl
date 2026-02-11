@@ -1,10 +1,4 @@
-const {
-    dbCheckIfTargetExist,
-} = require("../../database/query/follow/dbCheckIfTargetExist");
-
-const {
-    dbRemoveFollowing,
-} = require("../../database/query/follow/dbRemoveFollowing");
+const { removeFollowing } = require("../../database/follow/removeFollowing");
 
 exports.removeFollowingController = async (req, res) => {
     try {
@@ -18,19 +12,9 @@ exports.removeFollowingController = async (req, res) => {
             });
         }
 
-        /* ================= CHECK TARGET ================= */
-
-        const targetExists = await dbCheckIfTargetExist(targetUsername);
-
-        if (targetExists?.error) {
-            return res.status(404).json({
-                message: "Target user not found.",
-            });
-        }
-
         /* ================= REMOVE FOLLOWING ================= */
 
-        const response = await dbRemoveFollowing(req.user, targetUsername);
+        const response = await removeFollowing(req.user, targetUsername);
 
         if (response?.status === 500) {
             return res.status(500).json({

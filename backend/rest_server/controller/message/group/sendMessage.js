@@ -1,10 +1,8 @@
-const {
-  dbSendMessage,
-} = require("../../../database/query/message/group/sendMessage");
+const { sendGroupMessage } = require("../../../database/message/group/sendMessage");
 
 const {
   uploadGroupMediaToMinIO,
-} = require("../../object_storage/uploadFilesToMinIO");
+} = require("../../storage/uploadToMinIO");
 
 const generateConversationId = require("../../../utils/generateId");
 
@@ -51,7 +49,7 @@ exports.sendGroupMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbSendMessage(
+    const response = await sendGroupMessage(
       user,
       groupId,
       conversationId,

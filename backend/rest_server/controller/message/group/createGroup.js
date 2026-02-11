@@ -1,10 +1,8 @@
-const {
-  dbCreateGroup,
-} = require("../../../database/query/message/group/createGroup");
+const { createGroup } = require("../../../database/message/group/createGroup");
 
 const {
   uploadGroupDPMediaToMinIO,
-} = require("../../object_storage/uploadFilesToMinIO");
+} = require("../../storage/uploadToMinIO");
 
 const generateGroupIds = require("../../../utils/generateId");
 
@@ -53,7 +51,7 @@ exports.createGroupController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await dbCreateGroup(
+    const response = await createGroup(
       user,
       groupName,
       addedUsernames,

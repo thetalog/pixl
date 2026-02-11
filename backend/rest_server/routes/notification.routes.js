@@ -3,7 +3,7 @@ const express = require("express");
 const {
     sendNotificationController,
     bulkNotificationController,
-} = require("../controller/notification/notifications");
+} = require("../controller/notification/sendNotifications");
 
 const router = express.Router();
 

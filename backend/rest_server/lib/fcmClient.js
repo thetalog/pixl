@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { GoogleAuth } from 'google-auth-library';
+const axios = require('axios');
+const { GoogleAuth } = require('google-auth-library');
 
 /**
  * FCM Client for sending push notifications via Firebase Cloud Messaging HTTP v1 API
@@ -122,7 +122,8 @@ class FCMClient {
 
 // Export singleton instance
 const fcmClient = new FCMClient();
-export default fcmClient;
+// Export singleton instance
+module.exports = fcmClient;
 
 // Export class for testing/custom instances
-export { FCMClient };
+module.exports.FCMClient = FCMClient;
