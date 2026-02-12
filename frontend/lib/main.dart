@@ -24,6 +24,7 @@ import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pixl/core/config/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'features/splash/splash_screen.dart';
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
@@ -76,11 +77,8 @@ void main() async {
     badge: true,
     sound: true,
   );
-  String? token = await secureStorage.read(key: "jwt_token");
-  if (token == null) {
-    logger.e("❌ JWT token not found");
-    return;
-  }
+  await FirebaseMessaging.instance.getToken();
+  final token = await _secureStorage.read(key: 'jwt_token');
 
   deepLinkService.startListening();
   final AppLinks _appLinks = AppLinks();
@@ -192,57 +190,6 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final tokenAsync = ref.watch(tokenProvider);
-    final profileAsync = ref.watch(profileProvider);
-
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      home: Scaffold(
-          appBar: AppBar(
-            title: Row(
-              children: [
-                const Text(
-                  'Pixl',
-                  style: TextStyle(fontFamily: 'Lekerli-one', fontSize: 15),
-                ),
-                Expanded(
-                  child: SizedBox(),
-                  flex: 6,
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: CreateActionDropdown(),
-                  ),
-                  flex: 4,
-                ),
-              ],
-            ),
-            backgroundColor: const Color(0xFF0D1B2A),
-            foregroundColor: Colors.white,
-            toolbarHeight: 30,
-          ),
-          body: PageView(
-            scrollDirection: Axis.horizontal,
-            controller: _pageViewController,
-            children: [
-              Container(
-                child: CreateStory(),
-              ),
-              tokenAsync.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, _) => Center(child: Text("Error: $e")),
-                data: (token) {
-                  if (token != null) {
-                    print("✓ JWT token found: $token");
-                    return const ScreenRouter();
-                  }
-                  print("❌ No JWT token found, showing login");
-                  return const LoginScreen();
-                },
-              ),
-            ],
-          )),
-    );
+    return MaterialApp(navigatorKey: navigatorKey, home: const SplashScreen());
   }
 }
