@@ -5,9 +5,9 @@ const { sendOtpController, verifyOtpController } = require("../controller/auth/o
 const { loginController } = require("../controller/auth/login.js");
 const { signupController } = require("../controller/auth/signup.js");
 
-router.use("/send-otp", sendOtpController);
-router.use("/verify-otp", verifyOtpController);
-router.use("/login", loginController);
-router.use("/signup", signupController);
+router.post("/send-otp", sendOtpController);
+router.post("/verify-otp", verifyOtpController);
+router.post("/auth/login", loginController);
+router.post("/auth/signup", signupController);
 
 module.exports = router;

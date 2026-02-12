@@ -5,8 +5,12 @@ import 'package:pixl/features/stories/create_story.dart';
 import 'package:pixl/features/auth/login.dart';
 import 'package:pixl/core/routes/screen_router.dart';
 import 'package:pixl/state/auth_provider.dart';
-import 'package:pixl/state/mapping_follow_user.dart';
-import './home.dart';
+import 'package:logger/logger.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
+final logger = Logger();
 
 class MyAppHome extends ConsumerStatefulWidget {
   const MyAppHome({super.key});
@@ -17,6 +21,25 @@ class MyAppHome extends ConsumerStatefulWidget {
 
 class _MyAppHomeState extends ConsumerState<MyAppHome> {
   final PageController _pageViewController = PageController(initialPage: 1);
+  bool isLoggedIn = false;
+  Future<void> checkIfLoggedIn() async {
+    String? token = await secureStorage.read(key: "jwt_token");
+    if (token == null || token == "") {
+      setState(() {
+        isLoggedIn = false;
+      });
+    } else {
+      setState(() {
+        isLoggedIn = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfLoggedIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +51,18 @@ class _MyAppHomeState extends ConsumerState<MyAppHome> {
           children: [
             const Text(
               'Pixl',
-              style: TextStyle(fontFamily: 'Lekerli-one', fontSize: 15),
+              style: TextStyle(fontFamily: 'Lekerli-one', fontSize: 18),
             ),
             const Expanded(child: SizedBox(), flex: 6),
-            Expanded(
-              flex: 4,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: CreateActionDropdown(),
-              ),
-            ),
+            isLoggedIn
+                ? Expanded(
+                    flex: 4,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: CreateActionDropdown(),
+                    ),
+                  )
+                : SizedBox.shrink(),
           ],
         ),
         backgroundColor: const Color(0xFF0D1B2A),

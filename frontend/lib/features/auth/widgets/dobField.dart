@@ -32,9 +32,14 @@ class _DobFieldState extends State<DobField> {
     return ElevatedButton(
       onPressed: () => _selectDate(context),
       child: Text(
-        selectedDate == null
-            ? 'Select Date of Birth'
-            : 'DOB: ${selectedDate!.toLocal().toString().split(' ')[0]}',
+        'Select',
+        style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 82, 82, 82)),
+      ),
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(const Color(0xFFF5F5F5)),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
       ),
     );
   }

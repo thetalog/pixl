@@ -15,10 +15,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController =
-      TextEditingController(text: "jessica@example.com");
-  final TextEditingController passwordController =
-      TextEditingController(text: "password123");
+  final TextEditingController emailController = TextEditingController(
+    text: "jessica@example.com",
+  );
+  final TextEditingController passwordController = TextEditingController(
+    text: "password123",
+  );
   final _secureStorage = const FlutterSecureStorage();
   bool isLoading = false;
   bool obscurePassword = true;
@@ -35,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final String password = passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all fields")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
       return;
     }
 
@@ -54,10 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final response = await http.post(
         Uri.parse(Config.buildApiUrl('/auth/login')),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-        }),
+        body: jsonEncode({'email': email, 'password': password}),
       );
 
       setState(() => isLoading = false);
@@ -75,15 +74,13 @@ class _LoginScreenState extends State<LoginScreen> {
         print("✓ JWT Token saved successfully");
         await _secureStorage.write(key: 'profile_username', value: userName);
         print("✓ Username saved successfully");
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Login successful!")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Login successful!")));
 
         if (mounted) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-            ),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
           );
         }
       } else {
@@ -93,16 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
             SnackBar(content: Text(error['message'] ?? 'Login failed')),
           );
         } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${response.body}')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error: ${response.body}')));
         }
       }
     } catch (e) {
       setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 
@@ -131,10 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Welcome back!',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
               ),
               const SizedBox(height: 40),
@@ -177,17 +171,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: isLoading ? null : onLogin,
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      const Color(0xFF3E62FF),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
                   child: isLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Text(
                           "Login",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                 ),
               ),
