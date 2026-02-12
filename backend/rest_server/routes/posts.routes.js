@@ -27,14 +27,15 @@ const { updatePostController } = require("../controller/post/updatePost");
 const router = express.Router();
 
 /* ================= MULTER ================= */
+const storage = multer.memoryStorage();
 
-const storage = multer.diskStorage({
-    destination: (_, __, cb) => cb(null, "uploads/"),
-    filename: (_, file, cb) => {
-        const ext = path.extname(file.originalname);
-        cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
-    },
-});
+// const storage = multer.diskStorage({
+//     destination: (_, __, cb) => cb(null, "uploads/"),
+//     filename: (_, file, cb) => {
+//         const ext = path.extname(file.originalname);
+//         cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
+//     },
+// });
 
 const upload = multer({ storage });
 

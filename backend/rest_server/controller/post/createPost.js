@@ -1,5 +1,5 @@
 const { createPostRecord } = require("../../database/post/createPost");
-const { uploadToMinIO } = require("../storage/uploadToMinIO");
+const { uploadPostOrReelToMinIO } = require("../storage/uploadToMinIO");
 
 /* ================= SAFE PARSE ================= */
 
@@ -55,7 +55,7 @@ exports.createPostController = async (req, res) => {
 
     /* ---------- Upload Media ---------- */
 
-    const uploadResults = await uploadToMinIO(
+    const uploadResults = await uploadPostOrReelToMinIO(
       userId,
       postsCount,
       req.files

@@ -3,6 +3,7 @@ const fs = require("fs");
 const ffmpeg = require('fluent-ffmpeg');
 const path = require("path");
 const { getVideoDurationInSeconds } = require('get-video-duration');
+const os = require("os");
 
 // ✅ Initialize MinIO Client
 const minioClient = new Minio.Client({
@@ -59,7 +60,7 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
   for (let i = 0; i < filesArray.length; i++) {
     const file = filesArray[i];
 
-    if (!file?.path) throw new Error("Invalid file path provided");
+    if (!file?.buffer) throw new Error("Invalid file buffer provided");
     if (!file?.originalname) throw new Error("Invalid file originalname provided");
 
     const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
@@ -68,23 +69,39 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
     let duration = null;
 
     if (file.mimetype.startsWith("video/")) {
-      duration = await getVideoDurationInSeconds(file.path);
+
+      // Create temp video path
+      const tempVideoPath = path.join(
+        os.tmpdir(),
+        `${Date.now()}_${file.originalname}`
+      );
+
+      // Write buffer to temp file
+      fs.writeFileSync(tempVideoPath, file.buffer);
+
+      // Get duration from temp file
+      duration = await getVideoDurationInSeconds(tempVideoPath);
 
       if (duration > 60) {
+        fs.unlinkSync(tempVideoPath);
         return {
           error: true,
           message: "Only media under 60 seconds are allowed.",
           status: 409,
         };
       }
-    } else if (file.mimetype.startsWith("image/")) {
+
+      // Save path for ffmpeg later
+      file._tempVideoPath = tempVideoPath;
+    }
+    else if (file.mimetype.startsWith("image/")) {
       // Instagram-style fixed duration for images
       duration = 5;
     }
 
 
     try {
-      await minioClient.fPutObject(bucketName, objectName, file.path, {
+      await minioClient.putObject(bucketName, objectName, file.buffer, {
         "Content-Type": file.mimetype,
       });
 
@@ -100,7 +117,7 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
         );
 
         await new Promise((resolve, reject) => {
-          ffmpeg(file.path)
+          ffmpeg(file._tempVideoPath)
             .on("end", resolve)
             .on("error", reject)
             .screenshots({
@@ -112,14 +129,18 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
         });
 
         // ✅ NOW the file exists
-        await minioClient.fPutObject(
+        const thumbBuffer = fs.readFileSync(thumbnailPath);
+
+        await minioClient.putObject(
           bucketName,
           ffmpegThumbnailOutput,
-          thumbnailPath,
-          {
-            "Content-Type": "image/jpeg",
-          }
+          thumbBuffer,
+          { "Content-Type": "image/jpeg" }
         );
+        if (file._tempVideoPath && fs.existsSync(file._tempVideoPath)) {
+          fs.unlinkSync(file._tempVideoPath);
+        }
+
       }
       uploadResults.push({ url: fileUrl, mimeType: file?.mimetype.split("/")[0].toUpperCase(), thumbnail: thumbnailFileUrl });
     } catch (err) {
@@ -150,7 +171,7 @@ async function uploadDirectMediaToMinIO(userId, files) {
     const objectName = `${userId}/${Date.now()}_${i}_${safeName}`;
 
     try {
-      await minioClient.fPutObject(bucketName, objectName, file.path, {
+      await minioClient.putObject(bucketName, objectName, file.buffer, {
         "Content-Type": file.mimetype,
       });
 
@@ -185,7 +206,7 @@ async function uploadGroupMediaToMinIO(groupId, conversationId, files) {
     const objectName = `${groupId}/${conversationId}/${Date.now()}_${i}_${safeName}`;
 
     try {
-      await minioClient.fPutObject(bucketName, objectName, file.path, {
+      await minioClient.putObject(bucketName, objectName, file.buffer, {
         "Content-Type": file.mimetype,
       });
 
@@ -210,14 +231,14 @@ async function uploadGroupDPMediaToMinIO(groupId, file) {
 
   await ensureBucketExists(bucketName);
 
-  if (!file?.path) throw new Error("Invalid DP file path");
+  if (!file?.buffer) throw new Error("Invalid DP file path");
   if (!file?.originalname) throw new Error("Invalid DP file originalname");
 
   const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
   const objectName = `${groupId}/${Date.now()}_${safeName}`;
 
   try {
-    await minioClient.fPutObject(bucketName, objectName, file.path, {
+    await minioClient.putObject(bucketName, objectName, file.buffer, {
       "Content-Type": file.mimetype,
     });
 
