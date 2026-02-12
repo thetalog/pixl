@@ -14,7 +14,7 @@ const { getFollowStatusController } = require("../controller/follow/getFollowSta
 
 const router = express.Router();
 router.post("/check-username", checkUsernameExist);
-router.get("/search", searchUserController);
+router.get("/search/get-profile-by-username", searchUserController);
 router.get("/search/all", searchUsersController);
 router.get("/profile", getOwnProfileController);
 router.post("/follow/approve", approveFollowController);

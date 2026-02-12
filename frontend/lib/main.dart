@@ -3,26 +3,29 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:pixl/create_action_dropdown.dart';
-import 'package:pixl/post/create_post.dart';
-import 'package:pixl/profile/view_profile.dart';
-import 'package:pixl/stories/create_story.dart';
-import './providers/auth_provider.dart';
-import './providers/mapping_follow_user.dart';
-import 'screen_router.dart';
-import 'login/login.dart';
-import './routes/deep_link_service.dart';
-import './routes/navigator_key.dart';
+import 'package:pixl/core/widgets/create_action_dropdown.dart';
+import 'package:pixl/features/post/create_post.dart';
+import 'package:pixl/features/profile/view_profile.dart';
+import 'package:pixl/features/stories/create_story.dart';
+import 'state/auth_provider.dart';
+import 'state/mapping_follow_user.dart';
+import 'core/routes/screen_router.dart';
+import 'features/auth/login.dart';
+import 'core/routes/deep_link_service.dart';
+import 'core/routes/navigator_key.dart';
 import 'package:app_links/app_links.dart';
-import 'view_post/view_post.dart';
+import 'features/post/view_post.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'firebase_options.dart';
+import 'core/services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pixl/config.dart';
+import 'package:pixl/core/config/config.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
 const _secureStorage = FlutterSecureStorage();
 final deepLinkService = DeepLinkService();
@@ -73,16 +76,17 @@ void main() async {
     badge: true,
     sound: true,
   );
-  String? token = await FirebaseMessaging.instance.getToken();
-  // logger.i("[DEBUG] FCM TOKEN: $token");
+  String? token = await secureStorage.read(key: "jwt_token");
+  if (token == null) {
+    logger.e("❌ JWT token not found");
+    return;
+  }
 
   deepLinkService.startListening();
   final AppLinks _appLinks = AppLinks();
   Future<dynamic> fetchPost(postId) async {
     final String apiUrl =
         Config.buildApiUrl('/posts/get-single-public-posts?postId=$postId');
-    final String token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ikplc3NpY2ExQGV4YW1wbGUuY29tIiwibmFtZSI6Ikplc3NpY2ExIiwidXNlck5hbWUiOiJKZXNzaWNhMSIsImV4cCI6MTc3MjAzNjA0NCwiaWF0IjoxNzY5NDQ0MDQ0fQ.UkkrVwmSjcVODZFzGWE_CU5__uw-uiVgitv4IWoFAV0";
 
     final res = await http.get(
       Uri.parse(apiUrl),
