@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbGetFollowStatus(user, targetUsername) {
+async function getFollowStatus(user, targetUsername) {
     try {
         if (!user?.id) {
             return { error: true, message: "Unauthorized", status: 401 };
@@ -59,4 +59,4 @@ async function dbGetFollowStatus(user, targetUsername) {
     }
 }
 
-module.exports = { dbGetFollowStatus };
+module.exports = { getFollowStatus };

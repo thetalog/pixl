@@ -14,7 +14,7 @@ async function getUserById(userId) {
 }
 
 
-async function getUserByCreds(email, hashedPassword) {
+async function getUserByEmailAndPassword(email, hashedPassword) {
   try {
     const response = await prisma.user.findFirst({
       where: {
@@ -33,7 +33,7 @@ async function getUserByCreds(email, hashedPassword) {
     return null;
   }
 }
-async function getUserByEmailName(email) {
+async function getUserByEmail(email) {
   const response = await prisma.user.findFirst({
     where: {
       email: email,
@@ -68,4 +68,4 @@ async function updateUser(selector, updateData) {
   }
 }
 
-module.exports = { getUserById, getUserByCreds, getUserByEmailName, updateUser };
+module.exports = { getUserById, getUserByEmailAndPassword, getUserByEmail, updateUser };

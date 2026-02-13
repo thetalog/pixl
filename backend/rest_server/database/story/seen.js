@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbSeenStory(userID, storyID) {
+async function markStoryAsSeen(userID, storyID) {
   const response = await prisma.stories
     .update({
       where: {
@@ -22,4 +22,4 @@ async function dbSeenStory(userID, storyID) {
   return { message: "Story seen.", status: 200 };
 }
 
-module.exports = { dbSeenStory };
+module.exports = { markStoryAsSeen };

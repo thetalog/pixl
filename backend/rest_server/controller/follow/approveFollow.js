@@ -1,4 +1,4 @@
-const { dbApproveIncomingRequest } = require("../../database/follow/approveRequest");
+const { approveFollowRequest } = require("../../database/follow/approveRequest");
 
 exports.approveFollowController = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ exports.approveFollowController = async (req, res) => {
       });
     }
 
-    const response = await dbApproveIncomingRequest(
+    const response = await approveFollowRequest(
       req.user,
       requestId,
       requesterUsername

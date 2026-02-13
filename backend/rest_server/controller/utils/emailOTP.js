@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const {
   createEmailOTP,
-  getUniqueEmailOTP,
+  getEmailOTP,
   updateEmailOTP,
 } = require("../../database/utils/emailOTP");
 const { updateUser } = require("../../database/auth/user");
@@ -51,7 +51,7 @@ async function sendOTP({ name, email }) {
 
 async function verifyOTP({ email, otp }) {
   try {
-    const dbResponse = await getUniqueEmailOTP(email, otp);
+    const dbResponse = await getEmailOTP(email, otp);
     if (!dbResponse) return { message: "Wrong OTP!", status: 400 };
     if (dbResponse.isEmailAlreadyVerified)
       return { message: "Email already verified!", status: 400 };

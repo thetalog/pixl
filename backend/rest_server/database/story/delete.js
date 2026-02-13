@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbDeleteStory(userID, storyID) {
+async function deleteStory(userID, storyID) {
   try {
     const response = await prisma.$transaction([
       prisma.storiesMentions.deleteMany({
@@ -39,4 +39,4 @@ async function dbDeleteStory(userID, storyID) {
   }
 }
 
-module.exports = { dbDeleteStory };
+module.exports = { deleteStory };

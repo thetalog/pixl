@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbEditCaption(postId, newCaption) {
+async function updatePostCaption(postId, newCaption) {
   try {
     const updatePost = await prisma.post.update({
       where: {
@@ -23,4 +23,4 @@ async function dbEditCaption(postId, newCaption) {
   return response;
 }
 
-module.exports = { dbEditCaption };
+module.exports = { updatePostCaption };

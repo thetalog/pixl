@@ -1,4 +1,4 @@
-const { dbFollowRequest } = require("../../database/follow/sendRequest");
+const { sendFollowRequest } = require("../../database/follow/sendRequest");
 
 exports.requestFollowController = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ exports.requestFollowController = async (req, res) => {
       });
     }
 
-    const response = await dbFollowRequest(req.user, targetUsername);
+    const response = await sendFollowRequest(req.user, targetUsername);
 
     if (response?.error) {
       return res.status(response.status || 400).json({

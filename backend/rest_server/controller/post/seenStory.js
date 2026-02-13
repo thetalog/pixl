@@ -1,4 +1,4 @@
-const { markStoryAsSeen } = require("../../database/post/seenStory");
+const { markStoriesAsSeen } = require("../../database/post/seenStory");
 
 /* ================= SEEN STORY ================= */
 
@@ -23,7 +23,7 @@ const seenStoryController = async (req, res) => {
 
         /* ---------- Database ---------- */
 
-        const response = await markStoryAsSeen(
+        const response = await markStoriesAsSeen(
             user.id,
             storyId
         );

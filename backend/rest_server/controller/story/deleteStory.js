@@ -1,8 +1,8 @@
-const { removeStory } = require("../../database/story/delete.js");
+const { deleteStory: deleteStoryFromDb } = require("../../database/story/delete.js");
 
 async function deleteStory(user, storyID) {
   try {
-    const response = await removeStory(user, storyID);
+    const response = await deleteStoryFromDb(user, storyID);
     if (response.status === 500) {
       return { message: "Story deletion failed.", status: 500 };
     }

@@ -1,4 +1,4 @@
-const { findPostsByCategory } = require("../../database/post/getPostsByCategory");
+const { getPostsByCategory } = require("../../database/post/getPostsByCategory");
 const { UICategory } = require("@prisma/client");
 
 /* ================= GET POSTS BY UI CATEGORY ================= */
@@ -25,7 +25,7 @@ const getPostsByUICategoryController = async (req, res) => {
 
         /* ---------- Database ---------- */
 
-        const response = await findPostsByCategory(categoryUpperCase);
+        const response = await getPostsByCategory(categoryUpperCase);
 
         if (response?.status === 500) {
             return res.status(500).json({

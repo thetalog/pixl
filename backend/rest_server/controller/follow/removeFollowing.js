@@ -1,4 +1,4 @@
-const { removeFollowing } = require("../../database/follow/removeFollowing");
+const { unfollowUser } = require("../../database/follow/removeFollowing");
 
 exports.removeFollowingController = async (req, res) => {
     try {
@@ -14,7 +14,7 @@ exports.removeFollowingController = async (req, res) => {
 
         /* ================= REMOVE FOLLOWING ================= */
 
-        const response = await removeFollowing(req.user, targetUsername);
+        const response = await unfollowUser(req.user, targetUsername);
 
         if (response?.status === 500) {
             return res.status(500).json({

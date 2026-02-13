@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbRejectIncomingRequest(user, targetUsername) {
+async function rejectFollowRequest(user, targetUsername) {
     try {
         if (!user?.id) {
             return { error: true, message: "Unauthorized", status: 401 };
@@ -100,11 +100,11 @@ async function dbRejectIncomingRequest(user, targetUsername) {
             status: 200,
         };
     } catch (error) {
-        console.log("dbRejectIncomingRequest error:", error);
+        console.log("rejectFollowRequest error:", error);
         return { error: true, message: "Follow Request Reject failed", status: 500 };
     } finally {
         await prisma.$disconnect();
     }
 }
 
-module.exports = { dbRejectIncomingRequest };
+module.exports = { rejectFollowRequest };

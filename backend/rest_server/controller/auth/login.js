@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const { signJWT } = require("../jwt");
 
 const {
-  getUserByCreds,
+  getUserByEmailAndPassword,
 } = require("../../database/auth/user");
 
 const {
@@ -38,7 +38,7 @@ exports.loginController = async (req, res) => {
 
     /* ================= CHECK USER ================= */
 
-    const dbResponse = await getUserByCreds(
+    const dbResponse = await getUserByEmailAndPassword(
       req.body?.email,
       hashedPassword
     );

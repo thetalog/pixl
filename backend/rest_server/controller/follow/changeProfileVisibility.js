@@ -1,4 +1,4 @@
-const { changeProfileVisibility } = require("../../database/follow/changeVisibility");
+const { toggleProfileVisibility } = require("../../database/follow/changeVisibility");
 
 exports.changeProfileVisibilityController = async (req, res) => {
     try {
@@ -10,7 +10,7 @@ exports.changeProfileVisibilityController = async (req, res) => {
 
         /* ================= DATABASE ================= */
 
-        const response = await changeProfileVisibility(req.user);
+        const response = await toggleProfileVisibility(req.user);
 
         if (response?.status === 500) {
             return res.status(500).json({

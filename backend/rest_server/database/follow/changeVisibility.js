@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbChangeProfileVisibility(user, targetUsername, action) {
+async function toggleProfileVisibility(user, targetUsername, action) {
     var currentVisibility = await prisma.user.findUnique({
         where: {
             id: user?.id
@@ -28,4 +28,4 @@ async function dbChangeProfileVisibility(user, targetUsername, action) {
     return response;
 }
 
-module.exports = { dbChangeProfileVisibility };
+module.exports = { toggleProfileVisibility };

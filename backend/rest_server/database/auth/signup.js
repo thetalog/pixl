@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function signup(data) {
+async function createUserAccount(data) {
   const response = await prisma.user
     .create({
       data: {
@@ -30,4 +30,4 @@ async function signup(data) {
   return response;
 }
 
-module.exports = { signup };
+module.exports = { createUserAccount };

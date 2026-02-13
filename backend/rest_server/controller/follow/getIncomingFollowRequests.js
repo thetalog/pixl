@@ -1,10 +1,10 @@
-const { findIncomingFollowRequests } = require("../../database/follow/getIncomingRequests");
+const { getIncomingFollowRequests } = require("../../database/follow/getIncomingRequests");
 
 exports.getIncomingFollowRequestsController = async (req, res) => {
     try {
         /* ================= DATABASE ================= */
 
-        const response = await findIncomingFollowRequests(req.user);
+        const response = await getIncomingFollowRequests(req.user);
 
         if (response?.status === 500) {
             return res.status(500).json({

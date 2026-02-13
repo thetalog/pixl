@@ -1,4 +1,4 @@
-const { dbGetAllFollowedStories } = require("../../database/post/getFollowedStories");
+const { getFollowedStories } = require("../../database/post/getFollowedStories");
 
 /* ================= GET FOLLOWED STORIES ================= */
 
@@ -12,7 +12,7 @@ exports.getFollowedStoriesController = async (req, res) => {
       });
     }
 
-    const response = await dbGetAllFollowedStories(user);
+    const response = await getFollowedStories(user);
 
     if (response?.status === 500) {
       return res.status(500).json({

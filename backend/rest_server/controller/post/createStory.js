@@ -1,4 +1,4 @@
-const { createStoryRecord } = require("../../database/post/createStory");
+const { createStory } = require("../../database/post/createStory");
 const { uploadToMinIO } = require("../storage/uploadToMinIO");
 
 /* ================= CREATE STORY ================= */
@@ -55,7 +55,7 @@ const createStoryController = async (req, res) => {
 
     /* ---------- Database ---------- */
 
-    const response = await createStoryRecord(
+    const response = await createStory(
       user.id,
       taggedUsers,
       uploadResults

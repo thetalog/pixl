@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbGetAllFollowedStories(user, skip = 0, take = 20) {
+async function getFollowedStories(user, skip = 0, take = 20) {
   try {
     // 1️⃣ Get IDs of followed users
     const followedUsers = await prisma.follow.findMany({
@@ -69,7 +69,7 @@ async function dbGetAllFollowedStories(user, skip = 0, take = 20) {
       data: formattedStories,
     };
   } catch (error) {
-    console.error("Error in dbGetAllFollowedStories:", error);
+    console.error("Error in getFollowedStories:", error);
     return {
       message: "Failed to fetch followed stories",
       status: 500,
@@ -77,4 +77,4 @@ async function dbGetAllFollowedStories(user, skip = 0, take = 20) {
   }
 }
 
-module.exports = { dbGetAllFollowedStories };
+module.exports = { getFollowedStories };

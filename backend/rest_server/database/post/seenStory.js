@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function seenStories(userId, storyId) {
+async function markStoriesAsSeen(userId, storyId) {
     try {
         // 1️⃣ Fetch story owner
         const story = await prisma.stories.findUnique({
@@ -58,4 +58,4 @@ async function seenStories(userId, storyId) {
     }
 }
 
-module.exports = { seenStories };
+module.exports = { markStoriesAsSeen };

@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbReelComment(user, reelId, commentText) {
+async function addReelComment(user, reelId, commentText) {
     try {
         console.log(reelId)
         const isReelExist = await prisma.reels.findUnique({
@@ -36,4 +36,4 @@ async function dbReelComment(user, reelId, commentText) {
     }
 }
 
-module.exports = { dbReelComment };
+module.exports = { addReelComment };

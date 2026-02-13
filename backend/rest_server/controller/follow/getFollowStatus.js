@@ -1,4 +1,4 @@
-const { checkFollowStatus } = require("../../database/follow/checkStatus");
+const { getFollowStatus } = require("../../database/follow/checkStatus");
 
 exports.getFollowStatusController = async (req, res) => {
     try {
@@ -14,7 +14,7 @@ exports.getFollowStatusController = async (req, res) => {
 
         /* ================= FOLLOW STATUS ================= */
 
-        const response = await checkFollowStatus(req.user, targetUsername);
+        const response = await getFollowStatus(req.user, targetUsername);
 
         if (response?.status === 500) {
             return res.status(500).json({

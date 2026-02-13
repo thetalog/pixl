@@ -1,7 +1,7 @@
 const { PrismaClient, ProfileVisibility } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function DbGetAllPostsByUICategory(uiCategory) {
+async function getPostsByCategory(uiCategory) {
     try {
         const response = await prisma.post.findMany({
             where: {
@@ -22,4 +22,4 @@ async function DbGetAllPostsByUICategory(uiCategory) {
     }
 }
 
-module.exports = { DbGetAllPostsByUICategory };
+module.exports = { getPostsByCategory };

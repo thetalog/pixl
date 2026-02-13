@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbUploadStory(userId, mediaURL, mentionIDs) {
+async function createStory(userId, mediaURL, mentionIDs) {
   const response = await prisma.stories
     .create({
       data: {
@@ -21,4 +21,4 @@ async function dbUploadStory(userId, mediaURL, mentionIDs) {
   return response;
 }
 
-module.exports = { dbUploadStory };
+module.exports = { createStory };

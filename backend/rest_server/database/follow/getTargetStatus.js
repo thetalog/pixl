@@ -1,7 +1,7 @@
 const { PrismaClient, ProfileVisibility } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbCheckAccountPrivacyStatus(targetUsername) {
+async function checkUserPrivacyStatus(targetUsername) {
   return await prisma.user
     .findUnique({
       where: {
@@ -9,8 +9,8 @@ async function dbCheckAccountPrivacyStatus(targetUsername) {
       }
     })
     .then(async (response) => {
-      if(response === null){
-      return { error: "Target User Not Found", status: 404 };
+      if (response === null) {
+        return { error: "Target User Not Found", status: 404 };
       }
       response?.profileVisibility === ProfileVisibility.PRIVATE ? true : false;
       return response;
@@ -18,9 +18,9 @@ async function dbCheckAccountPrivacyStatus(targetUsername) {
     .catch((error) => {
       return { message: "Something went wrong", status: 500 };
     }).
-    finally(async()=>{
+    finally(async () => {
       await prisma.$disconnect();
     });
 }
 
-module.exports = { dbCheckAccountPrivacyStatus };
+module.exports = { checkUserPrivacyStatus };

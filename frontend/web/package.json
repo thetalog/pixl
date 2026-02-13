@@ -1,0 +1,35 @@
+{
+  "name": "pixl-web",
+  "version": "1.0.0",
+  "description": "Pixl Web Application - NUXT.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@vueuse/core": "^10.9.0",
+    "nuxt": "^3.10.1",
+    "pinia": "^3.0.4",
+    "vue": "^3.4.19",
+    "vue-router": "^4.3.2",
+    "axios": "^1.6.5",
+    "socket.io-client": "^4.7.2",
+    "firebase": "^10.8.0",
+    "tailwindcss": "^3.4.1",
+    "daisyui": "^4.6.1"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.8",
+    "@pinia/nuxt": "^0.11.3",
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "typescript": "^5.3.3",
+    "vue-tsc": "^1.8.22"
+  }
+}

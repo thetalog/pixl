@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbCreateStories(
+async function createStory(
   userId,
   taggedUsers = [],
   files = []
@@ -47,4 +47,4 @@ async function dbCreateStories(
   }
 }
 
-module.exports = { dbCreateStories };
+module.exports = { createStory };

@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { signup } = require("../../database/auth/signup");
+const { createUserAccount } = require("../../database/auth/signup");
 const { signupSchema } = require("./validator");
 
 exports.signupController = async (req, res) => {
@@ -52,7 +52,7 @@ exports.signupController = async (req, res) => {
 
     /* ================= DATABASE CALL ================= */
 
-    const response = await signup({
+    const response = await createUserAccount({
       email,
       name,
       userName,

@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbReactStory(userID, storyID) {
+async function addStoryReaction(userID, storyID) {
   try {
     await prisma.stories.update({
       where: {
@@ -23,4 +23,4 @@ async function dbReactStory(userID, storyID) {
   }
 }
 
-module.exports = { dbReactStory };
+module.exports = { addStoryReaction };

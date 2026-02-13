@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbRemoveFollowing(user, targetUsername) {
+async function unfollowUser(user, targetUsername) {
     try {
         if (!user?.id) {
             return { error: true, message: "Unauthorized", status: 401 };
@@ -49,4 +49,4 @@ async function dbRemoveFollowing(user, targetUsername) {
     }
 }
 
-module.exports = { dbRemoveFollowing };
+module.exports = { unfollowUser };

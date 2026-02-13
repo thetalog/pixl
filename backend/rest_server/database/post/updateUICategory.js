@@ -1,7 +1,7 @@
 const { PrismaClient, UICategory } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbUICategory(postId, uiCategory) {
+async function updatePostCategory(postId, uiCategory) {
     try {
         const post = await prisma.post.findUnique({
             where: { id: postId },
@@ -33,4 +33,4 @@ async function dbUICategory(postId, uiCategory) {
     }
 }
 
-module.exports = { dbUICategory };
+module.exports = { updatePostCategory };

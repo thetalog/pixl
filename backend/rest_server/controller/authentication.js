@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { getUserByEmailName } = require("../database/auth/user");
+const { getUserByEmail } = require("../database/auth/user");
 
 async function authenticationController(authorizationToken) {
   try {
@@ -32,7 +32,7 @@ async function authenticationController(authorizationToken) {
       return { error: true, status: 401, message: "Invalid token payload!" };
     }
 
-    const userResponse = await getUserByEmailName(
+    const userResponse = await getUserByEmail(
       decoded.email,
       decoded.name
     );

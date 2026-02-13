@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbApproveIncomingRequest(user, requestId, requesterUsername) {
+async function approveFollowRequest(user, requestId, requesterUsername) {
     try {
         if (!user?.id) {
             return { error: true, message: "Unauthorized", status: 401 };
@@ -64,7 +64,7 @@ async function dbApproveIncomingRequest(user, requestId, requesterUsername) {
         };
 
     } catch (error) {
-        console.log("dbApproveIncomingRequest error:", error);
+        console.log("approveFollowRequest error:", error);
 
         if (error?.code === "P2002") {
             return { error: true, message: "Already following!", status: 409 };
@@ -74,4 +74,4 @@ async function dbApproveIncomingRequest(user, requestId, requesterUsername) {
     }
 }
 
-module.exports = { dbApproveIncomingRequest };
+module.exports = { approveFollowRequest };

@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus, ProfileVisibility } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbFollowRequest(user, targetUsername) {
+async function sendFollowRequest(user, targetUsername) {
   try {
     if (!user?.id) {
       return { error: true, message: "Unauthorized", status: 401 };
@@ -87,11 +87,11 @@ async function dbFollowRequest(user, targetUsername) {
 
     return { error: false, message: "Follow request sent", status: 201 };
   } catch (error) {
-    console.log("dbFollowRequest error:", error);
+    console.log("sendFollowRequest error:", error);
     return { error: true, message: "Follow request failed", status: 500 };
   } finally {
     await prisma.$disconnect();
   }
 }
 
-module.exports = { dbFollowRequest };
+module.exports = { sendFollowRequest };

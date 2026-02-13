@@ -27,7 +27,7 @@ async function createEmailOTP(name, email, otp) {
     return false;
   }
 }
-async function getUniqueEmailOTP(email, otp) {
+async function getEmailOTP(email, otp) {
   try {
     const isUserFound = await prisma.user
       .findUnique({
@@ -46,11 +46,11 @@ async function getUniqueEmailOTP(email, otp) {
       .then((data) => {
         return data
           ? {
-              ...data,
-              isEmailAlreadyVerified: isUserFound.isEmailVerified,
-              name: isUserFound?.name,
-              email: isUserFound?.email,
-            }
+            ...data,
+            isEmailAlreadyVerified: isUserFound.isEmailVerified,
+            name: isUserFound?.name,
+            email: isUserFound?.email,
+          }
           : false;
       });
   } catch (error) {
@@ -86,4 +86,4 @@ async function updateEmailOTP(emailOTPID, email, otp, emailVerifiedAt) {
     return false;
   }
 }
-module.exports = { createEmailOTP, getUniqueEmailOTP, updateEmailOTP };
+module.exports = { createEmailOTP, getEmailOTP, updateEmailOTP };

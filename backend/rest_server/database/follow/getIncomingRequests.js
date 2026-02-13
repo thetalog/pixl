@@ -1,7 +1,7 @@
 const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function dbGetAllIncomingRequest(user) {
+async function getIncomingFollowRequests(user) {
     const response = await prisma.followRequest
         .findMany({
             where: {
@@ -23,4 +23,4 @@ async function dbGetAllIncomingRequest(user) {
     return response;
 }
 
-module.exports = { dbGetAllIncomingRequest };
+module.exports = { getIncomingFollowRequests };
