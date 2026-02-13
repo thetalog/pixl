@@ -5,6 +5,7 @@ import "comments/show_all_comments.dart";
 import 'package:pixl/core/config/config.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 final logger = Logger();
 
@@ -227,12 +228,14 @@ class _ViewFollowedPublicPostsState extends State<ViewFollowedPublicPosts> {
                             }
                           });
                         },
-                        child: Image.asset(
+                        child: SvgPicture.asset(
                           liked
-                              ? "assets/icons/HeartLiked.png"
-                              : "assets/icons/HeartUnliked.png",
+                              ? "assets/icons/HeartLiked.svg"
+                              : "assets/icons/HeartUnliked.svg",
                           width: 20,
                           height: 20,
+                          colorFilter:
+                              ColorFilter.mode(Colors.white, BlendMode.srcIn),
                         ),
                       ),
                     ],

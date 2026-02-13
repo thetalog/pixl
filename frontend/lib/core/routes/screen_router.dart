@@ -56,17 +56,19 @@ class _ScreenRouter extends ConsumerState<ScreenRouter> {
                   ? HomeScreen()
                   : currentTab.name == 'reel'
                       ? ShowReel()
-                      : currentTab.name == 'profile'
-                          ? ViewProfile(
-                              userName: ownUserName,
-                              isUpdateEnable: true,
-                            )
-                          : Text('Current Tab: ${currentTab.name}'),
+                      : currentTab.name == 'location'
+                          ? Text("Feature incoming")
+                          : currentTab.name == 'profile'
+                              ? ViewProfile(
+                                  userName: ownUserName,
+                                  isUpdateEnable: true,
+                                )
+                              : Text('Current Tab: ${currentTab.name}'),
         ],
       ),
 
       bottomNavigationBar: BottomAppBar(
-        height: 55,
+        height: 45,
         color: const Color(0xFF1B263B),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -104,16 +106,20 @@ class _ScreenRouter extends ConsumerState<ScreenRouter> {
   }) {
     final bool isActive = currentTab == tab;
 
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          currentTab = tab; // ✅ store current page in enum
-        });
-      },
-      icon: Icon(
-        icon,
-        color: isActive ? Colors.white : Colors.grey,
-        size: 28,
+    return Center(
+      child: IconButton(
+        padding: EdgeInsets.zero, // 🔥 removes extra space
+        constraints: const BoxConstraints(), // 🔥 removes min size
+        onPressed: () {
+          setState(() {
+            currentTab = tab;
+          });
+        },
+        icon: Icon(
+          icon,
+          color: isActive ? Colors.white : Colors.grey,
+          size: 24,
+        ),
       ),
     );
   }

@@ -45,8 +45,8 @@ dependencies:
   flutter_native_splash: ^2.4.7
 flutter:
   assets:
-    - assets/icons/HeartUnliked.png
-    - assets/icons/HeartLiked.png
+    - assets/icons/HeartUnliked.svg
+    - assets/icons/HeartLiked.svg
     - assets/icons/Icon.png
     - assets/images/fallback.png
     - .env

@@ -142,8 +142,8 @@ class ReelScreenState extends State<ReelScreen> {
               child: Image(
                 height: 30,
                 image: _isLiked
-                    ? AssetImage("assets/icons/HeartLiked.png")
-                    : AssetImage("assets/icons/HeartUnliked.png"),
+                    ? AssetImage("assets/icons/HeartLiked.svg")
+                    : AssetImage("assets/icons/HeartUnliked.svg"),
                 color: Colors.white,
               ),
             ),

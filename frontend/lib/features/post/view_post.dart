@@ -107,7 +107,6 @@ class _ViewPostState extends State<ViewPost> {
   @override
   Widget build(BuildContext context) {
     final comments = widget.post?["comments"] ?? [];
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('View Post'),
@@ -201,12 +200,14 @@ class _ViewPostState extends State<ViewPost> {
                               isLiked = !isLiked;
                             });
                           },
-                          child: Image.asset(
+                          child: SvgPicture.asset(
                               isLiked
-                                  ? "assets/icons/HeartLiked.png"
-                                  : "assets/icons/HeartUnliked.png",
+                                  ? "assets/icons/HeartLiked.svg"
+                                  : "assets/icons/HeartUnliked.svg",
                               width: 20,
-                              height: 20),
+                              height: 20,
+                              colorFilter: ColorFilter.mode(
+                                  Colors.white, BlendMode.srcIn)),
                         )
                       ],
                     ),

@@ -1,10 +1,8 @@
-const { approveFollowRequest } = require("../../database/follow/approveRequest");
+const { dbApproveIncomingRequest } = require("../../database/follow/approveRequest");
 
 exports.approveFollowController = async (req, res) => {
   try {
     const { requestId, requesterUsername } = req.body;
-
-    /* ================= VALIDATION ================= */
 
     if (!requestId || !requesterUsername) {
       return res.status(400).json({
@@ -12,24 +10,20 @@ exports.approveFollowController = async (req, res) => {
       });
     }
 
-    /* ================= DATABASE ================= */
-
-    const response = await approveFollowRequest(
+    const response = await dbApproveIncomingRequest(
       req.user,
       requestId,
       requesterUsername
     );
 
-    if (response?.status === 500) {
-      return res.status(500).json({
-        message: "Follow approval failed.",
+    if (response?.error) {
+      return res.status(response.status || 400).json({
+        message: response.message,
       });
     }
 
-    /* ================= RESPONSE ================= */
-
     return res.status(200).json({
-      message: "Follow approved successfully.",
+      message: response.message,
     });
 
   } catch (error) {

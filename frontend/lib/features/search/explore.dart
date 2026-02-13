@@ -27,7 +27,7 @@ class ExplorePage extends StatefulWidget {
 class _ExplorePageState extends State<ExplorePage>
     with SingleTickerProviderStateMixin {
   final List<String> categories = const [
-    "ALL",
+    "All",
     "IGTV",
     "Shop",
     "Style",
@@ -71,7 +71,7 @@ class _ExplorePageState extends State<ExplorePage>
 
   Future<List<Map<String, dynamic>>> fetchImagesByCategories(
       String category) async {
-    if (category == "ALL") return [{}];
+    if (category == "All") return [{}];
     final String apiUrl = Config.buildApiUrl(
         '/posts/get-all-public-posts-by-ui-category?category=$category');
     String? token = await secureStorage.read(key: "jwt_token");

@@ -1,8 +1,19 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:logger/logger.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import '../stories/widgets/story_bar.dart';
 import '../../state/stories_provider.dart';
 import '../../state/posts_provider.dart';
+import '../post/comments/show_all_comments.dart';
+import 'package:pixl/core/config/config.dart';
+
+final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+final logger = Logger();
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,16 +23,83 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final Set<String> likedPosts = {};
   final Set<int> _expandedTaggedUsers = {};
 
-  void _toggleTaggedUsers(int postIndex) {
+  void _toggleTaggedUsers(int index) {
     setState(() {
-      if (_expandedTaggedUsers.contains(postIndex)) {
-        _expandedTaggedUsers.remove(postIndex);
+      if (_expandedTaggedUsers.contains(index)) {
+        _expandedTaggedUsers.remove(index);
       } else {
-        _expandedTaggedUsers.add(postIndex);
+        _expandedTaggedUsers.add(index);
       }
     });
+  }
+
+  /// ❤️ Like / Unlike
+  Future<void> _toggleLike(Map<String, dynamic> post) async {
+    final postId = post["id"];
+    final token = await secureStorage.read(key: "jwt_token");
+
+    final res = await http.patch(
+      Uri.parse(Config.buildApiUrl('/posts/like-or-unlike/$postId')),
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    final decoded = jsonDecode(res.body);
+
+    setState(() {
+      if (decoded["message"] == "Liked") {
+        likedPosts.add(postId);
+      } else {
+        likedPosts.remove(postId);
+      }
+    });
+  }
+
+  /// 🔘 Action Row
+  Widget postActions(Map<String, dynamic> post) {
+    final comments = post["comments"] as List? ?? [];
+    final liked = likedPosts.contains(post["id"]);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ShowAllComments(post: post),
+                ),
+              );
+            },
+            child: const Icon(Icons.comment, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            comments.length.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          const SizedBox(width: 12),
+          const Icon(Icons.share, color: Colors.white, size: 20),
+          const Spacer(),
+          GestureDetector(
+            onTap: () => _toggleLike(post),
+            child: SvgPicture.asset(
+              liked
+                  ? "assets/icons/HeartLiked.svg"
+                  : "assets/icons/HeartUnliked.svg",
+              width: 20,
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -34,233 +112,144 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // 🔴⚪ STORIES BAR SECTION
+            // STORIES BAR
             SizedBox(
               height: 50,
               child: storiesAsync.when(
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (err, _) => Center(
-                  child: Text(
-                    err.toString(),
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
-                  ),
-                ),
-                data: (stories) {
-                  if (stories.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No stories',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    );
-                  }
-                  return StoriesBar(allStories: stories);
-                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(
+                    child: Text(e.toString(),
+                        style: const TextStyle(color: Colors.white))),
+                data: (stories) => StoriesBar(allStories: stories),
               ),
             ),
 
-            // 🔹 FEED POSTS SECTION
+            // POSTS FEED
             Expanded(
               child: postsAsync.when(
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (err, _) => Center(
-                  child: Text(
-                    err.toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                data: (posts) {
-                  if (posts.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No posts from followed users',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    );
-                  }
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(
+                    child: Text(e.toString(),
+                        style: const TextStyle(color: Colors.white))),
+                data: (posts) => ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index];
+                    final expanded = _expandedTaggedUsers.contains(index);
 
-                  return ListView.builder(
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      final post = posts[index];
-                      final isExpanded = _expandedTaggedUsers.contains(index);
-                      return Card(
-                        color: Colors.grey[900],
-                        margin: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // User info
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundImage:
-                                        post['user']['profilePic'] != null
-                                            ? NetworkImage(
-                                                post['user']['profilePic'])
-                                            : null,
-                                    child: post['user']['profilePic'] == null
-                                        ? const Icon(Icons.person)
-                                        : null,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        post['user']['userName'] ?? 'Unknown',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        post['location'] ?? '',
-                                        style: const TextStyle(
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                    final taggedUsers = post['taggedUsers'] as List? ?? [];
+                    final media = post['media'] as List? ?? [];
+
+                    return Card(
+                      color: Colors.grey[900],
+                      margin: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // USER HEADER
+                          ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  post['user']['profilePic'] != null
+                                      ? NetworkImage(post['user']['profilePic'])
+                                      : null,
+                              child: post['user']['profilePic'] == null
+                                  ? const Icon(Icons.person)
+                                  : null,
                             ),
+                            title: Text(post['user']['userName'],
+                                style: const TextStyle(color: Colors.white)),
+                            subtitle: Text(post['location'] ?? '',
+                                style: const TextStyle(color: Colors.white70)),
+                          ),
+
+                          // IMAGE + TAGS
+                          if (media.isNotEmpty)
                             Stack(
                               children: [
-                                // Post image
-                                if (post['media'] != null &&
-                                    (post['media'] as List).isNotEmpty)
-                                  Image.network(
-                                    post['media'][0]['url'],
-                                    height: 300,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                // Tagged users toggle button
-                                if (post['taggedUsers'] != null &&
-                                    (post['taggedUsers'] as List).isNotEmpty)
+                                Image.network(
+                                  media[0]['url'],
+                                  height: 300,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+
+                                // TAG COUNT BUTTON
+                                if (taggedUsers.isNotEmpty)
                                   Positioned(
                                     top: 10,
                                     right: 10,
                                     child: GestureDetector(
                                       onTap: () => _toggleTaggedUsers(index),
                                       child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        decoration: BoxDecoration(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.blue.withOpacity(0.8),
-                                          border: Border.all(
-                                            color: Colors.white,
-                                            width: 2,
-                                          ),
+                                          color: Colors.blue,
                                         ),
                                         child: Center(
                                           child: Text(
-                                            (post['taggedUsers'] as List)
-                                                .length
-                                                .toString(),
+                                            taggedUsers.length.toString(),
                                             style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
+                                                color: Colors.white),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                // Expanded tagged users list
-                                if (isExpanded &&
-                                    post['taggedUsers'] != null &&
-                                    (post['taggedUsers'] as List).isNotEmpty)
+
+                                // TAGGED USERS LIST
+                                if (expanded && taggedUsers.isNotEmpty)
                                   Positioned(
-                                    top: 60,
+                                    top: 55,
                                     right: 10,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
-                                      children: (post['taggedUsers']
-                                              as List<dynamic>)
-                                          .map((user) => Container(
-                                                margin: const EdgeInsets.only(
-                                                    bottom: 5),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8,
-                                                        vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black
-                                                      .withOpacity(0.7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  border: Border.all(
+                                      children: taggedUsers
+                                          .map(
+                                            (u) => Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 6),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(.75),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                              child: Text(
+                                                u.toString(),
+                                                style: const TextStyle(
                                                     color: Colors.white,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                child: Text(
-                                                  user ?? 'Unknown',
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ))
+                                                    fontSize: 12),
+                                              ),
+                                            ),
+                                          )
                                           .toList(),
                                     ),
                                   ),
                               ],
                             ),
-                            // Caption
-                            if (post['caption'] != null &&
-                                post['caption'].isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  post['caption'],
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            // Tags
-                            if (post['userTags'] != null &&
-                                (post['userTags'] as List).isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                child: Wrap(
-                                  spacing: 8,
-                                  children: (post['userTags'] as List<dynamic>)
-                                      .map((tag) => Text(
-                                            '#$tag',
-                                            style: const TextStyle(
-                                              color: Colors.blue,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ))
-                                      .toList(),
-                                ),
-                              ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
+
+                          // CAPTION
+                          if (post['caption'] != null)
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(post['caption'],
+                                  style: const TextStyle(color: Colors.white)),
+                            ),
+
+                          postActions(post),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],
