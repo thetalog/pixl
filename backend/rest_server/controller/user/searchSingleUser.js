@@ -1,4 +1,4 @@
-const { findUserByUsername } = require("../../database/user/search");
+const { getUserByUsername } = require("../../database/user/search");
 
 exports.searchUserController = async (req, res) => {
     try {
@@ -14,7 +14,7 @@ exports.searchUserController = async (req, res) => {
 
         /* ================= DATABASE ================= */
 
-        const user = await findUserByUsername(req?.user, query);
+        const user = await getUserByUsername(req?.user, query);
 
         if (!user) {
             return res.status(200).json({});

@@ -1,17 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:pixl/features/post/tag_user.dart';
 import 'package:pixl/core/config/config.dart';
 import 'package:logger/logger.dart';
 
 final logger = Logger();
-
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
 class CreatePost extends StatefulWidget {
@@ -23,226 +20,236 @@ class CreatePost extends StatefulWidget {
 
 class _CreatePostState extends State<CreatePost> {
   final ImagePicker _picker = ImagePicker();
-  XFile? _selectedImage;
+
+  List<XFile> _selectedImages = [];
+
   final TextEditingController _captionController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _tagsController = TextEditingController();
+
   List<String> _taggedUsers = [];
 
+  /// 📸 Pick multiple images (max 5)
   Future<void> pickImage() async {
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      final images = await _picker.pickMultiImage();
 
-      if (image != null) {
+      if (images.isNotEmpty) {
+        if (images.length > 5) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Maximum 5 images allowed")),
+          );
+          return;
+        }
+
         setState(() {
-          _selectedImage = image;
+          _selectedImages = images;
         });
-        print("Picked Image: ${image.path}");
-      } else {
-        print("Canceled");
       }
     } catch (e) {
-      print("Image Picker Error: $e");
+      logger.e("Picker error: $e");
     }
   }
 
+  /// 🚀 Submit post
   Future<void> postButtonListener() async {
-    if (_selectedImage == null) return;
+    if (_selectedImages.isEmpty) return;
 
     final request = http.MultipartRequest(
       "POST",
       Uri.parse(Config.buildApiUrl('/posts/create-post')),
     );
-    String? token = await secureStorage.read(key: "jwt_token");
+
+    final token = await secureStorage.read(key: "jwt_token");
     if (token == null) {
-      logger.e("❌ JWT token not found");
+      logger.e("JWT token missing");
       return;
     }
-    request.headers["Authorization"] = "Bearer $token"; // keep token here
 
-    // Add form fields
+    request.headers["Authorization"] = "Bearer $token";
+
     request.fields["caption"] = _captionController.text;
     request.fields["location"] = _locationController.text;
 
-    // Parse tags from comma-separated string
-    final List<String> tags = _tagsController.text
+    final tags = _tagsController.text
         .split(',')
-        .map((tag) => tag.trim())
-        .where((tag) => tag.isNotEmpty)
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
         .toList();
-    request.fields["tags"] = jsonEncode(tags);
 
-    // Send tagged usernames
+    request.fields["tags"] = jsonEncode(tags);
     request.fields["taggedUsers"] = jsonEncode(_taggedUsers);
 
-    // send the image file
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        "file", // must match backend field name
-        _selectedImage!.path,
-      ),
+    logger.i(
+      'Uploading ${_selectedImages.length} image(s) to ${request.url} as field "file"',
     );
 
-    final streamedRes = await request.send();
-    final res = await http.Response.fromStream(streamedRes);
+    /// Upload ALL images
+    for (final image in _selectedImages) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          "file",
+          image.path,
+        ),
+      );
+    }
 
-    print("Response: ${res.statusCode}");
-    print(jsonDecode(res.body));
+    final streamed = await request.send();
+    final response = await http.Response.fromStream(streamed);
+
+    logger.i("Response: ${response.statusCode}");
+    logger.i(response.body);
+
+    if (!mounted) return;
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Upload failed")),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Row(
+      appBar: AppBar(
+        title: Row(
           children: [
-            const Expanded(flex: 2, child: Text("Create Post")),
+            const Expanded(child: Text("Create Post")),
             SizedBox(
               width: 40,
               height: 40,
               child: ElevatedButton(
                 onPressed: pickImage,
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.zero, // 🔥 removes default padding
+                  padding: EdgeInsets.zero,
+                  backgroundColor: const Color(0xFF4F7CAC),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  backgroundColor: const Color(0xFF4F7CAC),
                 ),
-                child: const Center(
-                  child: Text(
-                    "+",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                child: const Icon(Icons.add, color: Colors.white),
               ),
             )
           ],
-        )),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      (_selectedImage != null)
-                          ? ElevatedButton(
-                              onPressed: postButtonListener,
-                              child: Text("POST",
-                                  style: TextStyle(color: Colors.white)),
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all(
-                                    const Color(0xFF3E62FF)),
-                                shape: WidgetStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Container(),
-                      SizedBox(width: 10),
-                      if (_selectedImage != null)
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Cancel",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.all(const Color(0xF4F7CAC)),
-                            shape: WidgetStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                  if (_selectedImage != null)
-                    Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.file(
-                            File(_selectedImage!.path),
-                            height: 250,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                            padding: EdgeInsetsGeometry.all(4),
-                            child: TextField(
-                              controller: _captionController,
-                              maxLines: 3,
-                              decoration: InputDecoration(
-                                labelText: 'Caption',
-                                hint: Text("Write a caption..."),
-                                prefixIcon: const Icon(Icons.comment),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            )),
-                        Padding(
-                          padding: EdgeInsetsGeometry.all(4),
-                          child: TextField(
-                            controller: _locationController,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              labelText: 'Location',
-                              hint: Text("Location (optional)"),
-                              prefixIcon: const Icon(Icons.location_on),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              if (_selectedImages.isNotEmpty)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: postButtonListener,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF3E62FF),
+                      ),
+                      child: const Text("POST",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text("Cancel"),
+                    ),
+                  ],
+                ),
+              const SizedBox(height: 10),
+              if (_selectedImages.isNotEmpty)
+                Column(
+                  children: [
+                    /// Image preview
+                    SizedBox(
+                      height: 250,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _selectedImages.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                File(_selectedImages[index].path),
+                                width: 200,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
+                          );
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+                    Text("${_selectedImages.length}/5 selected"),
+
+                    const SizedBox(height: 16),
+
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: TextField(
+                        controller: _captionController,
+                        maxLines: 3,
+                        decoration: const InputDecoration(
+                          labelText: 'Caption',
+                          prefixIcon: Icon(Icons.comment),
+                          border: OutlineInputBorder(),
                         ),
-                        Padding(
-                          padding: EdgeInsetsGeometry.all(4),
-                          child: TextField(
-                            controller: _tagsController,
-                            decoration: InputDecoration(
-                              labelText: 'Tags',
-                              hint: Text("Tags (comma separated)"),
-                              prefixIcon: const Icon(Icons.tag),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            maxLines: 1,
-                          ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: TextField(
+                        controller: _locationController,
+                        decoration: const InputDecoration(
+                          labelText: 'Location',
+                          prefixIcon: Icon(Icons.location_on),
+                          border: OutlineInputBorder(),
                         ),
-                        Padding(
-                          padding: EdgeInsetsGeometry.all(4),
-                          child: TagUser(onUsersSelected: (users) {
-                            setState(() {
-                              _taggedUsers = users;
-                            });
-                          }),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: TextField(
+                        controller: _tagsController,
+                        decoration: const InputDecoration(
+                          labelText: 'Tags (comma separated)',
+                          prefixIcon: Icon(Icons.tag),
+                          border: OutlineInputBorder(),
                         ),
-                      ],
-                    )
-                  else
-                    const Text("No image selected"),
-                ],
-              ),
-            ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: TagUser(
+                        onUsersSelected: (users) {
+                          setState(() {
+                            _taggedUsers = users;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              else
+                const Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Text("No image selected"),
+                ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

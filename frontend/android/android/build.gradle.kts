@@ -28,6 +28,23 @@ rootProject.layout.buildDirectory.set(newBuildDir)
 subprojects {
     val newSubprojectBuildDir = newBuildDir.dir(project.name)
     project.layout.buildDirectory.set(newSubprojectBuildDir)
+
+    // Configure Android settings for all subprojects (including Flutter plugins)
+    // without using afterEvaluate (can fail if project is already evaluated).
+    plugins.withId("com.android.application") {
+        extensions.configure<com.android.build.gradle.BaseExtension> {
+            compileSdkVersion(36)
+        }
+    }
+
+    plugins.withId("com.android.library") {
+        extensions.configure<com.android.build.gradle.BaseExtension> {
+            compileSdkVersion(36)
+        }
+    }
+}
+
+subprojects {
     project.evaluationDependsOn(":app")
 }
 

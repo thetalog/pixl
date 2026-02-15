@@ -50,3 +50,19 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+/* ================= ERROR HANDLER ================= */
+
+// Make multer errors readable in clients (Flutter/Postman)
+app.use((err, req, res, next) => {
+  if (err && (err.name === "MulterError" || err.code === "LIMIT_UNEXPECTED_FILE")) {
+    return res.status(400).json({
+      error: true,
+      message: err.message || "Upload error",
+      code: err.code,
+      field: err.field,
+    });
+  }
+
+  return next(err);
+});

@@ -32,7 +32,7 @@ class _TagUserState extends State<TagUser> {
       }
       final response = await http.get(
         Uri.parse(Config.buildApiUrl(
-            '/users/search?username=${searchController.text}')),
+            '/users/search/all?username=${searchController.text}')),
         headers: {
           "Authorization": "Bearer $token",
         },
