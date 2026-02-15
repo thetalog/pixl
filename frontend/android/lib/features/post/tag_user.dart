@@ -106,9 +106,13 @@ class _TagUserState extends State<TagUser> {
         TextField(
           controller: searchController,
           onChanged: searchUser,
-          decoration: const InputDecoration(
-            hintText: "Search username",
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: 'UserTags',
+            hint: Text("Search username"),
+            prefixIcon: const Icon(Icons.supervised_user_circle_rounded),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         ),
 

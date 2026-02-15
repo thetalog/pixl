@@ -47,8 +47,6 @@ class _FeedState extends ConsumerState<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    logger.i("debug1");
-
     final stories = ref.watch(storiesProvider);
     final posts = ref.watch(postsProvider);
 
@@ -62,28 +60,33 @@ class _FeedState extends ConsumerState<Feed> {
             data: (data) => StoriesBar(allStories: data),
           ),
         ),
+        Divider(color: Colors.grey),
         Expanded(
           child: posts.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Text(e.toString()),
-            data: (list) => ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (_, i) {
-                final post = list[i];
-                return ListTile(
-                  title: Text(
-                    post["caption"] ?? "",
-                    style: const TextStyle(color: Colors.white),
+            data: (list) => list.length == 0
+                ? Center(
+                    child: Text("No posts available",
+                        style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0))))
+                : ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (_, i) {
+                      final post = list[i];
+                      return ListTile(
+                        title: Text(
+                          post["caption"] ?? "",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ShowAllComments(post: post),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ShowAllComments(post: post),
-                    ),
-                  ),
-                );
-              },
-            ),
           ),
         ),
       ],

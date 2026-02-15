@@ -93,99 +93,156 @@ class _CreatePostState extends State<CreatePost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Column(
-            children: [
-              Container(
-                color: Colors.grey[200],
-                padding: const EdgeInsets.all(20),
-                child: Center(
+        appBar: AppBar(
+            title: Row(
+          children: [
+            const Expanded(flex: 2, child: Text("Create Post")),
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: pickImage,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero, // 🔥 removes default padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  backgroundColor: const Color(0xFF4F7CAC),
+                ),
+                child: const Center(
                   child: Text(
-                    "Create Post",
+                    "+",
                     style: TextStyle(
-                      fontSize: 24,
+                      color: Colors.white,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: pickImage,
-                child: const Text("Pick Image"),
-              ),
-              const SizedBox(height: 20),
-              (_selectedImage != null)
-                  ? ElevatedButton(
-                      onPressed: postButtonListener,
-                      child: Text("POST"),
+            )
+          ],
+        )),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      (_selectedImage != null)
+                          ? ElevatedButton(
+                              onPressed: postButtonListener,
+                              child: Text("POST",
+                                  style: TextStyle(color: Colors.white)),
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(
+                                    const Color(0xFF3E62FF)),
+                                shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      SizedBox(width: 10),
+                      if (_selectedImage != null)
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all(const Color(0xF4F7CAC)),
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  if (_selectedImage != null)
+                    Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            File(_selectedImage!.path),
+                            height: 250,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                            padding: EdgeInsetsGeometry.all(4),
+                            child: TextField(
+                              controller: _captionController,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                labelText: 'Caption',
+                                hint: Text("Write a caption..."),
+                                prefixIcon: const Icon(Icons.comment),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            )),
+                        Padding(
+                          padding: EdgeInsetsGeometry.all(4),
+                          child: TextField(
+                            controller: _locationController,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              labelText: 'Location',
+                              hint: Text("Location (optional)"),
+                              prefixIcon: const Icon(Icons.location_on),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsGeometry.all(4),
+                          child: TextField(
+                            controller: _tagsController,
+                            decoration: InputDecoration(
+                              labelText: 'Tags',
+                              hint: Text("Tags (comma separated)"),
+                              prefixIcon: const Icon(Icons.tag),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            maxLines: 1,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsGeometry.all(4),
+                          child: TagUser(onUsersSelected: (users) {
+                            setState(() {
+                              _taggedUsers = users;
+                            });
+                          }),
+                        ),
+                      ],
                     )
-                  : Container(),
-              const SizedBox(height: 20),
-              if (_selectedImage != null)
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancel")),
-              const SizedBox(height: 20),
-              if (_selectedImage != null)
-                Column(
-                  children: [
-                    TextField(
-                      controller: _captionController,
-                      decoration: InputDecoration(
-                        hintText: "Write a caption...",
-                        border: OutlineInputBorder(),
-                      ),
-                      maxLines: 3,
-                    ),
-                    const SizedBox(height: 20),
-                    TextField(
-                      controller: _locationController,
-                      decoration: InputDecoration(
-                        hintText: "Location (optional)",
-                        border: OutlineInputBorder(),
-                      ),
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 20),
-                    TextField(
-                      controller: _tagsController,
-                      decoration: InputDecoration(
-                        hintText: "Tags (comma separated)",
-                        border: OutlineInputBorder(),
-                      ),
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 20),
-                    TagUser(onUsersSelected: (users) {
-                      setState(() {
-                        _taggedUsers = users;
-                      });
-                    }),
-                    const SizedBox(height: 20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.file(
-                        File(_selectedImage!.path),
-                        height: 250,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                )
-              else
-                const Text("No image selected"),
-            ],
+                  else
+                    const Text("No image selected"),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }

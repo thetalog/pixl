@@ -29,7 +29,11 @@ class StoriesBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final groupedStories = _groupByUser();
     final users = groupedStories.keys.toList();
-
+    if (users.isEmpty) {
+      return Center(
+          child: Text("No stories available",
+              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0))));
+    }
     return SizedBox(
       height: 110,
       child: ListView.builder(
@@ -38,7 +42,6 @@ class StoriesBar extends StatelessWidget {
         itemBuilder: (context, index) {
           final userStories = groupedStories[users[index]]!;
           final profilePic = userStories.first['user']['profilePic'];
-
           return GestureDetector(
             onTap: () {
               Navigator.push(
