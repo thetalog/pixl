@@ -58,9 +58,19 @@ async function findFollowedPosts(user) {
                         createdAt: true,
                     },
                 },
+                // ✅ only include MY save (if exists)
+                savedBy: {
+                    where: { userId: user.id },
+                    select: {
+                        id: true,
+                        createdAt: true,
+                    },
+                },
             },
             orderBy: { createdAt: "desc" },
         });
+
+        // Note: Prisma client must be regenerated after schema changes.
 
         // Map to include tags and taggedUsers
         const postsWithTags = posts.map(post => ({

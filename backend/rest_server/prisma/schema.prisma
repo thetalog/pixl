@@ -53,6 +53,7 @@ model User {
   Reactions              Reaction[]
   Comments               Comment[]
   Shares                 Share[]
+  savedPosts             SavedPost[]
   MessageReactions       MessageReaction[]
   MessageSeen            MessageSeen[]
   postsCount             Int                  @default(0)
@@ -390,6 +391,7 @@ model Post {
   reactionsCount     Int?
   comments           Comment[]
   shares             Share[]
+  savedBy            SavedPost[]
   uiCategory         UICategory     @default(UNSET)
   userId             String         @db.ObjectId
   user               User           @relation(fields: [userId], references: [id])
@@ -400,6 +402,19 @@ model Post {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   reactions          Reaction[]
+}
+
+model SavedPost {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  postId    String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
 }
 
 model Login {
