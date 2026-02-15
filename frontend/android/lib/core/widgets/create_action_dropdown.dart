@@ -3,59 +3,57 @@ import 'package:pixl/features/post/create_post.dart';
 import '../../features/live/kurento_publisher.dart';
 import '../../features/live/kurento_viewer.dart';
 
-class CreateActionDropdown extends StatefulWidget {
-  @override
-  _CreateActionDropdown createState() => _CreateActionDropdown();
-}
-
-class _CreateActionDropdown extends State<CreateActionDropdown> {
-  String selectedValue = 'Add Post';
-
-  List<String> items = ['Add Post', 'Go Live', 'View Stream'];
+class CreateActionDropdown extends StatelessWidget {
+  const CreateActionDropdown({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: selectedValue,
-      selectedItemBuilder: (context) {
-        return items.map((item) {
-          return Center(
-            child: Text(
-              item,
-              style: const TextStyle(color: Colors.white),
+    return PopupMenuButton<String>(
+      icon:
+          const Icon(Icons.add, color: Colors.white, size: 26), // ➕ first view
+
+      onSelected: (value) {
+        if (value == 'post') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => CreatePost()),
+          );
+        }
+
+        if (value == 'live') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => KurentoPublisherWidget()),
+          );
+        }
+
+        if (value == 'view') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => KurentoViewerWidget(
+                liveId: '1dc3e042-f7c0-476c-bc6d-385810ddde18',
+                serverUrl: '192.168.31.8:9090',
+              ),
             ),
           );
-        }).toList();
+        }
       },
-      items: items.map((item) {
-        return DropdownMenuItem<String>(
-          value: item,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                if (item == "Add Post") {
-                  return CreatePost();
-                } else if (item == "Go Live") {
-                  return KurentoPublisherWidget();
-                } else if (item == "View Stream") {
-                  return KurentoViewerWidget(
-                    liveId: '1dc3e042-f7c0-476c-bc6d-385810ddde18',
-                    serverUrl: '192.168.31.8:9090',
-                  );
-                } else {
-                  return Container();
-                }
-              }));
-            },
-            child: Text(item),
-          ),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          selectedValue = value!;
-        });
-      },
+
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: 'post',
+          child: Text('Add Post'),
+        ),
+        const PopupMenuItem(
+          value: 'live',
+          child: Text('Go Live'),
+        ),
+        const PopupMenuItem(
+          value: 'view',
+          child: Text('View Stream'),
+        ),
+      ],
     );
   }
 }

@@ -152,153 +152,149 @@ class _ViewProfile extends State<ViewProfile>
   @override
   Widget build(BuildContext context) {
     return isProfileLoaded
-        ? Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        child: Image.network(
-                          profilePic == "" || profilePic == null
-                              ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&s"
-                              : profilePic,
-                          height: 80,
-                          width: 80,
-                        ),
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      child: Image.network(
+                        profilePic == "" || profilePic == null
+                            ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSLU5_eUUGBfxfxRd4IquPiEwLbt4E_6RYMw&s"
+                            : profilePic,
+                        height: 80,
+                        width: 80,
                       ),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Name: $name"),
-                            Text("Username: $userName"),
-                            Text("Email: $email"),
-                            Text(
-                                "Followers: ${profile["followersCount"] ?? 0}"),
-                            Text(
-                                "Following: ${profile["followingCount"] ?? 0}"),
-                            isProfileLoaded
-                                ? !widget.isUpdateEnable
-                                    ? FollowOrUnfollow(
-                                        profileVisibility: profileVisibility,
-                                        targetUsername: userName,
-                                      )
-                                    : SizedBox.shrink()
-                                : SizedBox.shrink(),
-                          ],
-                        ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Name: $name"),
+                          Text("Username: $userName"),
+                          Text("Email: $email"),
+                          Text("Followers: ${profile["followersCount"] ?? 0}"),
+                          Text("Following: ${profile["followingCount"] ?? 0}"),
+                          isProfileLoaded
+                              ? !widget.isUpdateEnable
+                                  ? FollowOrUnfollow(
+                                      profileVisibility: profileVisibility,
+                                      targetUsername: userName,
+                                    )
+                                  : SizedBox.shrink()
+                              : SizedBox.shrink(),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                widget.isUpdateEnable
-                    ? TabView(tabController: _tabController, posts: posts)
-                    : isProfilePrivate
-                        ? !isFollowed
-                            ? Text("This profile is private")
-                            : Text("This profile is private")
-                        : TabView(tabController: _tabController, posts: posts),
-                widget.isUpdateEnable
-                    ? ElevatedButton(
-                        child: Text("Update Name"),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (innerContext) {
-                              return AlertDialog(
-                                title: TextField(
-                                  controller: changeNameController,
+              ),
+              widget.isUpdateEnable
+                  ? TabView(tabController: _tabController, posts: posts)
+                  : isProfilePrivate
+                      ? !isFollowed
+                          ? Text("This profile is private")
+                          : Text("This profile is private")
+                      : TabView(tabController: _tabController, posts: posts),
+              widget.isUpdateEnable
+                  ? ElevatedButton(
+                      child: Text("Update Name"),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (innerContext) {
+                            return AlertDialog(
+                              title: TextField(
+                                controller: changeNameController,
+                              ),
+                              content: Text("Update Name"),
+                              actions: [
+                                TextButton(
+                                  onPressed: _updateProfile,
+                                  child: Text("Submit"),
                                 ),
-                                content: Text("Update Name"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: _updateProfile,
-                                    child: Text("Submit"),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(innerContext);
+                                  },
+                                  child: Text("Close"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : SizedBox.shrink(),
+              widget.isUpdateEnable
+                  ? ElevatedButton(
+                      child: Text("Update UserName"),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (innerContext) {
+                            return AlertDialog(
+                              title: TextField(
+                                controller: changeUserNameController,
+                              ),
+                              content: Text("Update Name"),
+                              actions: [
+                                TextButton(
+                                  onPressed: _updateProfile,
+                                  child: Text("Submit"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(innerContext);
+                                  },
+                                  child: Text("Close"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : SizedBox.shrink(),
+              widget.isUpdateEnable
+                  ? ElevatedButton(
+                      child: Text("Update Password"),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (innerContext) {
+                            return AlertDialog(
+                              title: Column(
+                                children: [
+                                  TextField(
+                                    controller: oldPasswordController,
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(innerContext);
-                                    },
-                                    child: Text("Close"),
+                                  TextField(
+                                    controller: changeNewPasswordController,
                                   ),
                                 ],
-                              );
-                            },
-                          );
-                        },
-                      )
-                    : SizedBox.shrink(),
-                widget.isUpdateEnable
-                    ? ElevatedButton(
-                        child: Text("Update UserName"),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (innerContext) {
-                              return AlertDialog(
-                                title: TextField(
-                                  controller: changeUserNameController,
+                              ),
+                              content: Text("Update Password"),
+                              actions: [
+                                TextButton(
+                                  onPressed: _updateProfile,
+                                  child: Text("Submit"),
                                 ),
-                                content: Text("Update Name"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: _updateProfile,
-                                    child: Text("Submit"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(innerContext);
-                                    },
-                                    child: Text("Close"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      )
-                    : SizedBox.shrink(),
-                widget.isUpdateEnable
-                    ? ElevatedButton(
-                        child: Text("Update Password"),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (innerContext) {
-                              return AlertDialog(
-                                title: Column(
-                                  children: [
-                                    TextField(
-                                      controller: oldPasswordController,
-                                    ),
-                                    TextField(
-                                      controller: changeNewPasswordController,
-                                    ),
-                                  ],
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(innerContext);
+                                  },
+                                  child: Text("Close"),
                                 ),
-                                content: Text("Update Password"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: _updateProfile,
-                                    child: Text("Submit"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(innerContext);
-                                    },
-                                    child: Text("Close"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      )
-                    : SizedBox.shrink(),
-              ],
-            ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : SizedBox.shrink(),
+            ],
           )
         : Text("Loading");
   }

@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 const _secureStorage = FlutterSecureStorage();
 
 final tokenProvider = FutureProvider<String?>((ref) async {
-  return await _secureStorage.read(key: 'jwt_token');
+  return await _secureStorage.read(key: "jwt_token");
 });
 final profileProvider =
     AsyncNotifierProvider<ProfileNotifier, String?>(ProfileNotifier.new);

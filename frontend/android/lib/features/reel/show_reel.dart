@@ -121,9 +121,9 @@ class _ShowReelState extends ConsumerState<ShowReel> {
   Widget build(BuildContext context) {
     final reels = ref.watch(videoCachingProvider);
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: PageView.builder(
+    return Container(
+      color: Colors.black,
+      child: PageView.builder(
         controller: _pageController,
         scrollDirection: Axis.vertical,
         itemCount: reels.length,

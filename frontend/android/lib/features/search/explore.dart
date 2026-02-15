@@ -129,71 +129,149 @@ class _ExplorePageState extends State<ExplorePage>
   Widget build(BuildContext context) {
     ToastContext().init(context);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: SearchBarWidget(),
-        bottom: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          indicatorColor: Colors.black,
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          tabs: categories.map((c) => Tab(text: c)).toList(),
-          tabAlignment: TabAlignment.start,
-        ),
-      ),
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          // Custom AppBar
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 56,
+                  child: SearchBarWidget(),
+                ),
+                TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  indicatorColor: Colors.black,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  tabs: categories.map((c) => Tab(text: c)).toList(),
+                  tabAlignment: TabAlignment.start,
+                ),
+              ],
+            ),
+          ),
 
-      // ✅ Each tab has its own FutureBuilder
-      body: TabBarView(
-        controller: _tabController,
-        children: categories.map((cat) {
-          // ✅ IF (before FutureBuilder)
-          if (cat == "ALL") {
-            return FutureBuilder<List<Map<String, dynamic>>>(
-              future: fetchImagesByAll(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}"));
-                }
-
-                final posts = snapshot.data ?? [];
-
-                if (posts.isEmpty) {
-                  return Center(child: Text("No posts found for $cat"));
-                }
-
-                return Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: MasonryGridView.count(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 3,
-                    crossAxisSpacing: 3,
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
-                      final post = posts[index];
-
-                      final List media = post["media"] ?? [];
-                      String imageUrl = "";
-                      for (var mediaObject in media) {
-                        if (mediaObject["mimeType"] == "VIDEO") {
-                          imageUrl = mediaObject["thumbnail"];
-                        } else {
-                          imageUrl = mediaObject["url"];
-                        }
+          // TabBarView
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: categories.map((cat) {
+                // ✅ IF (before FutureBuilder)
+                if (cat == "ALL") {
+                  return FutureBuilder<List<Map<String, dynamic>>>(
+                    future: fetchImagesByAll(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
                       }
-                      if (media.isEmpty) return const SizedBox();
 
-                      return ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          clipBehavior: Clip.antiAlias,
-                          child: GestureDetector(
+                      if (snapshot.hasError) {
+                        return Center(child: Text("Error: ${snapshot.error}"));
+                      }
+
+                      final posts = snapshot.data ?? [];
+
+                      if (posts.isEmpty) {
+                        return Center(child: Text("No posts found for $cat"));
+                      }
+
+                      return Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: MasonryGridView.count(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 3,
+                          crossAxisSpacing: 3,
+                          itemCount: posts.length,
+                          itemBuilder: (context, index) {
+                            final post = posts[index];
+
+                            final List media = post["media"] ?? [];
+                            String imageUrl = "";
+                            for (var mediaObject in media) {
+                              if (mediaObject["mimeType"] == "VIDEO") {
+                                imageUrl = mediaObject["thumbnail"];
+                              } else {
+                                imageUrl = mediaObject["url"];
+                              }
+                            }
+                            if (media.isEmpty) return const SizedBox();
+
+                            return ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                clipBehavior: Clip.antiAlias,
+                                child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewPost(
+                                              post: post, canEdit: false),
+                                        ),
+                                      );
+                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: imageUrl,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.broken_image),
+                                    )));
+                          },
+                        ),
+                      );
+                    },
+                  );
+                }
+                return FutureBuilder<List<Map<String, dynamic>>>(
+                  future: getFuture(cat),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (snapshot.hasError) {
+                      return Center(child: Text("Error: ${snapshot.error}"));
+                    }
+
+                    final posts = snapshot.data ?? [];
+
+                    if (posts.isEmpty) {
+                      return Center(child: Text("No posts found for $cat"));
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: MasonryGridView.count(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 3,
+                        crossAxisSpacing: 3,
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) {
+                          final post = posts[index];
+
+                          final List media = post["media"] ?? [];
+                          if (media.isEmpty) return const SizedBox();
+
+                          final List urls = media[0]["url"] ?? [];
+                          if (urls.isEmpty) return const SizedBox();
+
+                          String imageUrl = urls[0].toString();
+
+                          if (!imageUrl.startsWith("http")) {
+                            imageUrl = "http://$imageUrl";
+                          }
+
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            clipBehavior: Clip.antiAlias,
+                            child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -203,88 +281,25 @@ class _ExplorePageState extends State<ExplorePage>
                                   ),
                                 );
                               },
-                              child: CachedNetworkImage(
-                                imageUrl: imageUrl,
+                              child: Image.network(
+                                imageUrl,
                                 fit: BoxFit.cover,
-                                placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.broken_image),
-                              )));
-                    },
-                  ),
-                );
-              },
-            );
-          }
-          return FutureBuilder<List<Map<String, dynamic>>>(
-            future: getFuture(cat),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Center(child: Text("Error: ${snapshot.error}"));
-              }
-
-              final posts = snapshot.data ?? [];
-
-              if (posts.isEmpty) {
-                return Center(child: Text("No posts found for $cat"));
-              }
-
-              return Padding(
-                padding: const EdgeInsets.all(6),
-                child: MasonryGridView.count(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 3,
-                  crossAxisSpacing: 3,
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    final post = posts[index];
-
-                    final List media = post["media"] ?? [];
-                    if (media.isEmpty) return const SizedBox();
-
-                    final List urls = media[0]["url"] ?? [];
-                    if (urls.isEmpty) return const SizedBox();
-
-                    String imageUrl = urls[0].toString();
-
-                    if (!imageUrl.startsWith("http")) {
-                      imageUrl = "http://$imageUrl";
-                    }
-
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      clipBehavior: Clip.antiAlias,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ViewPost(post: post, canEdit: false),
+                                errorBuilder: (_, __, ___) => Container(
+                                  color: Colors.grey.shade200,
+                                  child: const Icon(Icons.broken_image),
+                                ),
+                              ),
                             ),
                           );
                         },
-                        child: Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
-                            color: Colors.grey.shade200,
-                            child: const Icon(Icons.broken_image),
-                          ),
-                        ),
                       ),
                     );
                   },
-                ),
-              );
-            },
-          );
-        }).toList(),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
       ),
     );
   }

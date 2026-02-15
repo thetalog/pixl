@@ -1,99 +1,75 @@
-# Pixl Web Application
+# Nuxt Minimal Starter
 
-This is the NUXT.js web application for Pixl - a modern social media platform.
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Features
+## Setup
 
-- **Authentication**: User login/signup with JWT
-- **Posts**: Create, view, like, and comment on posts
-- **Stories**: Create and view stories with expiration
-- **Live Streaming**: Start and join live streams with real-time chat
-- **User Profiles**: View and manage user profiles
-- **Messaging**: Direct messaging with real-time updates
-- **Search & Explore**: Discover users and content
+Make sure to install dependencies:
 
-## Project Structure
-
-```
-app/
-├── components/shared/      # Reusable UI components
-├── composables/             # Composition API utilities
-├── layouts/                 # NUXT layouts
-├── middleware/              # Route middlewares
-├── pages/                   # Application pages
-├── plugins/                 # NUXT plugins
-├── stores/                  # Pinia state management
-├── types/                   # TypeScript definitions
-└── utils/                   # Utility functions
-```
-
-## Installation
-
-### Prerequisites
-- Node.js 18+ 
-- Backend REST API running on http://localhost:3000
-
-### Setup
-
-1. Install dependencies:
 ```bash
+# npm
 npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
 ```
 
-2. Create .env.local:
-```bash
-cp .env.example .env.local
-```
+## Development Server
 
-3. Configure environment variables
-
-## Development
+Start the development server on `http://localhost:3000`:
 
 ```bash
+# npm
 npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
 ```
 
-Visit http://localhost:3000
+## Production
 
-## Build
+Build the application for production:
 
 ```bash
+# npm
 npm run build
-npm run preview
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
 ```
 
-## State Management
+Locally preview production build:
 
-Pinia stores:
-- **useAuthStore** - Authentication and user profile
-- **usePostsStore** - Posts operations
-- **useStoriesStore** - Stories management
-- **useUsersStore** - User search and follow/unfollow
-- **useLiveStore** - Live streaming
-- **useNotificationStore** - Notifications
+```bash
+# npm
+npm run preview
 
-## Styling
+# pnpm
+pnpm preview
 
-- Tailwind CSS
-- DaisyUI components
-- Custom theme colors
+# yarn
+yarn preview
 
-## Components
+# bun
+bun run preview
+```
 
-Reusable components in `components/shared/`:
-- **Modal.vue** - Dialog modals
-- **LoadingSpinner.vue** - Loading indicator
-- **Toast.vue** - Notifications
-- **PostCard.vue** - Post display
-
-## API Integration
-
-All API calls go through the axios-based client in `utils/api.ts`
-
-Backend endpoints:
-- `/auth/*` - Authentication
-- `/posts/*` - Post operations
-- `/stories/*` - Story operations
-- `/users/*` - User operations
-- `/live/*` - Live streaming
-- `/notifications/*` - Notifications
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

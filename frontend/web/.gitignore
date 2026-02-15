@@ -1,31 +1,24 @@
-# Nuxt
-.nuxt/
-dist/
-.output/
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
 
-# Node
-node_modules/
-npm-debug.log
-yarn-error.log
-pnpm-debug.log
+# Node dependencies
+node_modules
 
-# Environment
-.env
-.env.local
-.env.*.local
+# Logs
+logs
+*.log
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Misc
 .DS_Store
+.fleet
+.idea
 
-# Build
-*.tsbuildinfo
-.turbo
-
-# Testing
-coverage/
-.nyc_output/
+# Local env files
+.env
+.env.*
+!.env.example

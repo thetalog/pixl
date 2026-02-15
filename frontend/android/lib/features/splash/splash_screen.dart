@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixl/main.dart';
-import '../../home.dart';
+import '../../validate_jwt.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,7 +29,7 @@ class _SplashScreen extends State<SplashScreen>
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 2000),
-            pageBuilder: (_, __, ___) => const MyAppHome(),
+            pageBuilder: (_, __, ___) => const ValidateJwt(),
             transitionsBuilder: (_, animation, __, child) {
               final curved = CurvedAnimation(
                 parent: animation,

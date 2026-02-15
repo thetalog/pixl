@@ -45,7 +45,7 @@
     {
       "label": "6_Flutter",
       "type": "shell",
-      "command": "cd frontend && flutter run",
+      "command": "cd frontend/android && flutter run",
       "presentation": { "panel": "new" }
     }
   ]

@@ -9,7 +9,7 @@ import 'package:pixl/features/profile/view_profile.dart';
 import 'package:pixl/features/stories/create_story.dart';
 import 'state/auth_provider.dart';
 import 'state/mapping_follow_user.dart';
-import 'core/routes/screen_router.dart';
+import 'features/home/home_layout.dart';
 import 'features/auth/login.dart';
 import 'core/routes/deep_link_service.dart';
 import 'core/routes/navigator_key.dart';
