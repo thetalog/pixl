@@ -13,6 +13,12 @@ async function createStory(
 
     const file = files[0];
 
+    const taggedUserIds = Array.isArray(taggedUsers)
+      ? taggedUsers.filter(
+        (id) => typeof id === "string" && /^[0-9a-fA-F]{24}$/.test(id)
+      )
+      : [];
+
     const data = {
       user: {
         connect: { id: userId },
@@ -27,11 +33,9 @@ async function createStory(
         },
       },
 
-      ...(Array.isArray(taggedUsers) && taggedUsers.length > 0 && {
+      ...(taggedUserIds.length > 0 && {
         mentions: {
-          createMany: {
-            data: taggedUsers.map((id) => ({ userId: id })),
-          },
+          create: taggedUserIds.map((id) => ({ userId: id })),
         },
       }),
     };

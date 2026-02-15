@@ -1,5 +1,5 @@
 const { createReelRecord } = require("../../database/post/createReel");
-const { uploadToMinIO } = require("../storage/uploadToMinIO");
+const { uploadPostOrReelToMinIO } = require("../storage/uploadToMinIO");
 
 /* ================= CREATE REEL ================= */
 
@@ -37,7 +37,7 @@ exports.createReelController = async (req, res) => {
 
     /* ---------- Upload Media ---------- */
 
-    const uploadResults = await uploadToMinIO(
+    const uploadResults = await uploadPostOrReelToMinIO(
       userId,
       reelCount,
       req.file

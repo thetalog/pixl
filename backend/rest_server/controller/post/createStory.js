@@ -1,5 +1,5 @@
 const { createStory } = require("../../database/post/createStory");
-const { uploadToMinIO } = require("../storage/uploadToMinIO");
+const { uploadPostOrReelToMinIO } = require("../storage/uploadToMinIO");
 
 /* ================= CREATE STORY ================= */
 
@@ -41,13 +41,19 @@ const createStoryController = async (req, res) => {
 
     /* ---------- Upload ---------- */
 
-    const uploadResults = await uploadToMinIO(
+    const uploadResults = await uploadPostOrReelToMinIO(
       user.id,
       0, // Stories don't need post count
       file
     );
 
-    if (uploadResults?.error || !uploadResults?.length) {
+    if (uploadResults?.error) {
+      return res.status(uploadResults.status ?? 500).json({
+        message: uploadResults.message ?? "Failed to upload story media.",
+      });
+    }
+
+    if (!uploadResults?.length) {
       return res.status(500).json({
         message: "Failed to upload story media.",
       });

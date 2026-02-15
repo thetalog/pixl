@@ -32,7 +32,7 @@ class StoriesBar extends StatelessWidget {
     if (users.isEmpty) {
       return Center(
           child: Text("No stories available",
-              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0))));
+              style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))));
     }
     return SizedBox(
       height: 110,

@@ -108,8 +108,10 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
       const fileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${objectName}`;
       const thumbnailFileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${ffmpegThumbnailOutput}`;
       if (file.mimetype.startsWith("video/")) {
-        const thumbnailName =
-          file.filename.replace(/\.[^.]+$/, "") + ".jpg";
+        const thumbnailBase = safeName.replace(/\.[^.]+$/, "");
+        const thumbnailName = `${Date.now()}_${i}_${thumbnailBase}.jpg`;
+
+        fs.mkdirSync("thumbnail", { recursive: true });
 
         const thumbnailPath = path.resolve(
           "thumbnail",
