@@ -23,8 +23,8 @@ class Feed extends ConsumerStatefulWidget {
 }
 
 class _FeedState extends ConsumerState<Feed> {
-  final likedPosts = <String>{};
-  final savedPosts = <String>{};
+  final Map<String, bool> _likeOverrides = {};
+  final Map<String, bool> _saveOverrides = {};
 
   void _openComments(Map<String, dynamic> post) {
     Navigator.push(
@@ -39,8 +39,21 @@ class _FeedState extends ConsumerState<Feed> {
     final postId = post["id"]?.toString();
     if (postId == null || postId.isEmpty) return;
 
+    final reactions = (post["reactions"] as List?) ?? const [];
+    final current = _likeOverrides[postId] ?? reactions.isNotEmpty;
+
+    setState(() {
+      _likeOverrides[postId] = !current;
+    });
+
     try {
       final token = await secureStorage.read(key: "jwt_token");
+      if (token == null || token.isEmpty) {
+        setState(() {
+          _likeOverrides[postId] = current;
+        });
+        return;
+      }
 
       final res = await http.patch(
         Uri.parse(Config.buildApiUrl('/posts/like-or-unlike/$postId')),
@@ -50,13 +63,17 @@ class _FeedState extends ConsumerState<Feed> {
       if (res.statusCode == 200) {
         final decoded = jsonDecode(res.body);
         setState(() {
-          decoded["message"] == "Liked"
-              ? likedPosts.add(postId)
-              : likedPosts.remove(postId);
+          _likeOverrides[postId] = decoded["message"] == "Liked";
+        });
+      } else {
+        setState(() {
+          _likeOverrides[postId] = current;
         });
       }
     } catch (e) {
-      // Handle error, maybe show a snackbar
+      setState(() {
+        _likeOverrides[postId] = current;
+      });
     }
   }
 
@@ -64,8 +81,21 @@ class _FeedState extends ConsumerState<Feed> {
     final postId = post["id"]?.toString();
     if (postId == null || postId.isEmpty) return;
 
+    final savedBy = (post["savedBy"] as List?) ?? const [];
+    final current = _saveOverrides[postId] ?? savedBy.isNotEmpty;
+
+    setState(() {
+      _saveOverrides[postId] = !current;
+    });
+
     try {
       final token = await secureStorage.read(key: "jwt_token");
+      if (token == null || token.isEmpty) {
+        setState(() {
+          _saveOverrides[postId] = current;
+        });
+        return;
+      }
 
       final res = await http.patch(
         Uri.parse(Config.buildApiUrl('/posts/save-or-unsave/$postId')),
@@ -75,13 +105,17 @@ class _FeedState extends ConsumerState<Feed> {
       if (res.statusCode == 200) {
         final decoded = jsonDecode(res.body);
         setState(() {
-          decoded["message"] == "Saved"
-              ? savedPosts.add(postId)
-              : savedPosts.remove(postId);
+          _saveOverrides[postId] = decoded["message"] == "Saved";
+        });
+      } else {
+        setState(() {
+          _saveOverrides[postId] = current;
         });
       }
     } catch (e) {
-      // Handle error, maybe show a snackbar
+      setState(() {
+        _saveOverrides[postId] = current;
+      });
     }
   }
 
@@ -129,13 +163,14 @@ class _FeedState extends ConsumerState<Feed> {
                         final postId = post["id"]?.toString() ?? "";
                         final reactions =
                             (post["reactions"] as List?) ?? const [];
-                        final isLiked = postId.isNotEmpty &&
-                            (likedPosts.contains(postId) ||
-                                reactions.isNotEmpty);
+                        final isLiked = postId.isNotEmpty
+                            ? (_likeOverrides[postId] ?? reactions.isNotEmpty)
+                            : false;
 
                         final savedBy = (post["savedBy"] as List?) ?? const [];
-                        final isSaved = postId.isNotEmpty &&
-                            (savedPosts.contains(postId) || savedBy.isNotEmpty);
+                        final isSaved = postId.isNotEmpty
+                            ? (_saveOverrides[postId] ?? savedBy.isNotEmpty)
+                            : false;
                         final comments =
                             (post["comments"] as List?) ?? const [];
 
@@ -256,10 +291,12 @@ class _FeedState extends ConsumerState<Feed> {
                                               : "assets/icons/HeartUnliked.svg",
                                           width: 20,
                                           height: 20,
-                                          colorFilter: const ColorFilter.mode(
-                                            Color(0xFF200E32),
-                                            BlendMode.srcIn,
-                                          ),
+                                          colorFilter: isLiked
+                                              ? null
+                                              : const ColorFilter.mode(
+                                                  Color(0xFF200E32),
+                                                  BlendMode.srcIn,
+                                                ),
                                         ),
                                       ),
                                       const SizedBox(width: 14),
