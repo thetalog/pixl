@@ -9,10 +9,10 @@ class StoryTextNotifier extends StateNotifier<List<StoryText>> {
     state = [...state, text];
   }
 
-  void updatePosition(int index, Offset delta) {
+  void updatePosition(int index, Offset position) {
     final current = state[index];
     final updated = current.copyWith(
-      position: current.position + delta,
+      position: position,
     );
 
     final newState = [...state];

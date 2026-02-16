@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../state/story_text_provider.dart';
-import '../../../state/stories_provider.dart';
 import '../../../shared/models/story_text.dart';
-import '../../../state/story_text_provider.dart'; // ✅ ADD THIS
 
 class DraggableText extends ConsumerStatefulWidget {
   final StoryText storyText;
@@ -21,7 +19,7 @@ class DraggableText extends ConsumerStatefulWidget {
 
 class _DraggableTextState extends ConsumerState<DraggableText> {
   late Offset _initialTextPosition;
-  late Offset _initialLocalFocalPoint;
+  late Offset _initialFocalPoint;
   late double _initialScale;
 
   @override
@@ -31,21 +29,14 @@ class _DraggableTextState extends ConsumerState<DraggableText> {
       top: widget.storyText.position.dy,
       child: GestureDetector(
         onScaleStart: (details) {
-          final RenderBox box = context.findRenderObject() as RenderBox;
-
-          _initialLocalFocalPoint = box.globalToLocal(details.focalPoint);
-
           _initialTextPosition = widget.storyText.position;
+          _initialFocalPoint = details.focalPoint;
           _initialScale = widget.storyText.scale;
         },
         onScaleUpdate: (details) {
-          final RenderBox box = context.findRenderObject() as RenderBox;
-
-          final Offset localFocalPoint = box.globalToLocal(details.focalPoint);
-
-          // ✅ PERFECT 1:1 movement
-          Offset newPosition = _initialTextPosition +
-              (localFocalPoint - _initialLocalFocalPoint);
+          // 1:1 movement using global focal point delta
+          Offset newPosition =
+              _initialTextPosition + (details.focalPoint - _initialFocalPoint);
 
           // 🔒 CLAMP TO CANVAS (Stack bounds)
           final Size canvasSize =
