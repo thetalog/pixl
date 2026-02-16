@@ -7,6 +7,13 @@ async function findPublicReels(skip, take) {
                 user: { profileVisibility: ProfileVisibility.PUBLIC },
             },
             include: {
+                user: {
+                    select: {
+                        id: true,
+                        userName: true,
+                        profilePic: true,
+                    },
+                },
                 media: true,
                 comments: {
                     include: {

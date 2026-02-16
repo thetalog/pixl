@@ -197,22 +197,174 @@ class _ExplorePageState extends State<ExplorePage>
                     future: fetchImagesByAll(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return RefreshIndicator(
+                          onRefresh: () async {
+                            setState(() {});
+                          },
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [
+                              SizedBox(height: 24),
+                              Center(child: CircularProgressIndicator()),
+                            ],
+                          ),
+                        );
                       }
 
                       if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
+                        return RefreshIndicator(
+                          onRefresh: () async {
+                            setState(() {});
+                          },
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: [
+                              const SizedBox(height: 24),
+                              Center(
+                                child: Text("Error: ${snapshot.error}"),
+                              ),
+                            ],
+                          ),
+                        );
                       }
 
                       final posts = snapshot.data ?? [];
 
                       if (posts.isEmpty) {
-                        return const Center(child: Text("No Post available"));
+                        return RefreshIndicator(
+                          onRefresh: () async {
+                            setState(() {});
+                          },
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [
+                              SizedBox(height: 24),
+                              Center(child: Text("No Post available")),
+                            ],
+                          ),
+                        );
                       }
 
-                      return Padding(
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          setState(() {});
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: MasonryGridView.count(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 3,
+                            crossAxisSpacing: 3,
+                            itemCount: posts.length,
+                            itemBuilder: (context, index) {
+                              final post = posts[index];
+
+                              final imageUrl = _extractPreviewUrl(post);
+                              if (imageUrl == null) return const SizedBox();
+
+                              return ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ViewPost(
+                                                post: post, canEdit: false),
+                                          ),
+                                        );
+                                      },
+                                      child: CachedNetworkImage(
+                                        imageUrl: imageUrl,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.broken_image),
+                                      )));
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return FutureBuilder<List<Map<String, dynamic>>>(
+                  future: getFuture(cat),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          _futureCache.remove(cat);
+                          setState(() {
+                            getFuture(cat);
+                          });
+                        },
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: const [
+                            SizedBox(height: 24),
+                            Center(child: CircularProgressIndicator()),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (snapshot.hasError) {
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          _futureCache.remove(cat);
+                          setState(() {
+                            getFuture(cat);
+                          });
+                        },
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: [
+                            const SizedBox(height: 24),
+                            Center(
+                              child: Text("Error: ${snapshot.error}"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    final posts = snapshot.data ?? [];
+
+                    if (posts.isEmpty) {
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          _futureCache.remove(cat);
+                          setState(() {
+                            getFuture(cat);
+                          });
+                        },
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: const [
+                            SizedBox(height: 24),
+                            Center(child: Text("No Post available")),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        _futureCache.remove(cat);
+                        setState(() {
+                          getFuture(cat);
+                        });
+                      },
+                      child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: MasonryGridView.count(
+                          physics: const AlwaysScrollableScrollPhysics(),
                           crossAxisCount: 3,
                           mainAxisSpacing: 3,
                           crossAxisSpacing: 3,
@@ -224,88 +376,30 @@ class _ExplorePageState extends State<ExplorePage>
                             if (imageUrl == null) return const SizedBox();
 
                             return ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                clipBehavior: Clip.antiAlias,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ViewPost(
-                                              post: post, canEdit: false),
-                                        ),
-                                      );
-                                    },
-                                    child: CachedNetworkImage(
-                                      imageUrl: imageUrl,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.broken_image),
-                                    )));
-                          },
-                        ),
-                      );
-                    },
-                  );
-                }
-                return FutureBuilder<List<Map<String, dynamic>>>(
-                  future: getFuture(cat),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-
-                    if (snapshot.hasError) {
-                      return Center(child: Text("Error: ${snapshot.error}"));
-                    }
-
-                    final posts = snapshot.data ?? [];
-
-                    if (posts.isEmpty) {
-                      return const Center(child: Text("No Post available"));
-                    }
-
-                    return Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: MasonryGridView.count(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 3,
-                        crossAxisSpacing: 3,
-                        itemCount: posts.length,
-                        itemBuilder: (context, index) {
-                          final post = posts[index];
-
-                          final imageUrl = _extractPreviewUrl(post);
-                          if (imageUrl == null) return const SizedBox();
-
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            clipBehavior: Clip.antiAlias,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ViewPost(post: post, canEdit: false),
+                              borderRadius: BorderRadius.circular(10),
+                              clipBehavior: Clip.antiAlias,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewPost(post: post, canEdit: false),
+                                    ),
+                                  );
+                                },
+                                child: Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => Container(
+                                    color: Colors.grey.shade200,
+                                    child: const Icon(Icons.broken_image),
                                   ),
-                                );
-                              },
-                              child: Image.network(
-                                imageUrl,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) => Container(
-                                  color: Colors.grey.shade200,
-                                  child: const Icon(Icons.broken_image),
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     );
                   },

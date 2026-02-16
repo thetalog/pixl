@@ -26,6 +26,13 @@ class _FeedState extends ConsumerState<Feed> {
   final Map<String, bool> _likeOverrides = {};
   final Map<String, bool> _saveOverrides = {};
 
+  Future<void> _refresh() async {
+    await Future.wait([
+      ref.refresh(storiesProvider.future),
+      ref.refresh(postsProvider.future),
+    ]);
+  }
+
   void _openComments(Map<String, dynamic> post) {
     Navigator.push(
       context,
@@ -139,236 +146,265 @@ class _FeedState extends ConsumerState<Feed> {
           ),
           const Divider(color: Colors.grey),
           Expanded(
-            child: posts.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Text(e.toString(),
-                  style: const TextStyle(color: Colors.white)),
-              data: (list) => list.isEmpty
-                  ? const Center(
+            child: RefreshIndicator(
+              onRefresh: _refresh,
+              child: posts.when(
+                loading: () => ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const [
+                    SizedBox(height: 24),
+                    Center(child: CircularProgressIndicator()),
+                  ],
+                ),
+                error: (e, _) => ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    const SizedBox(height: 24),
+                    Center(
                       child: Text(
-                        "No posts available",
-                        style: TextStyle(color: Colors.white),
+                        e.toString(),
+                        style: const TextStyle(color: Colors.white),
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: list.length,
-                      itemBuilder: (_, i) {
-                        final post = list[i];
-                        final media = (post["media"] as List?) ?? const [];
-                        final Map<String, dynamic>? firstMedia =
-                            media.isNotEmpty
-                                ? Map<String, dynamic>.from(media.first as Map)
-                                : null;
+                    ),
+                  ],
+                ),
+                data: (list) => list.isEmpty
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: const [
+                          SizedBox(height: 24),
+                          Center(
+                            child: Text(
+                              "No posts available",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: list.length,
+                        itemBuilder: (_, i) {
+                          final post = list[i];
+                          final media = (post["media"] as List?) ?? const [];
+                          final Map<String, dynamic>? firstMedia = media
+                                  .isNotEmpty
+                              ? Map<String, dynamic>.from(media.first as Map)
+                              : null;
 
-                        final postId = post["id"]?.toString() ?? "";
-                        final reactions =
-                            (post["reactions"] as List?) ?? const [];
-                        final isLiked = postId.isNotEmpty
-                            ? (_likeOverrides[postId] ?? reactions.isNotEmpty)
-                            : false;
+                          final postId = post["id"]?.toString() ?? "";
+                          final reactions =
+                              (post["reactions"] as List?) ?? const [];
+                          final isLiked = postId.isNotEmpty
+                              ? (_likeOverrides[postId] ?? reactions.isNotEmpty)
+                              : false;
 
-                        final savedBy = (post["savedBy"] as List?) ?? const [];
-                        final isSaved = postId.isNotEmpty
-                            ? (_saveOverrides[postId] ?? savedBy.isNotEmpty)
-                            : false;
-                        final comments =
-                            (post["comments"] as List?) ?? const [];
+                          final savedBy =
+                              (post["savedBy"] as List?) ?? const [];
+                          final isSaved = postId.isNotEmpty
+                              ? (_saveOverrides[postId] ?? savedBy.isNotEmpty)
+                              : false;
+                          final comments =
+                              (post["comments"] as List?) ?? const [];
 
-                        final postUser =
-                            (post["user"] as Map?)?.cast<String, dynamic>() ??
-                                const <String, dynamic>{};
-                        final authorUserName =
-                            postUser["userName"]?.toString() ?? "";
-                        final authorProfilePic =
-                            postUser["profilePic"]?.toString() ?? "";
+                          final postUser =
+                              (post["user"] as Map?)?.cast<String, dynamic>() ??
+                                  const <String, dynamic>{};
+                          final authorUserName =
+                              postUser["userName"]?.toString() ?? "";
+                          final authorProfilePic =
+                              postUser["profilePic"]?.toString() ?? "";
 
-                        final String? mimeType = firstMedia == null
-                            ? null
-                            : firstMedia["mimeType"]?.toString();
+                          final String? mimeType = firstMedia == null
+                              ? null
+                              : firstMedia["mimeType"]?.toString();
 
-                        final String? mediaUrl;
-                        if (firstMedia == null) {
-                          mediaUrl = null;
-                        } else {
-                          final dynamic rawUrl = mimeType == "VIDEO"
-                              ? firstMedia["thumbnail"]
-                              : firstMedia["url"];
-                          mediaUrl = rawUrl?.toString();
-                        }
+                          final String? mediaUrl;
+                          if (firstMedia == null) {
+                            mediaUrl = null;
+                          } else {
+                            final dynamic rawUrl = mimeType == "VIDEO"
+                                ? firstMedia["thumbnail"]
+                                : firstMedia["url"];
+                            mediaUrl = rawUrl?.toString();
+                          }
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Container(
-                            color: const Color(0xFFF8F8F8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 10),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 28,
-                                        height: 28,
-                                        child: CircleAvatar(
-                                          backgroundImage:
-                                              authorProfilePic.isNotEmpty
-                                                  ? NetworkImage(
-                                                      authorProfilePic,
-                                                    )
-                                                  : null,
-                                          backgroundColor:
-                                              const Color(0xFFEFEFEF),
-                                          child: authorProfilePic.isEmpty
-                                              ? const Icon(
-                                                  Icons.person,
-                                                  size: 18,
-                                                  color: Color(0xFF200E32),
-                                                )
-                                              : null,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: Text(
-                                          authorUserName.isNotEmpty
-                                              ? authorUserName
-                                              : "Unknown",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: Color(0xFF200E32),
-                                            fontWeight: FontWeight.w600,
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Container(
+                              color: const Color(0xFFF8F8F8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 10),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 28,
+                                          height: 28,
+                                          child: CircleAvatar(
+                                            backgroundImage:
+                                                authorProfilePic.isNotEmpty
+                                                    ? NetworkImage(
+                                                        authorProfilePic,
+                                                      )
+                                                    : null,
+                                            backgroundColor:
+                                                const Color(0xFFEFEFEF),
+                                            child: authorProfilePic.isEmpty
+                                                ? const Icon(
+                                                    Icons.person,
+                                                    size: 18,
+                                                    color: Color(0xFF200E32),
+                                                  )
+                                                : null,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                if (mediaUrl != null && mediaUrl.isNotEmpty)
-                                  InkWell(
-                                    onTap: () => _openComments(post),
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: Image.network(
-                                        mediaUrl,
-                                        fit: BoxFit.cover,
-                                        loadingBuilder:
-                                            (context, child, progress) {
-                                          if (progress == null) return child;
-                                          return const Center(
-                                              child:
-                                                  CircularProgressIndicator());
-                                        },
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return const Center(
-                                            child: Text(
-                                              "Media failed to load",
-                                              style: TextStyle(
-                                                  color: Color(0xFF200E32)),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                            authorUserName.isNotEmpty
+                                                ? authorUserName
+                                                : "Unknown",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              color: Color(0xFF200E32),
+                                              fontWeight: FontWeight.w600,
                                             ),
-                                          );
-                                        },
-                                      ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                Container(
-                                  width: double.infinity,
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  color: const Color(0xFFF8F8F8),
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () => toggleLike(post),
-                                        child: SvgPicture.asset(
-                                          isLiked
-                                              ? "assets/icons/HeartLiked.svg"
-                                              : "assets/icons/HeartUnliked.svg",
-                                          width: 20,
-                                          height: 20,
-                                          colorFilter: isLiked
-                                              ? null
-                                              : const ColorFilter.mode(
-                                                  Color(0xFF200E32),
-                                                  BlendMode.srcIn,
-                                                ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 14),
-                                      InkWell(
-                                        onTap: () => _openComments(post),
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.comment,
-                                                size: 20,
-                                                color: Color(0xFF200E32)),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              comments.isEmpty
-                                                  ? "0"
-                                                  : comments.length.toString(),
-                                              style: const TextStyle(
-                                                color: Color(0xFF200E32),
-                                                fontWeight: FontWeight.w500,
+                                  if (mediaUrl != null && mediaUrl.isNotEmpty)
+                                    InkWell(
+                                      onTap: () => _openComments(post),
+                                      child: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: Image.network(
+                                          mediaUrl,
+                                          fit: BoxFit.cover,
+                                          loadingBuilder:
+                                              (context, child, progress) {
+                                            if (progress == null) return child;
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return const Center(
+                                              child: Text(
+                                                "Media failed to load",
+                                                style: TextStyle(
+                                                    color: Color(0xFF200E32)),
                                               ),
-                                            ),
-                                          ],
+                                            );
+                                          },
                                         ),
                                       ),
-                                      const SizedBox(width: 14),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: const Icon(Icons.send,
-                                            size: 20, color: Color(0xFF200E32)),
-                                      ),
-                                      const Spacer(),
-                                      InkWell(
-                                        onTap: () => toggleSave(post),
-                                        child: Icon(
-                                          isSaved
-                                              ? Icons.bookmark
-                                              : Icons.bookmark_border,
-                                          size: 22,
-                                          color: const Color(0xFF200E32),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => _openComments(post),
-                                  child: Padding(
+                                    ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 40,
+                                    alignment: Alignment.center,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 8),
-                                    child: Text(
-                                      post["caption"]?.toString() ?? "",
-                                      style: const TextStyle(
-                                          color: Color(0xFF200E32),
-                                          fontSize: 14),
+                                        horizontal: 8),
+                                    color: const Color(0xFFF8F8F8),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => toggleLike(post),
+                                          child: SvgPicture.asset(
+                                            isLiked
+                                                ? "assets/icons/HeartLiked.svg"
+                                                : "assets/icons/HeartUnliked.svg",
+                                            width: 20,
+                                            height: 20,
+                                            colorFilter: isLiked
+                                                ? null
+                                                : const ColorFilter.mode(
+                                                    Color(0xFF200E32),
+                                                    BlendMode.srcIn,
+                                                  ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 14),
+                                        InkWell(
+                                          onTap: () => _openComments(post),
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.comment,
+                                                  size: 20,
+                                                  color: Color(0xFF200E32)),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                comments.isEmpty
+                                                    ? "0"
+                                                    : comments.length
+                                                        .toString(),
+                                                style: const TextStyle(
+                                                  color: Color(0xFF200E32),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 14),
+                                        InkWell(
+                                          onTap: () {},
+                                          child: const Icon(Icons.send,
+                                              size: 20,
+                                              color: Color(0xFF200E32)),
+                                        ),
+                                        const Spacer(),
+                                        InkWell(
+                                          onTap: () => toggleSave(post),
+                                          child: Icon(
+                                            isSaved
+                                                ? Icons.bookmark
+                                                : Icons.bookmark_border,
+                                            size: 22,
+                                            color: const Color(0xFF200E32),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                if (comments.isNotEmpty)
                                   InkWell(
                                     onTap: () => _openComments(post),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 4),
-                                      child:
-                                          CommentsPreview(comments: comments),
+                                          horizontal: 12, vertical: 8),
+                                      child: Text(
+                                        post["caption"]?.toString() ?? "",
+                                        style: const TextStyle(
+                                            color: Color(0xFF200E32),
+                                            fontSize: 14),
+                                      ),
                                     ),
                                   ),
-                              ],
+                                  if (comments.isNotEmpty)
+                                    InkWell(
+                                      onTap: () => _openComments(post),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 4),
+                                        child:
+                                            CommentsPreview(comments: comments),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
+                          );
+                        },
+                      ),
+              ),
             ),
           ),
         ],

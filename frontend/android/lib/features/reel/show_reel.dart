@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:logger/logger.dart';
 
 import 'reel_screen.dart';
@@ -51,7 +49,13 @@ class _ShowReelState extends ConsumerState<ShowReel> {
 
   Future<void> fetchReels() async {
     if (isFetching || !hasMore) return;
-    isFetching = true;
+    if (mounted) {
+      setState(() {
+        isFetching = true;
+      });
+    } else {
+      isFetching = true;
+    }
 
     try {
       final uri = Uri.parse(
@@ -83,18 +87,26 @@ class _ShowReelState extends ConsumerState<ShowReel> {
           continue;
         }
 
-        final url = media[0]['url'];
+        final media0 = media[0];
+        if (media0 is! Map) {
+          logger.w('⚠️ Skipping reel ${reel['id']} — invalid media');
+          continue;
+        }
+
+        final url = media0['url'];
+        final mimeType = media0['mimeType'];
 
         if (url == null || url is! String || url.isEmpty) {
           logger.w('⚠️ Skipping reel ${reel['id']} — invalid url');
           continue;
         }
 
-        final file = await DefaultCacheManager().getSingleFile(url);
+        final normalizedUrl = url.startsWith('http') ? url : 'http://$url';
 
         newReels.add({
           'id': reel['id'],
-          'videoPath': file.path, // ✅ guaranteed non-null
+          'mediaUrl': normalizedUrl,
+          'mimeType': mimeType,
           'data': reel,
         });
       }
@@ -113,33 +125,70 @@ class _ShowReelState extends ConsumerState<ShowReel> {
         'Fetch reels failed $e',
       );
     } finally {
-      isFetching = false;
+      if (mounted) {
+        setState(() {
+          isFetching = false;
+        });
+      } else {
+        isFetching = false;
+      }
     }
+  }
+
+  Future<void> _refresh() async {
+    ref.read(videoCachingProvider.notifier).state = [];
+    setState(() {
+      skip = 0;
+      hasMore = true;
+      _currentIndex = 0;
+      isFetching = false;
+    });
+    await fetchReels();
   }
 
   @override
   Widget build(BuildContext context) {
     final reels = ref.watch(videoCachingProvider);
 
-    return Container(
-      color: Colors.black,
-      child: PageView.builder(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        itemCount: reels.length,
-        onPageChanged: (index) {
-          setState(() => _currentIndex = index);
-        },
-        itemBuilder: (context, index) {
-          final reel = reels[index];
+    return RefreshIndicator(
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      onRefresh: _refresh,
+      child: reels.isEmpty
+          ? ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                const SizedBox(height: 80),
+                Center(
+                  child: isFetching
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          'No reels available',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                ),
+              ],
+            )
+          : Container(
+              color: Colors.black,
+              child: PageView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: _pageController,
+                scrollDirection: Axis.vertical,
+                itemCount: reels.length,
+                onPageChanged: (index) {
+                  setState(() => _currentIndex = index);
+                },
+                itemBuilder: (context, index) {
+                  final reel = reels[index];
 
-          return ReelScreen(
-            key: ValueKey(reel['id']),
-            reelData: reel,
-            isActive: index == _currentIndex,
-          );
-        },
-      ),
+                  return ReelScreen(
+                    key: ValueKey(reel['id']),
+                    reelData: reel,
+                    isActive: index == _currentIndex,
+                  );
+                },
+              ),
+            ),
     );
   }
 }
