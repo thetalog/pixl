@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pixl/core/widgets/create_action_dropdown.dart';
 import 'package:pixl/features/stories/create_story.dart';
 import 'package:pixl/features/auth/login.dart';
 import 'package:pixl/features/home/home_layout.dart';
 import 'package:pixl/state/auth_provider.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pixl/state/action_provider.dart';
+import 'package:pixl/state/root_page_controller_provider.dart';
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
@@ -20,7 +21,7 @@ class ValidateJwt extends ConsumerStatefulWidget {
 }
 
 class _ValidateJwtState extends ConsumerState<ValidateJwt> {
-  final PageController _pageViewController = PageController(initialPage: 1);
+  int _lastPageIndex = 1;
   bool isLoggedIn = false;
   Future<void> checkIfLoggedIn() async {
     String? token = await secureStorage.read(key: "jwt_token");
@@ -38,23 +39,31 @@ class _ValidateJwtState extends ConsumerState<ValidateJwt> {
   @override
   void initState() {
     super.initState();
+    _lastPageIndex = 1;
     checkIfLoggedIn();
   }
 
   @override
   void dispose() {
-    _pageViewController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final tokenAsync = ref.watch(tokenProvider);
-    final profileAsync = ref.watch(profileProvider);
+    final pageController = ref.read(rootPageControllerProvider);
     return Scaffold(
       body: PageView(
         scrollDirection: Axis.horizontal,
-        controller: _pageViewController,
+        controller: pageController,
+        onPageChanged: (index) {
+          // Home (1) -> CreateStory (0) is a right-swipe gesture.
+          if (_lastPageIndex == 1 && index == 0) {
+            logger.i('📌 CreateStory opened via swipe right');
+            ref.read(storyCreationSourceProvider.notifier).state =
+                'swipe_right';
+          }
+          _lastPageIndex = index;
+        },
         children: [
           const CreateStory(),
           ref.watch(tokenProvider).when(

@@ -15,23 +15,23 @@ async function getFollowedStories(user, skip = 0, take = 20) {
 
     const followedUserIds = followedUsers.map(f => f.targetId);
 
-    // If user follows no one
-    if (followedUserIds.length === 0) {
-      return {
-        message: "No followed stories found",
-        status: 200,
-        data: [],
-      };
-    }
+    // Always include self so creator can see their own stories.
+    const storyOwnerIds = Array.from(new Set([...followedUserIds, user.id]));
 
-    // 2️⃣ Fetch stories from followed users
+    // 2️⃣ Fetch stories (without including media relation to avoid hard failures
+    // when orphaned mediaId exists in Stories due to deleted Media collection).
     const stories = await prisma.stories.findMany({
       where: {
         userId: {
-          in: followedUserIds,
+          in: storyOwnerIds,
         },
       },
-      include: {
+      select: {
+        id: true,
+        userId: true,
+        createdAt: true,
+        updatedAt: true,
+        mediaId: true,
         user: {
           select: {
             id: true,
@@ -39,7 +39,6 @@ async function getFollowedStories(user, skip = 0, take = 20) {
             profilePic: true,
           },
         },
-        media: true,
         seen: {
           where: {
             userId: user.id, // ✅ current viewer
@@ -56,12 +55,34 @@ async function getFollowedStories(user, skip = 0, take = 20) {
       take,
     });
 
-    const formattedStories = stories.map(story => ({
-      ...story,
-      isSeen:
-        story.userId.toString() === user.id.toString() || // creator
-        story.seen.length > 0, // viewer has seen
-    }));
+    // 3️⃣ Fetch media separately and attach. Missing media -> filter story out.
+    const mediaIds = stories
+      .map(s => s.mediaId)
+      .filter(Boolean);
+
+    const mediaList = mediaIds.length
+      ? await prisma.media.findMany({
+        where: {
+          id: { in: mediaIds },
+        },
+      })
+      : [];
+
+    const mediaById = new Map(mediaList.map(m => [m.id.toString(), m]));
+
+    const formattedStories = stories
+      .map(story => {
+        const media = mediaById.get(story.mediaId?.toString() ?? "") ?? null;
+        return {
+          ...story,
+          media,
+          isSeen:
+            story.userId.toString() === user.id.toString() || // creator
+            story.seen.length > 0, // viewer has seen
+        };
+      })
+      // Filter out stories whose media is missing/orphaned.
+      .filter(story => story.media);
 
     return {
       message: "Followed users stories fetched successfully",

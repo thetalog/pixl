@@ -7,10 +7,12 @@ final logger = Logger();
 
 class StoriesBar extends StatelessWidget {
   final List<Map<String, dynamic>> allStories;
+  final VoidCallback? onStoryViewerClosed;
 
   const StoriesBar({
     Key? key,
     required this.allStories,
+    this.onStoryViewerClosed,
   }) : super(key: key);
 
   Map<String, List<Map<String, dynamic>>> _groupByUser() {
@@ -32,7 +34,8 @@ class StoriesBar extends StatelessWidget {
     if (users.isEmpty) {
       return Center(
           child: Text("No stories available",
-              style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255))));
+              style:
+                  TextStyle(color: const Color.fromARGB(255, 255, 255, 255))));
     }
     return SizedBox(
       height: 110,
@@ -51,7 +54,9 @@ class StoriesBar extends StatelessWidget {
                     stories: userStories,
                   ),
                 ),
-              );
+              ).then((_) {
+                onStoryViewerClosed?.call();
+              });
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -141,7 +141,8 @@ class _StoryViewerState extends State<StoryViewer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _markStorySeen(widget.stories[0]['id']);
+      if (widget.stories.isEmpty) return;
+      _markStorySeen(widget.stories[0]['id']?.toString() ?? "");
     });
     _setupMediaForCurrentStory();
   }
@@ -156,7 +157,7 @@ class _StoryViewerState extends State<StoryViewer> {
     if (currentStory < widget.stories.length - 1) {
       setState(() => currentStory++);
       _setupMediaForCurrentStory();
-      _markStorySeen(widget.stories[currentStory]['id']);
+      _markStorySeen(widget.stories[currentStory]['id']?.toString() ?? "");
     }
   }
 
@@ -164,7 +165,7 @@ class _StoryViewerState extends State<StoryViewer> {
     if (currentStory > 0) {
       setState(() => currentStory--);
       _setupMediaForCurrentStory();
-      _markStorySeen(widget.stories[currentStory]['id']);
+      _markStorySeen(widget.stories[currentStory]['id']?.toString() ?? "");
     }
   }
 

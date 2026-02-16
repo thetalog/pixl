@@ -4,19 +4,19 @@ import 'package:http_parser/http_parser.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:image/image.dart' as img;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pixl/core/config/config.dart';
 
 const _secureStorage = FlutterSecureStorage();
+
+final storyCreationSourceProvider = StateProvider<String>((ref) => 'unknown');
 
 final actionProvider = Provider<ActionNotifier>((ref) {
   final controller = WidgetsToImageController();
@@ -44,7 +44,10 @@ class ActionNotifier {
     return false;
   }
 
-  Future<void> captureAndSave() async {
+  Future<void> captureAndSave({String source = 'unknown'}) async {
+    print(
+      "📌 Story upload triggered (source=$source, ts=${DateTime.now().toIso8601String()})",
+    );
     final hasPermission = await _requestGalleryPermission();
     if (!hasPermission) {
       print("❌ Gallery permission denied");
@@ -109,10 +112,14 @@ class ActionNotifier {
     final response = await request.send();
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("✅ Story uploaded successfully");
+      print(
+        "✅ Story uploaded successfully (source=$source, status=${response.statusCode})",
+      );
     } else {
       final body = await response.stream.bytesToString();
-      print("❌ Upload failed: ${response.statusCode}");
+      print(
+        "❌ Upload failed (source=$source): ${response.statusCode}",
+      );
       print(body);
     }
   }

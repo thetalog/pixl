@@ -11,6 +11,8 @@ import '../post/comments/comments_preview.dart';
 import '../stories/widgets/story_bar.dart';
 import 'package:pixl/core/config/config.dart';
 import 'package:logger/logger.dart';
+import 'package:pixl/state/root_page_controller_provider.dart';
+import 'package:pixl/state/action_provider.dart';
 
 final secureStorage = FlutterSecureStorage();
 final logger = Logger();
@@ -25,6 +27,9 @@ class Feed extends ConsumerStatefulWidget {
 class _FeedState extends ConsumerState<Feed> {
   final Map<String, bool> _likeOverrides = {};
   final Map<String, bool> _saveOverrides = {};
+
+  Offset? _emptyFeedSwipeStart;
+  Offset? _emptyFeedSwipeLast;
 
   List<String> _normalizeTags(dynamic rawTags) {
     if (rawTags == null) return const [];
@@ -187,7 +192,12 @@ class _FeedState extends ConsumerState<Feed> {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Text(e.toString(),
                   style: const TextStyle(color: Colors.white)),
-              data: (data) => StoriesBar(allStories: data),
+              data: (data) => StoriesBar(
+                allStories: data,
+                onStoryViewerClosed: () {
+                  ref.invalidate(storiesProvider);
+                },
+              ),
             ),
           ),
           const Divider(color: Colors.grey),
@@ -215,17 +225,51 @@ class _FeedState extends ConsumerState<Feed> {
                   ],
                 ),
                 data: (list) => list.isEmpty
-                    ? ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: const [
-                          SizedBox(height: 24),
-                          Center(
-                            child: Text(
-                              "No posts available",
-                              style: TextStyle(color: Colors.white),
+                    ? Listener(
+                        behavior: HitTestBehavior.translucent,
+                        onPointerDown: (event) {
+                          _emptyFeedSwipeStart = event.position;
+                          _emptyFeedSwipeLast = event.position;
+                        },
+                        onPointerMove: (event) {
+                          _emptyFeedSwipeLast = event.position;
+                        },
+                        onPointerUp: (event) {
+                          final start = _emptyFeedSwipeStart;
+                          final end = _emptyFeedSwipeLast;
+                          _emptyFeedSwipeStart = null;
+                          _emptyFeedSwipeLast = null;
+                          if (start == null || end == null) return;
+
+                          final dx = end.dx - start.dx;
+                          final dy = end.dy - start.dy;
+
+                          // Right swipe: large horizontal movement, mostly horizontal.
+                          if (dx > 90 && dx.abs() > dy.abs() * 2) {
+                            logger.i(
+                                '📌 CreateStory opened via swipe right (empty feed fallback)');
+                            ref
+                                .read(storyCreationSourceProvider.notifier)
+                                .state = 'swipe_right';
+                            ref.read(rootPageControllerProvider).animateToPage(
+                                  0,
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeOut,
+                                );
+                          }
+                        },
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: const [
+                            SizedBox(height: 24),
+                            Center(
+                              child: Text(
+                                "No posts available",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     : ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(),

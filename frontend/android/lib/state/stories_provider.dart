@@ -29,7 +29,8 @@ final storiesProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   debugPrint('Stories status: ${response.statusCode}');
   debugPrint('Stories body: ${response.body}');
   if (response.statusCode != 200) {
-    throw Exception('Failed to load stories: ${response.statusCode}');
+    logger.e('Failed to load stories: ${response.statusCode}');
+    return [];
   }
 
   final decoded = json.decode(response.body);

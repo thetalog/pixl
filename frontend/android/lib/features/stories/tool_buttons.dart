@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../state/stories_provider.dart';
-import 'widgets/draggable_text.dart';
 import '../../state/action_provider.dart';
-import '../../state/stories_provider.dart';
 import '../../state/story_text_provider.dart'; // ✅ REQUIRED
 import '../../shared/models/story_text.dart';
 
@@ -55,7 +52,8 @@ class _ToolButtons extends ConsumerState<ToolButtons> {
         ElevatedButton(onPressed: _addText, child: Text("Add Text")),
         ElevatedButton(
             onPressed: () {
-              ref.read(actionProvider).captureAndSave();
+              final source = ref.read(storyCreationSourceProvider);
+              ref.read(actionProvider).captureAndSave(source: source);
             },
             child: Text("Done")),
       ],
