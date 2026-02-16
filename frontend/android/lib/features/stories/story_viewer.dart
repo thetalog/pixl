@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:video_player/video_player.dart';
 import 'widgets/story_progress_bar.dart';
 import 'package:pixl/core/config/config.dart';
 
@@ -21,9 +22,86 @@ class StoryViewer extends StatefulWidget {
 }
 
 class _StoryViewerState extends State<StoryViewer> {
-  late PageController _controller;
   final Set<String> _seenStories = {};
   int currentStory = 0;
+
+  VideoPlayerController? _videoController;
+  Future<void>? _videoInit;
+  bool _videoError = false;
+
+  Map<String, dynamic>? _currentMedia() {
+    final dynamic raw = widget.stories[currentStory]["media"];
+    if (raw is Map) return raw.cast<String, dynamic>();
+    if (raw is List && raw.isNotEmpty && raw.first is Map) {
+      return (raw.first as Map).cast<String, dynamic>();
+    }
+    return null;
+  }
+
+  String _currentMimeType() {
+    final media = _currentMedia();
+    return media?["mimeType"]?.toString() ?? "";
+  }
+
+  String _currentVideoUrl() {
+    final media = _currentMedia();
+    if (media == null) return "";
+    if (_currentMimeType().toUpperCase() != "VIDEO") return "";
+    return media["url"]?.toString() ?? "";
+  }
+
+  String _currentDisplayUrl() {
+    final media = _currentMedia();
+    if (media == null) return "";
+
+    final mimeType = _currentMimeType().toUpperCase();
+    if (mimeType == "VIDEO") {
+      return media["thumbnail"]?.toString() ?? "";
+    }
+
+    return media["url"]?.toString() ?? "";
+  }
+
+  void _setupMediaForCurrentStory() {
+    final mimeType = _currentMimeType().toUpperCase();
+
+    _videoError = false;
+    _videoInit = null;
+    _videoController?.dispose();
+    _videoController = null;
+
+    if (mimeType != "VIDEO") {
+      if (mounted) setState(() {});
+      return;
+    }
+
+    final url = _currentVideoUrl();
+    if (url.isEmpty) {
+      _videoError = true;
+      if (mounted) setState(() {});
+      return;
+    }
+
+    final controller = VideoPlayerController.networkUrl(Uri.parse(url));
+    _videoController = controller;
+
+    _videoInit = controller
+        .initialize()
+        .timeout(const Duration(seconds: 15))
+        .then((_) async {
+      await controller.setLooping(true);
+      await controller.play();
+      if (!mounted) return;
+      setState(() {});
+    }).catchError((_) {
+      if (!mounted) return;
+      setState(() {
+        _videoError = true;
+      });
+    });
+
+    if (mounted) setState(() {});
+  }
 
   Future<void> _markStorySeen(String storyId) async {
     if (_seenStories.contains(storyId)) return;
@@ -62,16 +140,22 @@ class _StoryViewerState extends State<StoryViewer> {
   @override
   void initState() {
     super.initState();
-    _controller = PageController();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _markStorySeen(widget.stories[0]['id']);
     });
+    _setupMediaForCurrentStory();
+  }
+
+  @override
+  void dispose() {
+    _videoController?.dispose();
+    super.dispose();
   }
 
   void _nextStory() {
     if (currentStory < widget.stories.length - 1) {
       setState(() => currentStory++);
+      _setupMediaForCurrentStory();
       _markStorySeen(widget.stories[currentStory]['id']);
     }
   }
@@ -79,6 +163,7 @@ class _StoryViewerState extends State<StoryViewer> {
   void _previousStory() {
     if (currentStory > 0) {
       setState(() => currentStory--);
+      _setupMediaForCurrentStory();
       _markStorySeen(widget.stories[currentStory]['id']);
     }
   }
@@ -87,11 +172,19 @@ class _StoryViewerState extends State<StoryViewer> {
   Widget build(BuildContext context) {
     final profilePic = widget.stories[currentStory]['user']['profilePic'];
     final screenWidth = MediaQuery.of(context).size.width;
+    final displayUrl = _currentDisplayUrl();
+    final mimeType = _currentMimeType().toUpperCase();
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
+        onVerticalDragEnd: (details) {
+          final velocity = details.primaryVelocity ?? 0;
+          if (velocity > 900) {
+            Navigator.of(context).maybePop();
+          }
+        },
         onTapDown: (details) {
           if (details.globalPosition.dx > screenWidth / 2) {
             _nextStory();
@@ -106,10 +199,71 @@ class _StoryViewerState extends State<StoryViewer> {
               currentStoryIndex: currentStory,
             ),
             Positioned.fill(
-              child: Image.network(
-                widget.stories[currentStory]['media']['url'],
-                fit: BoxFit.contain,
-              ),
+              child: mimeType == "VIDEO"
+                  ? (_videoError
+                      ? const Center(
+                          child: Text(
+                            "Video story failed to load",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      : (_videoInit == null || _videoController == null)
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : FutureBuilder<void>(
+                              future: _videoInit,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState !=
+                                    ConnectionState.done) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                if (!_videoController!.value.isInitialized) {
+                                  return const Center(
+                                    child: Text(
+                                      "Video story unavailable",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  );
+                                }
+
+                                return Center(
+                                  child: AspectRatio(
+                                    aspectRatio:
+                                        _videoController!.value.aspectRatio,
+                                    child: VideoPlayer(_videoController!),
+                                  ),
+                                );
+                              },
+                            ))
+                  : (displayUrl.isEmpty
+                      ? const Center(
+                          child: Text(
+                            "Story media unavailable",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      : Image.network(
+                          displayUrl,
+                          fit: BoxFit.contain,
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                              child: Text(
+                                "Story failed to load",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            );
+                          },
+                        )),
             ),
             Positioned(
               top: 50,

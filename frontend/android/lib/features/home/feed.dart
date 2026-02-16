@@ -26,6 +26,52 @@ class _FeedState extends ConsumerState<Feed> {
   final Map<String, bool> _likeOverrides = {};
   final Map<String, bool> _saveOverrides = {};
 
+  List<String> _normalizeTags(dynamic rawTags) {
+    if (rawTags == null) return const [];
+
+    final List<dynamic> list;
+    if (rawTags is List) {
+      list = rawTags;
+    } else if (rawTags is String) {
+      list = rawTags
+          .split(",")
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+    } else {
+      return const [];
+    }
+
+    final tags = <String>[];
+    for (final item in list) {
+      final tag = item?.toString().trim() ?? "";
+      if (tag.isEmpty) continue;
+      final normalized = tag.startsWith("#") ? tag.substring(1).trim() : tag;
+      if (normalized.isEmpty) continue;
+      tags.add(normalized);
+    }
+
+    // De-dupe, preserve order
+    final seen = <String>{};
+    return tags.where((t) => seen.add(t.toLowerCase())).toList();
+  }
+
+  List<String> _hashtagsFromCaption(String caption) {
+    if (caption.isEmpty) return const [];
+    final matches = RegExp(r'(^|\\s)#([A-Za-z0-9_]+)')
+        .allMatches(caption)
+        .map((m) => m.group(2) ?? "")
+        .where((t) => t.isNotEmpty)
+        .toList();
+    return _normalizeTags(matches);
+  }
+
+  List<String> _getPostTags(Map<String, dynamic> post, String caption) {
+    final fromFields = _normalizeTags(post["userTags"] ?? post["tags"]);
+    if (fromFields.isNotEmpty) return fromFields;
+    return _hashtagsFromCaption(caption);
+  }
+
   Future<void> _refresh() async {
     await Future.wait([
       ref.refresh(storiesProvider.future),
@@ -136,7 +182,7 @@ class _FeedState extends ConsumerState<Feed> {
       child: Column(
         children: [
           SizedBox(
-            height: 60,
+            height: 110,
             child: stories.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Text(e.toString(),
@@ -206,6 +252,9 @@ class _FeedState extends ConsumerState<Feed> {
                               : false;
                           final comments =
                               (post["comments"] as List?) ?? const [];
+
+                          final caption = post["caption"]?.toString() ?? "";
+                          final tags = _getPostTags(post, caption);
 
                           final postUser =
                               (post["user"] as Map?)?.cast<String, dynamic>() ??
@@ -381,13 +430,34 @@ class _FeedState extends ConsumerState<Feed> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 8),
                                       child: Text(
-                                        post["caption"]?.toString() ?? "",
+                                        caption,
                                         style: const TextStyle(
                                             color: Color(0xFF200E32),
                                             fontSize: 14),
                                       ),
                                     ),
                                   ),
+                                  if (tags.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          12, 0, 12, 8),
+                                      child: Wrap(
+                                        spacing: 10,
+                                        runSpacing: 6,
+                                        children: tags
+                                            .map(
+                                              (t) => Text(
+                                                "#$t",
+                                                style: const TextStyle(
+                                                  color: Color(0xFF200E32),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            )
+                                            .toList(),
+                                      ),
+                                    ),
                                   if (comments.isNotEmpty)
                                     InkWell(
                                       onTap: () => _openComments(post),
