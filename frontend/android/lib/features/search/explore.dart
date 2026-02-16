@@ -71,7 +71,7 @@ class _ExplorePageState extends State<ExplorePage>
 
   Future<List<Map<String, dynamic>>> fetchImagesByCategories(
       String category) async {
-    if (category == "All") return [{}];
+    if (category == "All") return fetchImagesByAll();
     final String apiUrl = Config.buildApiUrl(
         '/posts/get-all-public-posts-by-ui-category?category=$category');
     String? token = await secureStorage.read(key: "jwt_token");
@@ -98,6 +98,37 @@ class _ExplorePageState extends State<ExplorePage>
   // ✅ get future from cache OR create new one
   Future<List<Map<String, dynamic>>> getFuture(String cat) {
     return _futureCache.putIfAbsent(cat, () => fetchImagesByCategories(cat));
+  }
+
+  String? _firstString(dynamic value) {
+    if (value is String) return value;
+    if (value is List && value.isNotEmpty) {
+      final first = value.first;
+      if (first is String) return first;
+    }
+    return null;
+  }
+
+  String _normalizeUrl(String url) {
+    if (url.startsWith("http")) return url;
+    return "http://$url";
+  }
+
+  String? _extractPreviewUrl(Map<String, dynamic> post) {
+    final mediaValue = post["media"];
+    if (mediaValue is! List || mediaValue.isEmpty) return null;
+
+    final media0 = mediaValue.first;
+    if (media0 is! Map) return null;
+
+    final mimeType = media0["mimeType"];
+    final dynamic candidate = (mimeType == "VIDEO")
+        ? (media0["thumbnail"] ?? media0["url"])
+        : (media0["url"] ?? media0["thumbnail"]);
+
+    final url = _firstString(candidate);
+    if (url == null || url.isEmpty) return null;
+    return _normalizeUrl(url);
   }
 
   @override
@@ -161,7 +192,7 @@ class _ExplorePageState extends State<ExplorePage>
               controller: _tabController,
               children: categories.map((cat) {
                 // ✅ IF (before FutureBuilder)
-                if (cat == "ALL") {
+                if (cat == "All") {
                   return FutureBuilder<List<Map<String, dynamic>>>(
                     future: fetchImagesByAll(),
                     builder: (context, snapshot) {
@@ -176,7 +207,7 @@ class _ExplorePageState extends State<ExplorePage>
                       final posts = snapshot.data ?? [];
 
                       if (posts.isEmpty) {
-                        return Center(child: Text("No posts found for $cat"));
+                        return const Center(child: Text("No Post available"));
                       }
 
                       return Padding(
@@ -189,16 +220,8 @@ class _ExplorePageState extends State<ExplorePage>
                           itemBuilder: (context, index) {
                             final post = posts[index];
 
-                            final List media = post["media"] ?? [];
-                            String imageUrl = "";
-                            for (var mediaObject in media) {
-                              if (mediaObject["mimeType"] == "VIDEO") {
-                                imageUrl = mediaObject["thumbnail"];
-                              } else {
-                                imageUrl = mediaObject["url"];
-                              }
-                            }
-                            if (media.isEmpty) return const SizedBox();
+                            final imageUrl = _extractPreviewUrl(post);
+                            if (imageUrl == null) return const SizedBox();
 
                             return ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -243,7 +266,7 @@ class _ExplorePageState extends State<ExplorePage>
                     final posts = snapshot.data ?? [];
 
                     if (posts.isEmpty) {
-                      return Center(child: Text("No posts found for $cat"));
+                      return const Center(child: Text("No Post available"));
                     }
 
                     return Padding(
@@ -256,17 +279,8 @@ class _ExplorePageState extends State<ExplorePage>
                         itemBuilder: (context, index) {
                           final post = posts[index];
 
-                          final List media = post["media"] ?? [];
-                          if (media.isEmpty) return const SizedBox();
-
-                          final List urls = media[0]["url"] ?? [];
-                          if (urls.isEmpty) return const SizedBox();
-
-                          String imageUrl = urls[0].toString();
-
-                          if (!imageUrl.startsWith("http")) {
-                            imageUrl = "http://$imageUrl";
-                          }
+                          final imageUrl = _extractPreviewUrl(post);
+                          if (imageUrl == null) return const SizedBox();
 
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(10),
