@@ -161,14 +161,17 @@ class _ViewFollowedPublicPostsState extends State<ViewFollowedPublicPosts> {
                         child: Row(
                           children: [
                             InkWell(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                final didChange = await Navigator.push<bool>(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         ShowAllComments(post: post),
                                   ),
                                 );
+                                if (didChange == true) {
+                                  await fetchAllPosts();
+                                }
                               },
                               child: const Icon(
                                 Icons.comment,

@@ -1,13 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'comments/comments_preview.dart';
 import 'comments/show_all_comments.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:video_player/video_player.dart';
 import 'media_carousel.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -30,7 +26,6 @@ class ViewPost extends StatefulWidget {
 class _ViewPostState extends State<ViewPost> {
   bool isLiked = false;
   int commentLengthCount = 0;
-  late VideoPlayerController _controller;
   late final PageController _pageController = PageController(initialPage: 0);
   final _secureStorage = const FlutterSecureStorage();
 
@@ -102,6 +97,7 @@ class _ViewPostState extends State<ViewPost> {
   @override
   void dispose() {
     _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -139,13 +135,17 @@ class _ViewPostState extends State<ViewPost> {
                         child: Row(
                           children: [
                             InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ShowAllComments(
-                                          post: widget.post ?? {}),
-                                    ));
+                              onTap: () async {
+                                final didChange = await Navigator.push<bool>(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowAllComments(
+                                        post: widget.post ?? {}),
+                                  ),
+                                );
+                                if (didChange == true) {
+                                  await _loadData();
+                                }
                               },
                               child: const Icon(Icons.comment,
                                   size: 20, color: Color(0xFF200E32)),

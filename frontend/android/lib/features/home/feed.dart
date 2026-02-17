@@ -84,13 +84,16 @@ class _FeedState extends ConsumerState<Feed> {
     ]);
   }
 
-  void _openComments(Map<String, dynamic> post) {
-    Navigator.push(
+  void _openComments(Map<String, dynamic> post) async {
+    final didChange = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
         builder: (_) => ShowAllComments(post: post),
       ),
     );
+    if (didChange == true) {
+      await _refresh();
+    }
   }
 
   Future<void> toggleLike(Map<String, dynamic> post) async {

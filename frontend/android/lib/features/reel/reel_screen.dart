@@ -223,12 +223,14 @@ class ReelScreenState extends State<ReelScreen> {
               bottom: 70,
               right: 10,
               child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              ShowAllComments(post: reel)));
+                onTap: () async {
+                  await Navigator.push<bool>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ShowAllComments(post: reel),
+                    ),
+                  );
                 },
                 child: const Icon(
                   Icons.comment,
@@ -313,12 +315,14 @@ class ReelScreenState extends State<ReelScreen> {
             bottom: 70,
             right: 10,
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            ShowAllComments(post: reel)));
+              onTap: () async {
+                await Navigator.push<bool>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        ShowAllComments(post: reel),
+                  ),
+                );
               },
               child: Icon(
                 Icons.comment,
