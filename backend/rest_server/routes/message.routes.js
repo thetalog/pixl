@@ -13,6 +13,12 @@ const {
 const {
     sendDirectMessageController,
 } = require("../controller/message/direct/sendMessage");
+const {
+    getDirectMessagesController,
+} = require("../controller/message/direct/getMessages");
+const {
+    getDirectConversationsController,
+} = require("../controller/message/direct/getConversations");
 
 const {
     createGroupController,
@@ -29,6 +35,12 @@ const {
 const {
     sendGroupMessageController,
 } = require("../controller/message/group/sendMessage");
+const {
+    getGroupMessagesController,
+} = require("../controller/message/group/getMessages");
+const {
+    getGroupConversationsController,
+} = require("../controller/message/group/getConversations");
 
 const multer = require("multer");
 const upload = multer({
@@ -44,6 +56,9 @@ router.post(
     sendDirectMessageController
 );
 
+router.get("/direct/messages", getDirectMessagesController);
+router.get("/direct/conversations", getDirectConversationsController);
+
 router.post(
     "/group/create-group",
     upload.single("file"),
@@ -57,5 +72,8 @@ router.post(
     upload.array("files"),
     sendGroupMessageController
 );
+
+router.get("/group/messages", getGroupMessagesController);
+router.get("/group/conversations", getGroupConversationsController);
 
 module.exports = router;
