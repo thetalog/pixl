@@ -123,7 +123,7 @@ model Message {
   replyTo        String?           @db.ObjectId
   replyToMsg     Message?          @relation("ReplyChain", fields: [replyTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies        Message[]         @relation("ReplyChain")
-  conversationId String?           @unique
+  conversationId String?
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
 }

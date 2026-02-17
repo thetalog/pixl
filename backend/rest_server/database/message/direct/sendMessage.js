@@ -24,7 +24,7 @@ async function sendDirectMessage(user, receiverUsername, message, mediaUrl) {
       return { message: "Direct Message Sent Successfully", status: 201 };
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error)
       return { message: "Direct Message failed", status: 500 };
     });
   await prisma.$disconnect();

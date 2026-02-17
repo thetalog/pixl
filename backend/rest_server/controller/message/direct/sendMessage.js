@@ -50,7 +50,7 @@ exports.sendDirectMessageController = async (req, res) => {
       uploadResults
     );
 
-    if (response?.status === 500) {
+    if (response?.status !== 201) {
       return res.status(500).json({
         message: "Direct message failed.",
       });

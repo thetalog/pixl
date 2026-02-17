@@ -1,48 +1,48 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function retractDirectMessage(user, messageId, senderUsername) {
-  const getSenderUser = await prisma.user.findUnique({
+async function retractDirectMessage(user, receiverUsername, messageId) {
+  const getReceiverUser = await prisma.user.findUnique({
     where: {
-      userName: senderUsername,
+      userName: receiverUsername,
     },
   });
-  if (!getSenderUser) {
-    return { message: "Sender not found", status: 404 };
+  if (!getReceiverUser) {
+    return { message: "Receiver not found", status: 404 };
   }
-  if (getSenderUser?.id === user?.id) {
+  if (getReceiverUser?.id === user?.id) {
     return { message: "Sender and receiver are same", status: 400 };
   }
-  const getmessage = await prisma.message.findUnique({
+
+  const getMessage = await prisma.message.findFirst({
     where: {
       id: messageId,
-      senderId: getSenderUser.id,
-      receiverId: user?.id,
+      senderId: user?.id,
+      receiverId: getReceiverUser.id,
       retracted: false,
     },
   });
-  if (!getmessage) {
+  if (!getMessage) {
     return { message: "Message not found or already retracted.", status: 404 };
   }
-  const senderId = getSenderUser.id;
+
   const response = await prisma.message
     .update({
       where: {
-        id: messageId,
-        senderId: senderId,
-        receiverId: user?.id,
+        id: getMessage.id,
       },
       data: {
         retracted: true,
       },
     })
-    .then(async (response) => {
+    .then(async () => {
       return { message: "Direct Message Retract Successfully", status: 201 };
     })
     .catch((error) => {
       console.log(error);
       return { message: "Direct Message Retract failed", status: 500 };
     });
+
   await prisma.$disconnect();
   return response;
 }

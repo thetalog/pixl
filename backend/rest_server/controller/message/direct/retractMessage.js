@@ -3,13 +3,13 @@ const { retractDirectMessage } = require("../../../database/message/direct/retra
 exports.retractDirectMessageController = async (req, res) => {
   try {
     const user = req.user;
-    const { senderUsername, messageId } = req.body;
+    const { receiverUsername, messageId } = req.body;
 
     /* ================= VALIDATION ================= */
 
-    if (!senderUsername) {
+    if (!receiverUsername) {
       return res.status(400).json({
-        message: "senderUsername is required",
+        message: "receiverUsername is required",
       });
     }
 
@@ -21,11 +21,7 @@ exports.retractDirectMessageController = async (req, res) => {
 
     /* ================= DATABASE ================= */
 
-    const response = await retractDirectMessage(
-      user,
-      messageId,
-      senderUsername
-    );
+    const response = await retractDirectMessage(user, receiverUsername, messageId);
 
     if (response?.status === 500) {
       return res.status(500).json({
