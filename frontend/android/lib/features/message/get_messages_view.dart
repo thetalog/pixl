@@ -3,7 +3,7 @@ import 'direct_message.dart';
 import 'group_message.dart';
 
 class GetMessagesView extends StatefulWidget {
-  const MessagesGetMessagesViewHomeScreen({super.key});
+  const GetMessagesView({super.key});
 
   @override
   State<GetMessagesView> createState() => _GetMessagesView();
@@ -12,7 +12,7 @@ class GetMessagesView extends StatefulWidget {
 class _GetMessagesView extends State<GetMessagesView>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -27,11 +27,25 @@ class _GetMessagesView extends State<GetMessagesView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Messages'),
-      ),
-      body: getMessagesTabView(),
+    return Column(
+      children: [
+        TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Direct'),
+            Tab(text: 'Group'),
+          ],
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: const [
+              DirectMessageTab(),
+              GroupMessageTab(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
