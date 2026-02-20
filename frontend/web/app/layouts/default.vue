@@ -1,17 +1,22 @@
 <template>
-        <div class="flex fixed bottom-0 flex-row justify-around bg-black text-white p-4 w-full">
-                <span class="flex-auto text-center">
-                    <NuxtLink to="/">Feed</NuxtLink>
-                </span>
-                <span class="flex-auto text-center">
-                    <NuxtLink to="/">Message</NuxtLink>
-                </span>
-                <span class="flex-auto text-center">
-                    <NuxtLink to="/">Explore</NuxtLink>
-                </span>
-                <span class="flex-auto text-center">
-                    <NuxtLink to="/">Profile</NuxtLink>
-                </span>
+    <div class="min-h-screen">
+        <div class="pb-24">
+            <slot />
         </div>
-    <slot />
+
+        <div class="fixed bottom-0 z-50 flex w-full flex-row justify-around bg-black p-4 text-white">
+            <span class="flex-auto text-center">
+                <NuxtLink to="/">Feed</NuxtLink>
+            </span>
+            <span class="flex-auto text-center">
+                <NuxtLink to="/">Message</NuxtLink>
+            </span>
+            <span class="flex-auto text-center">
+                <NuxtLink to="/explore">Explore</NuxtLink>
+            </span>
+            <span class="flex-auto text-center">
+                <NuxtLink to="/">Profile</NuxtLink>
+            </span>
+        </div>
+    </div>
 </template>
