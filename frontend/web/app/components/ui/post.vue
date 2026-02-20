@@ -41,9 +41,15 @@
 
 		<!-- Actions -->
 		<div class="flex h-10 w-full items-center gap-3.5 bg-gray-50 px-2">
-			<button type="button" class="inline-flex items-center" aria-label="Like">
+			<button
+				type="button"
+				class="inline-flex items-center"
+				aria-label="Like"
+				:disabled="likePending"
+				@click="toggleLike"
+			>
 				<svg
-					v-if="isLiked"
+					v-if="displayIsLiked"
 					viewBox="0 0 24 24"
 					class="h-5 w-5 text-gray-900"
 					aria-hidden="true"
@@ -68,7 +74,12 @@
 				</svg>
 			</button>
 
-			<button type="button" class="inline-flex items-center gap-1" aria-label="Comments">
+			<button
+				type="button"
+				class="inline-flex items-center gap-1"
+				aria-label="Comments"
+				@click="toggleComments"
+			>
 				<svg viewBox="0 0 24 24" class="h-5 w-5 text-gray-900" aria-hidden="true">
 					<path
 						fill="none"
@@ -77,7 +88,7 @@
 						d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"
 					/>
 				</svg>
-				<span class="text-sm font-medium text-gray-900">{{ commentCount }}</span>
+				<span class="text-sm font-medium text-gray-900">{{ displayCommentCount }}</span>
 			</button>
 
 			<button type="button" class="inline-flex items-center" aria-label="Send">
@@ -99,9 +110,15 @@
 
 			<div class="flex-1" />
 
-			<button type="button" class="inline-flex items-center" aria-label="Save">
+			<button
+				type="button"
+				class="inline-flex items-center"
+				aria-label="Save"
+				:disabled="savePending"
+				@click="toggleSave"
+			>
 				<svg
-					v-if="isSaved"
+					v-if="displayIsSaved"
 					viewBox="0 0 24 24"
 					class="h-[22px] w-[22px] text-gray-900"
 					aria-hidden="true"
@@ -145,16 +162,63 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Comments "popup" -->
+		<div v-if="showComments" class="border-b border-gray-200 bg-gray-50 px-3 py-3">
+			<div class="max-h-56 space-y-3 overflow-y-auto">
+				<div v-if="commentsLoading" class="text-sm text-gray-700">Loading comments…</div>
+				<div v-else-if="commentsError" class="text-sm text-gray-700">Failed to load comments.</div>
+				<div v-else-if="commentsList.length === 0" class="text-sm text-gray-700">No comments yet.</div>
+				<div v-else v-for="c in commentsList" :key="c?.id || c?.createdAt || JSON.stringify(c)" class="flex items-start gap-2">
+					<div class="mt-0.5 h-6 w-6 overflow-hidden rounded-full bg-gray-200">
+						<img
+							v-if="c?.user?.profilePic"
+							:src="c.user.profilePic"
+							alt=""
+							class="h-full w-full object-cover"
+							loading="lazy"
+							referrerpolicy="no-referrer"
+						/>
+					</div>
+					<div class="min-w-0 flex-1">
+						<div class="break-words text-sm text-gray-900">{{ c?.text || c?.commentText || '' }}</div>
+					</div>
+				</div>
+			</div>
+
+			<form class="mt-3 flex items-center gap-2" @submit.prevent="submitComment">
+				<input
+					ref="commentInputEl"
+					v-model="commentDraft"
+					type="text"
+					placeholder="Add a comment"
+					class="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 outline-none focus:border-gray-900"
+					:disabled="commentPending"
+				/>
+				<button
+					type="submit"
+					:disabled="commentPending || !commentDraft.trim()"
+					class="h-9 shrink-0 rounded-md bg-gray-900 px-3 text-sm font-semibold text-white disabled:opacity-60"
+				>
+					{{ commentPending ? 'Posting…' : 'Post' }}
+				</button>
+			</form>
+		</div>
 	</article>
 </template>
 
 <script setup lang="js">
+const emit = defineEmits(['liked-change', 'saved-change', 'comment-posted'])
+
 const props = defineProps({
 	post: {
 		type: Object,
 		required: true,
 	},
 })
+
+const api = usePixlApi()
+const jwtTokenCookie = useCookie('jwt_token', { sameSite: 'lax', path: '/' })
 
 const authorUserName = computed(() => props.post?.user?.userName || props.post?.userName || '')
 const authorProfilePic = computed(() => props.post?.user?.profilePic || props.post?.profilePic || '')
@@ -177,6 +241,187 @@ const isSaved = computed(() => {
 	if (typeof props.post?.isSaved === 'boolean') return props.post.isSaved
 	return Array.isArray(savedBy) && savedBy.length > 0
 })
+
+const postId = computed(() => props.post?.id?.toString?.() || props.post?.id || '')
+
+const likePending = ref(false)
+const savePending = ref(false)
+const commentPending = ref(false)
+
+const likeOverride = ref(null)
+const saveOverride = ref(null)
+const showComments = ref(false)
+const commentDraft = ref('')
+const commentInputEl = ref(null)
+
+const comments = ref([])
+const commentsLoading = ref(false)
+const commentsError = ref('')
+const commentsLoadedForPostId = ref('')
+
+watch(
+	() => props.post,
+	() => {
+		likeOverride.value = null
+		saveOverride.value = null
+		showComments.value = false
+		commentDraft.value = ''
+		comments.value = []
+		commentsLoading.value = false
+		commentsError.value = ''
+		commentsLoadedForPostId.value = ''
+	}
+)
+
+const displayIsLiked = computed(() => (likeOverride.value ?? isLiked.value) === true)
+const displayIsSaved = computed(() => (saveOverride.value ?? isSaved.value) === true)
+const commentsList = computed(() => {
+	if (commentsLoadedForPostId.value === postId.value) return comments.value
+	const inline = props.post?.comments
+	return Array.isArray(inline) ? inline : []
+})
+
+const displayCommentCount = computed(() => {
+	if (commentsLoadedForPostId.value === postId.value) return comments.value.length
+	return commentCount.value
+})
+
+function ensureAuthed() {
+	if (jwtTokenCookie.value) return true
+	navigateTo('/auth/login')
+	return false
+}
+
+async function toggleLike() {
+	if (!postId.value || likePending.value) return
+	if (!ensureAuthed()) return
+
+	const current = displayIsLiked.value
+	likeOverride.value = !current
+	likePending.value = true
+
+	try {
+		const res = await api.request(`/posts/like-or-unlike/${encodeURIComponent(postId.value)}`, {
+			method: 'PATCH',
+		})
+		const message = res?.message?.toString?.() || ''
+		if (message === 'Liked') likeOverride.value = true
+		else if (message === 'Unliked') likeOverride.value = false
+		emit('liked-change', likeOverride.value)
+	} catch (e) {
+		likeOverride.value = current
+	} finally {
+		likePending.value = false
+	}
+}
+
+async function toggleSave() {
+	if (!postId.value || savePending.value) return
+	if (!ensureAuthed()) return
+
+	const current = displayIsSaved.value
+	saveOverride.value = !current
+	savePending.value = true
+
+	try {
+		const res = await api.request(`/posts/save-or-unsave/${encodeURIComponent(postId.value)}`, {
+			method: 'PATCH',
+		})
+		const message = res?.message?.toString?.() || ''
+		if (message === 'Saved') saveOverride.value = true
+		else if (message === 'Unsaved') saveOverride.value = false
+		emit('saved-change', saveOverride.value)
+	} catch (e) {
+		saveOverride.value = current
+	} finally {
+		savePending.value = false
+	}
+}
+
+async function loadCommentsIfNeeded() {
+	if (!postId.value) return
+	if (commentsLoadedForPostId.value === postId.value) return
+	if (!ensureAuthed()) return
+
+	commentsLoading.value = true
+	commentsError.value = ''
+	try {
+		const res = await api.request('/posts/comments', {
+			method: 'GET',
+			query: {
+				postId: postId.value,
+				skip: '0',
+				take: '200',
+			},
+		})
+		const list = res?.data
+		comments.value = Array.isArray(list) ? list : []
+		commentsLoadedForPostId.value = postId.value
+	} catch (e) {
+		commentsError.value = e?.data?.message || e?.message || 'Failed'
+		comments.value = []
+		commentsLoadedForPostId.value = postId.value
+	} finally {
+		commentsLoading.value = false
+	}
+}
+
+async function toggleComments() {
+	if (!postId.value) return
+	const next = !showComments.value
+	showComments.value = next
+	if (next) {
+		await loadCommentsIfNeeded()
+		await nextTick()
+		commentInputEl.value?.focus?.()
+	}
+}
+
+async function submitComment() {
+	if (!postId.value || commentPending.value) return
+	if (!ensureAuthed()) return
+
+	const commentText = commentDraft.value.trim()
+	if (!commentText) return
+
+	commentPending.value = true
+	commentsError.value = ''
+
+	const optimistic = {
+		id: `local-${Date.now()}`,
+		text: commentText,
+		createdAt: new Date().toISOString(),
+		user: {},
+	}
+
+	// Ensure we have a list to show and prepend.
+	if (commentsLoadedForPostId.value !== postId.value) {
+		comments.value = [...commentsList.value]
+		commentsLoadedForPostId.value = postId.value
+	}
+	comments.value = [optimistic, ...comments.value]
+
+	try {
+		await api.request(`/posts/${encodeURIComponent(postId.value)}/comment`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: {
+				commentText,
+			},
+		})
+
+		commentDraft.value = ''
+		emit('comment-posted', commentText)
+	} catch (e) {
+		// Revert optimistic insert
+		comments.value = comments.value.filter((c) => c?.id !== optimistic.id)
+		commentsError.value = e?.data?.message || e?.message || 'Failed to post'
+	} finally {
+		commentPending.value = false
+	}
+}
 
 const mediaUrl = computed(() => {
 	const media = props.post?.media
