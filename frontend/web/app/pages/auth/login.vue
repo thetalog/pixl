@@ -56,6 +56,7 @@ const loading = ref(false)
 const error = ref('')
 
 const jwtTokenCookie = useCookie('jwt_token', { sameSite: 'lax', path: '/' })
+const profileUsernameCookie = useCookie('profile_username', { sameSite: 'lax', path: '/' })
 
 if (jwtTokenCookie.value || isLoggedIn.value) await navigateTo('/')
 
@@ -68,6 +69,11 @@ const onSubmit = async () => {
       email: email.value.trim(),
       password: password.value
     })
+
+    const userName = res?.userName || res?.data?.userName || res?.data?.data?.userName
+    if (typeof userName === 'string' && userName.trim()) {
+      profileUsernameCookie.value = userName.trim()
+    }
 
     const token =
       res?.data?.data ||

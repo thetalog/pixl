@@ -9,7 +9,7 @@
                 <NuxtLink to="/">Feed</NuxtLink>
             </span>
             <span class="flex-auto text-center">
-                <NuxtLink to="/">Message</NuxtLink>
+                <NuxtLink to="/messages">Message</NuxtLink>
             </span>
             <span class="flex-auto text-center">
                 <NuxtLink to="/explore">Explore</NuxtLink>
