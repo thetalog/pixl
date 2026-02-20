@@ -1,14 +1,17 @@
 export function usePixlApi() {
   const runtimeConfig = useRuntimeConfig()
-  const tokenCookie = useCookie('pixl_token', { sameSite: 'lax' })
+  const jwtTokenCookie = useCookie('jwt_token', { sameSite: 'lax' })
+  const legacyTokenCookie = useCookie('pixl_token', { sameSite: 'lax' })
+
+  const token = computed(() => jwtTokenCookie.value || legacyTokenCookie.value)
 
   const request = async (path, options = {}) => {
     const headers = {
       ...(options.headers || {}),
     }
 
-    if (tokenCookie.value) {
-      headers.Authorization = `Bearer ${tokenCookie.value}`
+    if (token.value) {
+      headers.Authorization = `Bearer ${token.value}`
     }
 
     return await $fetch(path, {

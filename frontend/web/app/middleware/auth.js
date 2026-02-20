@@ -1,6 +1,8 @@
 export default defineNuxtRouteMiddleware(() => {
-    const token = useCookie('pixl_token')
-    if (!token.value) {
+    const jwt = useCookie('jwt_token')
+    const legacy = useCookie('pixl_token')
+
+    if (!jwt.value && !legacy.value) {
         return navigateTo('/auth/login')
     }
 })

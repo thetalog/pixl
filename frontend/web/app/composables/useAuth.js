@@ -3,12 +3,16 @@ export const useAuth = () => {
   const isLoggedIn = computed(() => !!user.value)
 
   const login = async ({ email, password }) => {
-    const res = await $fetch('/api/auth/login', {
+    const runtimeConfig = useRuntimeConfig()
+    const res = await $fetch('/auth/login', {
       method: 'POST',
-      body: { email, password }
+      baseURL: runtimeConfig.public.apiBase,
+      body: { email, password },
     })
 
-    user.value = res.user
+    user.value = {
+      userName: res?.userName,
+    }
     return res
   }
 
