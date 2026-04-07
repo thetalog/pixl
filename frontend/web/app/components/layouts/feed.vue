@@ -101,7 +101,7 @@ function openStoryViewer(item) {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100">
+    <div class="bg-gray-100 min-w-0 flex flex-col justify-center max-w-md">
         <UiStoriesBar
             :stories="stories"
             :loading="storiesPending"
@@ -116,8 +116,7 @@ function openStoryViewer(item) {
             @close="storyViewerIndex = null"
             @update:index="storyViewerIndex = $event"
         />
-
-        <div class="mx-auto w-full max-w-md bg-white">
+        <div class="mx-auto w-full max-w-md bg-white min-w-0">
             <div v-if="pending" class="px-3 py-3 text-sm text-gray-700">Loading…</div>
             <div v-else-if="error" class="px-3 py-3 text-sm text-gray-700">
                 Failed to load feed.
@@ -127,6 +126,10 @@ function openStoryViewer(item) {
                 <div v-if="posts.length === 0" class="px-3 py-6 text-sm text-gray-700">
                     No posts yet.
                 </div>
+                <div class="h-24 bg-transparent text-center text-sm text-gray-700 pt-2">
+                    No other posts available!
+                </div>
+                     <!-- padding for bottom nav -->
             </div>
         </div>
     </div>

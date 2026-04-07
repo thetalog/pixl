@@ -3,14 +3,6 @@ definePageMeta({ middleware: 'auth' })
 
 const api = usePixlApi()
 
-const profileUsernameCookie = useCookie('profile_username', { sameSite: 'lax', path: '/' })
-const { user } = useAuth()
-
-const myTitle = computed(() => {
-  const u = profileUsernameCookie.value || user.value?.userName
-  return typeof u === 'string' && u.trim() ? u.trim() : 'Messages'
-})
-
 const activeTab = ref('chats') // 'chats' | 'groups'
 const query = ref('')
 
@@ -131,11 +123,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white pb-24">
-    <!-- Header (Flutter-like AppBar) -->
-    <div class="flex items-center justify-between bg-black px-4 py-3 text-white">
-      <div class="truncate text-base font-semibold">{{ myTitle }}</div>
-      <button type="button" class="inline-flex items-center" aria-label="New message" @click="openNewChat">
+  <div class="min-h-screen bg-white pb-24 min-w-full">
+    
+    <!-- Tabs -->
+    <div class="border-b border-gray-200">
+      <div class="mx-auto w-full max-w-md">
+        <div class="flex">
+          <button type="button" class="inline-flex items-center" aria-label="New message" @click="openNewChat">
         <svg viewBox="0 0 24 24" class="h-6 w-6" aria-hidden="true">
           <path
             fill="currentColor"
@@ -143,12 +137,6 @@ onMounted(() => {
           />
         </svg>
       </button>
-    </div>
-
-    <!-- Tabs -->
-    <div class="border-b border-gray-200">
-      <div class="mx-auto w-full max-w-md">
-        <div class="flex">
           <button
             type="button"
             class="flex-1 py-3 text-center text-sm"

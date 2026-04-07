@@ -93,15 +93,6 @@ watch(selectedCategory, (cat) => {
 
 <template>
   <div class="min-h-screen bg-white pb-24">
-    <!-- Top bar (matches Flutter home header) -->
-    <div class="flex items-center justify-between bg-black px-4 py-3 text-white">
-      <div class="text-2xl font-semibold italic">Pixl</div>
-      <button type="button" class="inline-flex items-center" aria-label="Create">
-        <svg viewBox="0 0 24 24" class="h-7 w-7" aria-hidden="true">
-          <path fill="currentColor" d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
-        </svg>
-      </button>
-    </div>
 
     <!-- Search (tap navigates to /search like Flutter) -->
     <div class="px-4 pt-4">
