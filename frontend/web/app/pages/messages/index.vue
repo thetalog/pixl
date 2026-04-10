@@ -3,7 +3,7 @@ definePageMeta({ middleware: 'auth' })
 
 const api = usePixlApi()
 
-const activeTab = ref('chats') // 'chats' | 'groups'
+const activeTab = ref('chats')
 const query = ref('')
 
 const loadingDirect = ref(true)
@@ -15,95 +15,54 @@ const error = ref('')
 const showNewChat = ref(false)
 const newChatUsername = ref('')
 
+// ✅ NEW: dropdown state
+const userResults = ref([])
+const showDropdown = ref(false)
+const loadingUsers = ref(false)
+
+let timeout = null
+
+watch(newChatUsername, (val) => {
+  clearTimeout(timeout)
+
+  if (!val.trim()) {
+    userResults.value = []
+    showDropdown.value = false
+    return
+  }
+
+  timeout = setTimeout(async () => {
+    loadingUsers.value = true
+    try {
+      const res = await api.request(
+        '/users/search/get-profile-by-username',
+        {
+          method: 'GET',
+          query: { username: val }
+        }
+      )
+
+      userResults.value = res?.data ? [res.data] : []
+      showDropdown.value = true
+    } catch (e) {
+      userResults.value = []
+      showDropdown.value = false
+    } finally {
+      loadingUsers.value = false
+    }
+  }, 300)
+})
+
+function selectUser(user) {
+  newChatUsername.value = user.userName
+  showDropdown.value = false
+}
+
 function normalizeUrl(url) {
   if (!url) return ''
-  if (url.startsWith('http://') || url.startsWith('https://')) return url
+  if (url.startsWith('http')) return url
   return `http://${url}`
 }
-
-function formatListTime(iso) {
-  if (!iso) return ''
-  const dt = new Date(iso)
-  if (Number.isNaN(dt.getTime())) return ''
-  const now = new Date()
-  const sameDay =
-    dt.getFullYear() === now.getFullYear() &&
-    dt.getMonth() === now.getMonth() &&
-    dt.getDate() === now.getDate()
-
-  if (sameDay) {
-    return new Intl.DateTimeFormat(undefined, {
-      hour: 'numeric',
-      minute: '2-digit',
-    }).format(dt)
-  }
-
-  return new Intl.DateTimeFormat(undefined, {
-    month: 'short',
-    day: 'numeric',
-  }).format(dt)
-}
-
-function matchesQuery(text) {
-  const q = query.value.trim().toLowerCase()
-  if (!q) return true
-  return String(text || '').toLowerCase().includes(q)
-}
-
-async function reloadDirect() {
-  loadingDirect.value = true
-  try {
-    const res = await api.request('/message/direct/conversations', {
-      method: 'GET',
-      query: { skip: '0', take: '50' },
-    })
-    directConversations.value = Array.isArray(res?.conversations) ? res.conversations : []
-  } finally {
-    loadingDirect.value = false
-  }
-}
-
-async function reloadGroups() {
-  loadingGroups.value = true
-  try {
-    const res = await api.request('/message/group/conversations', {
-      method: 'GET',
-      query: { skip: '0', take: '50' },
-    })
-    groupConversations.value = Array.isArray(res?.conversations) ? res.conversations : []
-  } finally {
-    loadingGroups.value = false
-  }
-}
-
-async function reloadAll() {
-  error.value = ''
-  try {
-    await Promise.all([reloadDirect(), reloadGroups()])
-  } catch (e) {
-    error.value = e?.data?.message || e?.message || 'Failed to load conversations'
-  }
-}
-
-const filteredDirect = computed(() => {
-  const list = Array.isArray(directConversations.value) ? directConversations.value : []
-  return list.filter((row) => {
-    const userObj = row?.user || {}
-    const username = userObj?.userName || ''
-    const name = userObj?.name || ''
-    const title = String(name || '').trim() ? String(name).trim() : String(username)
-    return matchesQuery(`${title} ${username}`)
-  })
-})
-
-const filteredGroups = computed(() => {
-  const list = Array.isArray(groupConversations.value) ? groupConversations.value : []
-  return list.filter((row) => {
-    const group = row?.group || {}
-    const groupName = group?.name || 'Group'
-    return matchesQuery(groupName)
-  })
-})
 
 function openNewChat() {
   newChatUsername.value = ''
@@ -117,13 +76,55 @@ function startChat() {
   navigateTo(`/messages/direct/${encodeURIComponent(u)}`)
 }
 
+// ✅ close dropdown on outside click
 onMounted(() => {
-  reloadAll()
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-dropdown')) {
+      showDropdown.value = false
+    }
+  })
+})
+
+// Computed for filtered conversations
+const filteredDirect = computed(() => {
+  if (!query.value.trim()) return directConversations.value
+  const q = query.value.toLowerCase()
+  return directConversations.value.filter(row => {
+    const name = (row?.user?.name || row?.user?.userName || '').toLowerCase()
+    return name.includes(q)
+  })
+})
+
+const filteredGroups = computed(() => {
+  if (!query.value.trim()) return groupConversations.value
+  const q = query.value.toLowerCase()
+  return groupConversations.value.filter(row => {
+    const name = (row?.group?.name || '').toLowerCase()
+    return name.includes(q)
+  })
+})
+
+// Fetch conversations on mount
+onMounted(async () => {
+  try {
+    const [direct, groups] = await Promise.all([
+      api.request('/message/direct/conversations'),
+      api.request('/message/group/conversations')
+    ])
+    directConversations.value = direct?.data || []
+    groupConversations.value = groups?.data || []
+  } catch (err) {
+    console.error('Failed to load conversations:', err)
+    error.value = 'Failed to load conversations. Please try again.'
+  } finally {
+    loadingDirect.value = false
+    loadingGroups.value = false
+  }
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-white pb-24 min-w-full">
+  <div class="min-h-screen bg-white pb-24 min-w-100">
     
     <!-- Tabs -->
     <div class="border-b border-gray-200">
@@ -313,39 +314,79 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- New message dialog (Flutter AlertDialog equivalent) -->
-    <div v-if="showNewChat" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div class="w-full max-w-sm rounded-2xl bg-white p-4">
-        <div class="text-base font-semibold text-gray-900">New message</div>
-        <div class="mt-3">
-          <label class="block text-sm font-medium text-gray-700">Username</label>
+    <!-- New Chat Modal -->
+    <div v-if="showNewChat" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4 relative">
+        <button @click="showNewChat = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+          <svg viewBox="0 0 24 24" class="h-6 w-6">
+            <path fill="currentColor" d="M18.3 5.71a1 1 0 0 0-1.42 0L12 10.59l-4.88-4.88a1 1 0 0 0-1.42 1.42L10.59 12l-4.88 4.88a1 1 0 0 0 1.42 1.42L12 13.41l4.88 4.88a1 1 0 0 0 1.42-1.42L13.41 12l4.88-4.88a1 1 0 0 0 0-1.42Z"/>
+          </svg>
+        </button>
+        <h3 class="text-lg font-semibold mb-4">New Message</h3>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+        <!-- WRAPPER (important for dropdown positioning) -->
+        <div class="relative user-dropdown">
+          <!-- Input -->
           <input
             v-model="newChatUsername"
             type="text"
-            class="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-900"
+            class="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:border-gray-900"
             autocomplete="username"
             autofocus
             @keydown.enter.prevent="startChat"
+            placeholder="Enter username"
           />
-        </div>
-        <div class="mt-4 flex items-center justify-end gap-2">
-          <button
-            type="button"
-            class="rounded-xl px-4 py-2 text-sm font-medium text-gray-700"
-            @click="showNewChat = false"
+          <!-- Dropdown -->
+          <div
+            v-if="showDropdown"
+            class="absolute left-0 w-full mt-1 bg-white border rounded-xl shadow z-50 max-h-60 overflow-y-auto"
           >
+            <!-- Loading -->
+            <div v-if="loadingUsers" class="px-3 py-2 text-sm text-gray-500">
+              Searching...
+            </div>
+            <!-- Results -->
+            <div
+              v-for="user in userResults"
+              :key="user.id"
+              @click="selectUser(user)"
+              class="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+            >
+              <div class="h-8 w-8 rounded-full bg-gray-200 overflow-hidden">
+                <img
+                  v-if="user.profilePic"
+                  :src="normalizeUrl(user.profilePic)"
+                  class="h-full w-full object-cover"
+                />
+              </div>
+              <div class="min-w-0">
+                <div class="text-sm font-medium truncate">
+                  {{ user.name || user.userName }}
+                </div>
+                <div class="text-xs text-gray-500 truncate">
+                  @{{ user.userName }}
+                </div>
+              </div>
+            </div>
+            <!-- Empty -->
+            <div
+              v-if="!loadingUsers && userResults.length === 0"
+              class="px-3 py-2 text-sm text-gray-500"
+            >
+              No users found
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <button @click="showNewChat = false" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">
             Cancel
           </button>
-          <button
-            type="button"
-            class="rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
-            :disabled="!newChatUsername.trim()"
-            @click="startChat"
-          >
-            Chat
+          <button @click="startChat" class="px-4 py-2 bg-black text-white text-sm rounded-lg hover:bg-gray-800">
+            Start Chat
           </button>
         </div>
       </div>
     </div>
+   
   </div>
 </template>
