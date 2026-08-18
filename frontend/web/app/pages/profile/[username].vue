@@ -3,119 +3,141 @@ definePageMeta({ middleware: 'auth' })
 
 const route = useRoute()
 const api = usePixlApi()
-
+const { myUsername } = useAuth()
 const username = computed(() => route.params.username?.toString?.() || '')
+const isOwn = computed(() => !!myUsername.value && myUsername.value.toLowerCase() === username.value.toLowerCase())
 
-function firstString(value) {
-  if (typeof value === 'string') return value
-  if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'string') return value[0]
-  return null
-}
+const tab = ref('posts')
+const savedIds = useState('saved-post-ids', () => new Set())
 
-function normalizeUrl(url) {
-  if (!url) return ''
-  if (url.startsWith('http://') || url.startsWith('https://')) return url
-  return `http://${url}`
-}
-
-function extractPreviewUrl(post) {
-  const mediaValue = post?.media
-  if (!Array.isArray(mediaValue) || mediaValue.length === 0) return ''
-
-  const media0 = mediaValue[0]
-  if (!media0 || typeof media0 !== 'object') return ''
-
-  const mimeType = media0.mimeType
-  const candidate =
-    mimeType === 'VIDEO' ? (media0.thumbnail ?? media0.url) : (media0.url ?? media0.thumbnail)
-
-  const url = firstString(candidate)
-  return normalizeUrl(url)
-}
-
-const { data: response, pending, error } = await useAsyncData(
+const { data: response, pending, error, refresh } = await useAsyncData(
   () => `profile-by-username:${username.value}`,
   () => api.request('/users/search/get-profile-by-username', { query: { username: username.value } }),
   { server: false, watch: [username] }
 )
 
-const user = computed(() => response.value?.data || null)
-const posts = computed(() => (Array.isArray(user.value?.posts) ? user.value.posts : []))
+const profile = computed(() => response.value?.data || null)
+const posts = computed(() => (Array.isArray(profile.value?.posts) ? profile.value.posts : []))
+const reels = computed(() => (Array.isArray(profile.value?.reels) ? profile.value.reels : []))
+const isPrivateLocked = computed(() => {
+  if (isOwn.value) return false
+  if (!profile.value) return false
+  const vis = String(profile.value.profileVisibility || '').toUpperCase()
+  return vis === 'PRIVATE' && !profile.value.isFollowed
+})
+
+const savedPosts = computed(() => {
+  return posts.value.filter((p) => {
+    if (savedIds.value.has(p.id)) return true
+    return Array.isArray(p.savedBy) && p.savedBy.length > 0
+  })
+})
+
+const gridItems = computed(() => {
+  if (tab.value === 'reels') return reels.value
+  if (tab.value === 'saved') return savedPosts.value
+  return posts.value
+})
 
 function openPost(post) {
   const id = post?.id
   if (!id) return
-  navigateTo(`/posts/${id}`)
+  if (tab.value === 'reels') navigateTo('/reels')
+  else navigateTo(`/posts/${id}`)
 }
 </script>
 
 <template>
-  <div class="min-h-screen bg-white pb-24">
-    <div class="flex items-center gap-3 bg-black px-4 py-3 text-white">
-      <button type="button" class="inline-flex items-center" aria-label="Back" @click="navigateTo('/search')">
-        <svg viewBox="0 0 24 24" class="h-6 w-6" aria-hidden="true">
-          <path fill="none" stroke="currentColor" stroke-width="2" d="M15 18 9 12l6-6" />
-        </svg>
-      </button>
-      <div class="truncate text-base font-semibold">{{ username }}</div>
-    </div>
-
-    <div v-if="pending" class="px-4 py-6 text-sm text-gray-700">Loading…</div>
-    <div v-else-if="error" class="px-4 py-6 text-sm text-gray-700">Failed to load profile.</div>
-    <div v-else-if="!user" class="px-4 py-6 text-sm text-gray-700">User not found.</div>
-    <div v-else class="px-4 pt-4">
-      <div class="flex items-center gap-4">
-        <div class="h-20 w-20 overflow-hidden rounded-full bg-gray-200">
-          <img
-            :src="user.profilePic || 'https://www.gravatar.com/avatar/000000000000000000000000000000?d=mp&f=y'"
-            alt=""
-            class="h-full w-full object-cover"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-          />
+  <div class="mx-auto w-full max-w-[720px] px-4 py-6">
+    <div v-if="pending" class="space-y-4">
+      <div class="flex gap-6">
+        <UiSkeleton height="88px" width="88px" rounded="rounded-full" :block="false" />
+        <div class="flex-1 space-y-2">
+          <UiSkeleton height="24px" />
+          <UiSkeleton height="16px" />
         </div>
+      </div>
+    </div>
+    <UiEmptyState v-else-if="error" title="Couldn’t load this profile." cta="Retry" @action="refresh" />
+    <UiEmptyState v-else-if="!profile" title="User not found." cta="Search" @action="navigateTo('/search')" />
+
+    <div v-else>
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+        <UiAvatar :src="profile.profilePic" :alt="profile.userName" :size="88" />
         <div class="min-w-0 flex-1">
-          <div class="truncate text-lg font-semibold text-gray-900">{{ user.userName || username }}</div>
-          <div class="truncate text-sm text-gray-500">{{ user.email || '' }}</div>
+          <div class="flex flex-wrap items-center gap-3">
+            <h1 class="text-xl font-semibold tracking-tight">{{ profile.userName || username }}</h1>
+            <span v-if="profile.profileVisibility === 'PRIVATE'" class="rounded-full bg-white/8 px-2 py-0.5 text-[11px] text-pixl-muted">Private</span>
+          </div>
+          <p v-if="profile.name" class="mt-1 text-sm text-pixl-muted">{{ profile.name }}</p>
+          <div class="mt-4 flex gap-6 text-sm">
+            <div><span class="font-semibold">{{ profile.postsCount ?? posts.length }}</span> <span class="text-pixl-muted">posts</span></div>
+            <div><span class="font-semibold">{{ profile.followersCount ?? 0 }}</span> <span class="text-pixl-muted">followers</span></div>
+            <div><span class="font-semibold">{{ profile.followingCount ?? 0 }}</span> <span class="text-pixl-muted">following</span></div>
+          </div>
+          <p v-if="profile.bio" class="mt-3 whitespace-pre-wrap text-sm">{{ profile.bio }}</p>
+          <a
+            v-if="profile.website"
+            :href="normalizeUrl(profile.website)"
+            class="mt-1 inline-block text-sm text-pixl-accent hover:text-pixl-accent-2"
+            target="_blank"
+            rel="noreferrer"
+          >{{ profile.website }}</a>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <template v-if="isOwn">
+              <UiButton variant="secondary" size="sm" @click="navigateTo('/settings')">Edit profile</UiButton>
+              <UiButton variant="secondary" size="sm" @click="tab = 'saved'">Saved</UiButton>
+              <UiButton size="sm" @click="navigateTo('/create')">Create</UiButton>
+            </template>
+            <template v-else>
+              <UiFollowButton :username="username" :initial-followed="!!profile.isFollowed" @change="refresh" />
+              <UiButton variant="secondary" size="sm" @click="navigateTo(`/messages/direct/${encodeURIComponent(username)}`)">Message</UiButton>
+            </template>
+          </div>
         </div>
       </div>
 
-      <div class="mt-4 grid grid-cols-3 gap-2 text-center">
-        <div>
-          <div class="text-base font-semibold text-gray-900">{{ posts.length }}</div>
-          <div class="text-xs text-gray-500">Posts</div>
-        </div>
-        <div>
-          <div class="text-base font-semibold text-gray-900">{{ user.followersCount ?? 0 }}</div>
-          <div class="text-xs text-gray-500">Followers</div>
-        </div>
-        <div>
-          <div class="text-base font-semibold text-gray-900">{{ user.followingCount ?? 0 }}</div>
-          <div class="text-xs text-gray-500">Following</div>
-        </div>
+      <div v-if="isPrivateLocked" class="mt-10 rounded-card bg-pixl-card p-10 text-center ring-1 ring-white/6">
+        <p class="text-sm text-pixl-muted">This account is private. Follow to see their posts.</p>
       </div>
-    </div>
 
-    <div v-if="user" class="mt-4 border-t border-gray-100 px-2 pt-2">
-      <div v-if="posts.length === 0" class="py-8 text-center text-sm text-gray-500">No posts</div>
-      <div v-else class="columns-3 gap-1">
-        <button
-          v-for="p in posts"
-          :key="p.id"
-          type="button"
-          class="mb-1 block w-full break-inside-avoid"
-          aria-label="Open post"
-          @click="openPost(p)"
-        >
-          <img
-            :src="extractPreviewUrl(p)"
-            alt=""
-            class="w-full rounded-2xl bg-gray-100 object-cover"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-          />
-        </button>
-      </div>
+      <template v-else>
+        <div class="mt-8 flex justify-center gap-8 border-b border-white/6">
+          <button
+            v-for="t in (isOwn ? ['posts', 'reels', 'saved'] : ['posts', 'reels'])"
+            :key="t"
+            type="button"
+            class="pb-3 text-xs font-semibold uppercase tracking-wider"
+            :class="tab === t ? 'border-b-2 border-pixl-text text-pixl-text' : 'text-pixl-tertiary'"
+            @click="tab = t"
+          >
+            {{ t }}
+          </button>
+        </div>
+
+        <div class="mt-2">
+          <UiEmptyState v-if="gridItems.length === 0" :title="tab === 'saved' ? 'No saved posts yet.' : 'No posts yet.'" />
+          <div v-else class="grid grid-cols-3 gap-1">
+            <button
+              v-for="p in gridItems"
+              :key="p.id"
+              type="button"
+              class="relative aspect-square overflow-hidden bg-pixl-elevated"
+              aria-label="Open post"
+              @click="openPost(p)"
+            >
+              <img
+                :src="extractPreviewUrl(p)"
+                alt=""
+                class="h-full w-full object-cover"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              />
+            </button>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>

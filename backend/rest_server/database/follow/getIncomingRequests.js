@@ -2,25 +2,42 @@ const { PrismaClient, FollowStatus } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function getIncomingFollowRequests(user) {
-    const response = await prisma.followRequest
-        .findMany({
+    try {
+        if (!user?.id) {
+            return { error: true, message: "Unauthorized", status: 401, data: [] };
+        }
+
+        const requests = await prisma.followRequest.findMany({
             where: {
-                targetId: user?.id,
-                status: FollowStatus.PENDING
+                targetId: user.id,
+                status: FollowStatus.PENDING,
             },
-        })
-        .then(async (response) => {
-            if (response.length !== 0) {
-                return { error: false, message: "Request Pending", details: response, status: 200 };
-            }
-            return { error: false, message: "No Request Pending", details: response.status, status: 200 };
-        })
-        .catch((error) => {
-            console.log(error);
-            return { error: true, message: "Follow Request Reject failed", status: 500 };
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        userName: true,
+                        name: true,
+                        profilePic: true,
+                    },
+                },
+            },
+            orderBy: { createdAt: "desc" },
         });
-    await prisma.$disconnect();
-    return response;
+
+        return {
+            error: false,
+            message: requests.length ? "Request Pending" : "No Request Pending",
+            data: requests,
+            details: requests,
+            status: 200,
+        };
+    } catch (error) {
+        console.log(error);
+        return { error: true, message: "Follow Request fetch failed", status: 500, data: [] };
+    } finally {
+        await prisma.$disconnect();
+    }
 }
 
 module.exports = { getIncomingFollowRequests };

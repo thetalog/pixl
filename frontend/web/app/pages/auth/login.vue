@@ -1,95 +1,70 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-    <div class="w-full max-w-sm rounded-lg bg-white p-6 shadow">
-      <h1 class="text-xl font-semibold text-gray-900">Login</h1>
-
-      <form class="mt-4 space-y-4" @submit.prevent="onSubmit">
-        <label class="block">
-          <span class="block text-sm font-medium text-gray-700">Email</span>
-          <input
-            v-model="email"
-            type="email"
-            autocomplete="email"
-            required
-            placeholder="you@example.com"
-            class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 outline-none focus:border-gray-900"
-          />
-        </label>
-
-        <label class="block">
-          <span class="block text-sm font-medium text-gray-700">Password</span>
-          <input
-            v-model="password"
-            type="password"
-            autocomplete="current-password"
-            required
-            placeholder="••••••••"
-            class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 outline-none focus:border-gray-900"
-          />
-        </label>
-
-        <button
-          type="submit"
-          :disabled="loading"
-          class="w-full rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white disabled:opacity-60"
-        >
-          {{ loading ? 'Logging in…' : 'Login' }}
-        </button>
-
-        <p v-if="error" class="text-sm text-red-600">
-          {{ error }}
+  <div class="relative grid min-h-screen lg:grid-cols-2">
+    <div class="hidden flex-col justify-between border-r border-white/6 bg-pixl-elevated p-12 lg:flex">
+      <div class="flex items-center gap-3">
+        <span class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-lg font-bold text-white">P</span>
+        <span class="text-2xl font-semibold tracking-tight">Pixl</span>
+      </div>
+      <div>
+        <p class="max-w-sm text-4xl font-semibold tracking-tight text-pixl-text">
+          Quiet luxury for the people you actually care about.
         </p>
+        <p class="mt-4 max-w-sm text-pixl-muted">
+          Posts, reels, stories, and messages — designed for the web, not a phone screenshot.
+        </p>
+      </div>
+      <p class="text-sm text-pixl-tertiary">Dark-first. High contrast. Yours.</p>
+    </div>
 
-        <NuxtLink to="/auth/signup" class="block text-center text-sm text-gray-900 underline">
-          Create account
-        </NuxtLink>
-      </form>
+    <div class="flex items-center justify-center p-6">
+      <div class="w-full max-w-sm rounded-card bg-pixl-card/80 p-6 shadow-pixl ring-1 ring-white/6 backdrop-blur-xl">
+        <div class="mb-6 flex items-center gap-2 lg:hidden">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-sm font-bold text-white">P</span>
+          <span class="text-xl font-semibold">Pixl</span>
+        </div>
+        <h1 class="text-2xl font-semibold tracking-tight">Welcome back</h1>
+        <p class="mt-1 text-sm text-pixl-muted">Sign in to continue.</p>
+
+        <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
+          <UiTextField v-model="email" label="Email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          <UiTextField v-model="password" label="Password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+
+          <UiButton type="submit" block :loading="loading" :disabled="loading">
+            {{ loading ? 'Signing in' : 'Sign in' }}
+          </UiButton>
+
+          <p v-if="error" class="text-sm text-pixl-danger">{{ error }}</p>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-pixl-muted">
+          New here?
+          <NuxtLink to="/auth/signup" class="font-semibold text-pixl-accent hover:text-pixl-accent-2">Create an account</NuxtLink>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="js">
-const { login, isLoggedIn } = useAuth()  // destructure properly
+<script setup>
+definePageMeta({ layout: 'auth', middleware: 'guest' })
+
+const { login } = useAuth()
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
 const error = ref('')
 
-const jwtTokenCookie = useCookie('jwt_token', { sameSite: 'lax', path: '/' })
-const profileUsernameCookie = useCookie('profile_username', { sameSite: 'lax', path: '/' })
-
-if (jwtTokenCookie.value || isLoggedIn.value) await navigateTo('/')
-
-const onSubmit = async () => {
+async function onSubmit() {
   error.value = ''
   loading.value = true
-
   try {
-    const res = await login({
+    await login({
       email: email.value.trim(),
-      password: password.value
+      password: password.value,
     })
-
-    const userName = res?.userName || res?.data?.userName || res?.data?.data?.userName
-    if (typeof userName === 'string' && userName.trim()) {
-      profileUsernameCookie.value = userName.trim()
-    }
-
-    const token =
-      res?.data?.data ||
-      res?.data?.token ||
-      res?.token ||
-      res?.jwt ||
-      res?.accessToken ||
-      res?.data
-
-    if (typeof token === 'string' && token.length > 0) {
-      jwtTokenCookie.value = token
-    }
-
     await navigateTo('/')
   } catch (e) {
-    error.value = e?.data?.message || e?.message || 'Login failed'
+    error.value = apiErrorMessage(e, 'Login failed')
   } finally {
     loading.value = false
   }

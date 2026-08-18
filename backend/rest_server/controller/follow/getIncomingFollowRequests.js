@@ -14,9 +14,15 @@ exports.getIncomingFollowRequestsController = async (req, res) => {
 
         /* ================= RESPONSE ================= */
 
+        const list = Array.isArray(response?.data)
+            ? response.data
+            : Array.isArray(response?.details)
+                ? response.details
+                : [];
+
         return res.status(200).json({
             message: "Incoming follow requests fetched successfully.",
-            data: response?.data || [],
+            data: list,
         });
 
     } catch (error) {
