@@ -1,11 +1,18 @@
 const { PrismaClient, ProfileVisibility } = require("@prisma/client");
 const prisma = new PrismaClient();
-async function findPublicReels(skip, take) {
+async function findPublicReels(skip, take, user) {
     try {
+        const visibilityFilter = user?.id
+            ? {
+                OR: [
+                    { user: { profileVisibility: ProfileVisibility.PUBLIC } },
+                    { userId: user.id },
+                ],
+            }
+            : { user: { profileVisibility: ProfileVisibility.PUBLIC } };
+
         const posts = await prisma.reels.findMany({
-            where: {
-                user: { profileVisibility: ProfileVisibility.PUBLIC },
-            },
+            where: visibilityFilter,
             include: {
                 user: {
                     select: {
@@ -39,9 +46,6 @@ async function findPublicReels(skip, take) {
     } catch (error) {
         console.error("Error in dbGetAllPublicReels:", error);
         return { message: "Failed to fetch public posts", status: 500 };
-    }
-    finally {
-        await prisma.$disconnect();
     }
 }
 

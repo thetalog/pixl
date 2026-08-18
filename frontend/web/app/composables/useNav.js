@@ -4,7 +4,7 @@ export function useNav() {
 
   const profilePath = computed(() => {
     const name = myUsername.value || user.value?.userName
-    return name ? `/profile/${encodeURIComponent(name)}` : '/settings'
+    return name ? `/profile/${encodeURIComponent(name)}` : '/explore'
   })
 
   const sidebar = computed(() => [

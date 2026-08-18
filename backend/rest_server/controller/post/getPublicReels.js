@@ -25,7 +25,7 @@ exports.getAllPublicReelsController = async (req, res) => {
 
         /* ---------- Database ---------- */
 
-        const response = await findPublicReels(skip, take);
+        const response = await findPublicReels(skip, take, req.user);
 
         if (response?.status === 500) {
             return res.status(500).json({

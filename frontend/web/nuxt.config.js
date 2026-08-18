@@ -1,10 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath } from 'node:url'
+import { dirname, join } from 'node:path'
+
+const rootDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  pages: true,
 
   css: ['~/assets/css/styles.css'],
   srcDir: 'app/',
@@ -47,5 +52,17 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
+  },
+
+  hooks: {
+    'pages:extend'(pages) {
+      if (!pages.some((page) => page.path === '/settings')) {
+        pages.push({
+          name: 'settings',
+          path: '/settings',
+          file: join(rootDir, 'app/pages/settings.vue'),
+        })
+      }
+    },
   },
 })

@@ -138,9 +138,14 @@ onBeforeUnmount(() => observer?.disconnect())
         @click="unmuted = !unmuted"
       />
       <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 pb-8">
-        <NuxtLink :to="`/profile/${reel.user?.userName || ''}`" class="pointer-events-auto text-sm font-semibold">
-          @{{ reel.user?.userName }}
+        <NuxtLink
+          v-if="reel.user?.userName"
+          :to="`/profile/${encodeURIComponent(reel.user.userName)}`"
+          class="pointer-events-auto text-sm font-semibold"
+        >
+          @{{ reel.user.userName }}
         </NuxtLink>
+        <span v-else class="text-sm font-semibold">@unknown</span>
         <p class="mt-1 max-w-[80%] text-sm text-white/90">{{ reel.caption }}</p>
       </div>
       <div class="absolute bottom-28 right-4 flex flex-col items-center gap-4">

@@ -1,5 +1,8 @@
 <script setup>
-definePageMeta({ middleware: 'auth' })
+definePageMeta({
+  middleware: 'auth',
+  alias: ['/settings', '/settings/'],
+})
 
 const api = usePixlApi()
 const { user, fetchMe, logout } = useAuth()
