@@ -24,6 +24,9 @@ const { getFollowedStoriesController } = require("../controller/post/getFollowed
 const { createStoryController } = require("../controller/post/createStory");
 const { seenStoryController } = require("../controller/post/seenStory");
 const { updatePostController } = require("../controller/post/updatePost");
+const { getSavedPostsController } = require("../controller/post/getSavedPosts");
+const { getPostsByTagController } = require("../controller/post/getPostsByTag");
+const { reactStoryController } = require("../controller/story/reactStory");
 
 const router = express.Router();
 
@@ -58,9 +61,12 @@ router.post("/:postId/update-ui-category/:category", updatePostUICategoryControl
 router.get("/get-all-public-posts-by-ui-category", getPostsByUICategoryController);
 router.patch("/reel/like-or-unlike/:reelId", likeOrUnlikeReelController);
 router.get("/generate-post-share-link", generatePostShareLinkController);
+router.get("/saved", getSavedPostsController);
+router.get("/by-tag", getPostsByTagController);
 router.get("/get-all-followed-stories", getFollowedStoriesController);
 router.post("/create-stories", upload.single("file"), createStoryController);
 router.post("/seen-stories", seenStoryController);
+router.patch("/react-story/:storyId", reactStoryController);
 router.patch("/:postId", updatePostController);
 
 module.exports = router;

@@ -14,19 +14,11 @@ async function findFollowedPosts(user) {
             },
         });
 
-        // 2) Convert to array of ids
-        const followedIds = followedUsers.map((f) => f.targetId);
+        // Include the current user so their own posts appear in the feed.
+        const followedIds = Array.from(
+            new Set([...followedUsers.map((f) => f.targetId), user?.id].filter(Boolean))
+        );
 
-        // If user follows nobody
-        if (followedIds.length === 0) {
-            return {
-                message: "Followed posts fetched successfully",
-                status: 200,
-                data: [],
-            };
-        }
-
-        // 3) Get posts by followed users
         const posts = await prisma.post.findMany({
             where: {
                 userId: { in: followedIds },
@@ -87,8 +79,6 @@ async function findFollowedPosts(user) {
     } catch (error) {
         console.error("Error in dbGetAllFollowedPosts:", error);
         return { message: "Failed to fetch followed posts", status: 500 };
-    } finally {
-        await prisma.$disconnect();
     }
 }
 

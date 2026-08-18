@@ -1,5 +1,14 @@
-const { PrismaClient, MediaType } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+
+const isObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
+
+function toMediaType(mimeType) {
+  const value = String(mimeType || "").toUpperCase();
+  if (value === "VIDEO" || value.startsWith("VIDEO/")) return "VIDEO";
+  if (value === "IMAGE" || value.startsWith("IMAGE/")) return "IMAGE";
+  return "VIDEO";
+}
 
 async function createReelRecord(
   userId,
@@ -9,56 +18,69 @@ async function createReelRecord(
   taggedUsers,
   files
 ) {
-  const response = await prisma.reels
-    .create({
+  try {
+    if (!userId || !isObjectId(userId)) {
+      return { message: "Invalid userId", status: 400 };
+    }
+
+    const filesArray = Array.isArray(files) ? files : files ? [files] : [];
+    if (!filesArray.length) {
+      return { message: "Reel media required", status: 400 };
+    }
+
+    const safeTags = Array.isArray(tags)
+      ? tags.filter((tag) => tag && typeof tag === "string")
+      : typeof tags === "string" && tags.trim()
+        ? [tags.trim()]
+        : [];
+
+    const taggedUsernames = Array.isArray(taggedUsers)
+      ? taggedUsers.filter((name) => name && typeof name === "string")
+      : typeof taggedUsers === "string" && taggedUsers.trim()
+        ? [taggedUsers.trim()]
+        : [];
+
+    const mentionedUsers = taggedUsernames.length
+      ? await prisma.user.findMany({
+          where: { userName: { in: taggedUsernames } },
+          select: { id: true },
+        })
+      : [];
+
+    await prisma.reels.create({
       data: {
-        taggedUsers: Array.isArray(taggedUsers) ? taggedUsers : [taggedUsers],
-        caption: caption,
-        tags: tags,
+        caption: caption || " ",
+        tags: safeTags,
+        taggedUsers: taggedUsernames,
         media: {
-          createMany: {
-            data: files.map(file => ({
-              url: file.url,
-              mimeType: file?.mimeType in MediaType ? file?.mimeType : "",
-              thumbnail: file?.mimeType in MediaType ? file?.mimeType == "VIDEO" ? file?.thumbnail : "" : ""
-            }))
-          }
+          create: filesArray.map((file) => ({
+            url: file.url,
+            mimeType: toMediaType(file.mimeType),
+            thumbnail: file.thumbnail || null,
+            musicCredit: musicCredit || null,
+          })),
         },
         user: {
-          connect: {
-            id: userId,
-          },
+          connect: { id: userId },
         },
-        mentions: {
-          createMany: {
-            data: taggedUsers.map((taggedUser) => {
-              return {
-                userId: taggedUser,
-              };
-            }),
+        ...(mentionedUsers.length > 0 && {
+          mentions: {
+            create: mentionedUsers.map((u) => ({ userId: u.id })),
           },
-        },
+        }),
       },
-    })
-    .then(async (response) => {
-      await prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          postsCount: {
-            increment: 1,
-          },
-        },
-      });
-      return { message: "Post created Successfully", status: 201 };
-    })
-    .catch((error) => {
-      console.log(error);
-      return { message: "Post failed", status: 500 };
     });
-  await prisma.$disconnect();
-  return response;
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { postsCount: { increment: 1 } },
+    });
+
+    return { message: "Reel created Successfully", status: 201 };
+  } catch (error) {
+    console.error("Error in createReelRecord:", error);
+    return { message: "Reel failed", status: 500 };
+  }
 }
 
 module.exports = { createReelRecord };

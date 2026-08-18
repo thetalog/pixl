@@ -14,20 +14,23 @@ exports.createReelController = async (req, res) => {
       });
     }
 
-    const {
-      musicCredit,
-      tags,
-      caption,
-      taggedUsers,
-    } = JSON.parse(req.body.data || "{}");
-
-    /* ---------- Validation ---------- */
-
-    if (!musicCredit || !tags || !caption || !taggedUsers) {
+    let parsed = {};
+    try {
+      parsed = JSON.parse(req.body.data || "{}");
+    } catch {
       return res.status(400).json({
-        message: "musicCredit, tags, caption, taggedUsers are required.",
+        message: "Invalid reel data.",
       });
     }
+
+    const {
+      musicCredit = "Original audio",
+      tags = [],
+      caption = " ",
+      taggedUsers = [],
+    } = parsed;
+
+    /* ---------- Validation ---------- */
 
     if (!req.file) {
       return res.status(400).json({
@@ -44,7 +47,9 @@ exports.createReelController = async (req, res) => {
     );
 
     if (uploadResults?.error) {
-      return res.status(500).json(uploadResults);
+      return res.status(uploadResults.status || 500).json({
+        message: uploadResults.message || "Upload failed.",
+      });
     }
 
     if (!uploadResults || uploadResults.length === 0) {

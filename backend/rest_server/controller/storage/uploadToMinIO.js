@@ -130,44 +130,54 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
 
       const fileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${objectName}`;
       const thumbnailFileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${ffmpegThumbnailOutput}`;
-      if (file.mimetype.startsWith("video/")) {
-        const thumbnailBase = safeName.replace(/\.[^.]+$/, "");
-        const thumbnailName = `${Date.now()}_${i}_${thumbnailBase}.jpg`;
+      let thumbnailUrl = "";
+      if (file.mimetype.startsWith("video/") && file._tempVideoPath) {
+        try {
+          const thumbnailBase = safeName.replace(/\.[^.]+$/, "");
+          const thumbnailName = `${Date.now()}_${i}_${thumbnailBase}.jpg`;
 
-        fs.mkdirSync("thumbnail", { recursive: true });
+          fs.mkdirSync("thumbnail", { recursive: true });
 
-        const thumbnailPath = path.resolve(
-          "thumbnail",
-          thumbnailName
-        );
+          const thumbnailPath = path.resolve(
+            "thumbnail",
+            thumbnailName
+          );
 
-        await new Promise((resolve, reject) => {
-          ffmpeg(file._tempVideoPath)
-            .on("end", resolve)
-            .on("error", reject)
-            .screenshots({
-              timestamps: ["1%"],
-              filename: thumbnailName,
-              folder: "thumbnail",
-              size: "1080x1920",
-            });
-        });
+          await new Promise((resolve, reject) => {
+            ffmpeg(file._tempVideoPath)
+              .on("end", resolve)
+              .on("error", reject)
+              .screenshots({
+                timestamps: ["1%"],
+                filename: thumbnailName,
+                folder: "thumbnail",
+                size: "1080x1920",
+              });
+          });
 
-        // ✅ NOW the file exists
-        const thumbBuffer = fs.readFileSync(thumbnailPath);
+          const thumbBuffer = fs.readFileSync(thumbnailPath);
 
-        await minioClient.putObject(
-          bucketName,
-          ffmpegThumbnailOutput,
-          thumbBuffer,
-          { "Content-Type": "image/jpeg" }
-        );
-        if (file._tempVideoPath && fs.existsSync(file._tempVideoPath)) {
-          fs.unlinkSync(file._tempVideoPath);
+          await minioClient.putObject(
+            bucketName,
+            ffmpegThumbnailOutput,
+            thumbBuffer,
+            { "Content-Type": "image/jpeg" }
+          );
+          thumbnailUrl = thumbnailFileUrl;
+          if (fs.existsSync(thumbnailPath)) fs.unlinkSync(thumbnailPath);
+        } catch (thumbErr) {
+          console.error("❌ Reel thumbnail failed, continuing without it:", thumbErr);
+        } finally {
+          if (file._tempVideoPath && fs.existsSync(file._tempVideoPath)) {
+            fs.unlinkSync(file._tempVideoPath);
+          }
         }
-
       }
-      uploadResults.push({ url: fileUrl, mimeType: file?.mimetype.split("/")[0].toUpperCase(), thumbnail: thumbnailFileUrl });
+      uploadResults.push({
+        url: fileUrl,
+        mimeType: file?.mimetype.split("/")[0].toUpperCase(),
+        thumbnail: thumbnailUrl,
+      });
     } catch (err) {
       console.error("❌ Error uploading post file:", err);
       throw err;
@@ -279,10 +289,29 @@ async function uploadGroupDPMediaToMinIO(groupId, file) {
   }
 }
 
+async function uploadProfilePicToMinIO(userId, file) {
+  const bucketName = process.env.MINIO_PROFILE_BUCKET || process.env.MINIO_POSTS_BUCKET;
+  if (!bucketName) throw new Error("MINIO_POSTS_BUCKET missing in .env");
+  if (!file?.buffer) throw new Error("Invalid profile file");
+  if (!file?.originalname) throw new Error("Invalid profile filename");
+
+  await ensureBucketExists(bucketName);
+
+  const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const objectName = `${userId}/profile/${Date.now()}_${safeName}`;
+
+  await minioClient.putObject(bucketName, objectName, file.buffer, {
+    "Content-Type": file.mimetype || "image/jpeg",
+  });
+
+  return `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${objectName}`;
+}
+
 module.exports = {
   minioClient,
   uploadPostOrReelToMinIO,
   uploadDirectMediaToMinIO,
   uploadGroupDPMediaToMinIO,
   uploadGroupMediaToMinIO,
+  uploadProfilePicToMinIO,
 };

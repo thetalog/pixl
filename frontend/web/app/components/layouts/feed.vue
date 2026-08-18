@@ -97,9 +97,9 @@ function openStoryViewer(item) {
           <UiPost v-for="p in posts" :key="p.id" :post="p" />
           <UiEmptyState
             v-if="posts.length === 0"
-            title="Follow people to see posts here."
-            cta="Explore"
-            @action="navigateTo('/explore')"
+            title="No posts yet. Create one or follow people to fill your feed."
+            cta="Create"
+            @action="navigateTo('/create')"
           />
         </template>
       </div>

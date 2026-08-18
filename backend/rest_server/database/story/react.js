@@ -1,26 +1,42 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function addStoryReaction(userID, storyID) {
+async function toggleStoryLike(user, storyId) {
   try {
-    await prisma.stories.update({
+    const story = await prisma.stories.findUnique({
+      where: { id: storyId },
+      select: { id: true },
+    });
+
+    if (!story) {
+      return { error: true, message: "Story does not exist.", status: 404 };
+    }
+
+    const existing = await prisma.storiesReactions.findFirst({
       where: {
-        storyId: storyID,
+        userId: user?.id,
+        storyId,
       },
+      select: { id: true },
+    });
+
+    if (existing) {
+      await prisma.storiesReactions.delete({ where: { id: existing.id } });
+      return { error: false, message: "Unliked", status: 200 };
+    }
+
+    await prisma.storiesReactions.create({
       data: {
-        reactions: {
-          create: {
-            userId: userID,
-          },
-        },
+        userId: user.id,
+        storyId,
       },
     });
+
+    return { error: false, message: "Liked", status: 200 };
   } catch (error) {
-    return { message: "Story react failed.", error, status: 500 };
-  } finally {
-    await prisma.$disconnect();
-    return { message: "Story react.", status: 200 };
+    console.error("toggleStoryLike failed:", error);
+    return { error: true, message: "Failed to react to story", status: 500 };
   }
 }
 
-module.exports = { addStoryReaction };
+module.exports = { toggleStoryLike };

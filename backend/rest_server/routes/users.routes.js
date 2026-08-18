@@ -11,6 +11,7 @@ const { changeProfileVisibilityController } = require("../controller/follow/chan
 const { removeFollowRequestController } = require("../controller/follow/removeFollowRequest.js");
 const { removeFollowingController } = require("../controller/follow/removeFollowing.js");
 const { getFollowStatusController } = require("../controller/follow/getFollowStatus.js");
+const { getFollowersController, getFollowingController } = require("../controller/follow/getFollowLists.js");
 
 const router = express.Router();
 router.post("/check-username", checkUsernameExist);
@@ -24,6 +25,8 @@ router.get("/get-incoming-follow-request", getIncomingFollowRequestsController);
 router.patch("/remove-follow-request", removeFollowRequestController);
 router.patch("/remove-following", removeFollowingController);
 router.get("/get-follow-status", getFollowStatusController);
+router.get("/followers", getFollowersController);
+router.get("/following", getFollowingController);
 router.patch(
     "/change-profile-visibility",
     changeProfileVisibilityController

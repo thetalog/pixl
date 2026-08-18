@@ -1,11 +1,10 @@
-const { createShareLink } = require("../../database/post/sharePost");
+const { generateShareLink } = require("../../database/post/sharePost");
 
 /* ================= GENERATE POST SHARE LINK ================= */
 
 exports.generatePostShareLinkController = async (req, res) => {
   try {
     const { postId } = req.query;
-    const user = req.user;
 
     /* ---------- Validation ---------- */
 
@@ -17,7 +16,7 @@ exports.generatePostShareLinkController = async (req, res) => {
 
     /* ---------- Database ---------- */
 
-    const response = await createShareLink(postId);
+    const response = await generateShareLink(postId);
 
     if (!response?.data) {
       return res.status(404).json({
@@ -27,7 +26,8 @@ exports.generatePostShareLinkController = async (req, res) => {
 
     /* ---------- Generate Link ---------- */
 
-    const link = `https://pixl.com/${response.data.id}?by=${user.id}`;
+    const origin = String(req.headers.origin || process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/$/, "");
+    const link = `${origin}/posts/${response.data.id}`;
 
     /* ---------- Success ---------- */
 

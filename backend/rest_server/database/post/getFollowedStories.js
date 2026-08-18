@@ -47,6 +47,14 @@ async function getFollowedStories(user, skip = 0, take = 20) {
             id: true,
           },
         },
+        reactions: {
+          where: {
+            userId: user.id,
+          },
+          select: {
+            id: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -79,6 +87,7 @@ async function getFollowedStories(user, skip = 0, take = 20) {
           isSeen:
             story.userId.toString() === user.id.toString() || // creator
             story.seen.length > 0, // viewer has seen
+          isLiked: Array.isArray(story.reactions) && story.reactions.length > 0,
         };
       })
       // Filter out stories whose media is missing/orphaned.

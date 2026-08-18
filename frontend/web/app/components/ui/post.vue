@@ -27,7 +27,7 @@
       </button>
     </div>
 
-    <div v-if="mediaItems.length" class="relative bg-black">
+    <div v-if="mediaItems.length" class="relative bg-black" @dblclick.prevent="onMediaDblclick">
       <div class="aspect-square w-full overflow-hidden">
         <template v-for="(m, i) in mediaItems" :key="m.id || i">
           <div v-show="i === mediaIndex" class="h-full w-full">
@@ -82,6 +82,12 @@
           :class="i === mediaIndex ? 'bg-white' : 'bg-white/40'"
         />
       </div>
+      <div
+        v-if="likeBurst"
+        class="pointer-events-none absolute inset-0 grid place-items-center"
+      >
+        <UiIcon name="heart" :size="72" filled class="text-white heart-pop drop-shadow" />
+      </div>
     </div>
 
     <div class="flex items-center gap-1 px-2 py-1.5">
@@ -130,11 +136,23 @@
 
     <div class="px-3 pb-3">
       <p v-if="caption" class="text-sm leading-relaxed text-pixl-text">
-        <span class="font-semibold">{{ authorUserName }}</span>
-        {{ caption }}
+        <span class="font-semibold">{{ authorUserName }} </span>
+        <template v-for="(part, i) in captionParts" :key="i">
+          <NuxtLink
+            v-if="part.tag"
+            :to="`/tags/${encodeURIComponent(part.tag)}`"
+            class="font-semibold text-pixl-accent-2 hover:underline"
+          >#{{ part.tag }}</NuxtLink>
+          <span v-else>{{ part.text }}</span>
+        </template>
       </p>
       <div v-if="tags.length" class="mt-1.5 flex flex-wrap gap-x-2 gap-y-1">
-        <span v-for="t in tags" :key="t" class="text-xs font-semibold text-pixl-accent-2">#{{ t }}</span>
+        <NuxtLink
+          v-for="t in tags"
+          :key="t"
+          :to="`/tags/${encodeURIComponent(t)}`"
+          class="text-xs font-semibold text-pixl-accent-2 hover:underline"
+        >#{{ t }}</NuxtLink>
       </div>
       <p v-if="post.location" class="mt-1 text-xs text-pixl-tertiary">{{ post.location }}</p>
     </div>
@@ -236,6 +254,8 @@ const savePending = ref(false)
 const commentPending = ref(false)
 const likeOverride = ref(null)
 const saveOverride = ref(null)
+const likeBurst = ref(false)
+let burstTimer = null
 const showComments = ref(false)
 const commentDraft = ref('')
 const commentInputEl = ref(null)
@@ -305,6 +325,19 @@ async function toggleLike() {
   }
 }
 
+function showLikeBurst() {
+  likeBurst.value = true
+  if (burstTimer) clearTimeout(burstTimer)
+  burstTimer = setTimeout(() => {
+    likeBurst.value = false
+  }, 700)
+}
+
+async function onMediaDblclick() {
+  showLikeBurst()
+  if (!displayIsLiked.value) await toggleLike()
+}
+
 async function toggleSave() {
   if (!postId.value || savePending.value) return
   if (!ensureAuthed()) return
@@ -327,16 +360,26 @@ async function toggleSave() {
 
 async function sharePost() {
   if (!postId.value) return
+  const fallback = `${window.location.origin}/posts/${encodeURIComponent(postId.value)}`
   try {
     const res = await api.request('/posts/generate-post-share-link', { query: { postId: postId.value } })
-    const link = typeof res?.data === 'string' ? res.data : ''
-    if (link && navigator?.clipboard?.writeText) {
+    const link = typeof res?.data === 'string' && res.data ? res.data : fallback
+    if (navigator?.clipboard?.writeText) {
       await navigator.clipboard.writeText(link)
       toast.success('Link copied')
     } else {
       toast.error('Could not copy link')
     }
   } catch (e) {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(fallback)
+        toast.success('Link copied')
+        return
+      }
+    } catch {
+      // fall through
+    }
     toast.error(apiErrorMessage(e, 'Share failed'))
   }
 }
@@ -473,5 +516,22 @@ const tags = computed(() => {
   const fromFields = normalizeTags(props.post?.userTags ?? props.post?.tags)
   if (fromFields.length) return fromFields
   return hashtagsFromCaption(caption.value)
+})
+
+const captionParts = computed(() => {
+  const text = caption.value || ''
+  if (!text) return []
+  const parts = []
+  const re = /(^|\s)#([A-Za-z0-9_]+)/g
+  let last = 0
+  let match
+  while ((match = re.exec(text))) {
+    const start = match.index + match[1].length
+    if (start > last) parts.push({ text: text.slice(last, start) })
+    parts.push({ tag: match[2] })
+    last = re.lastIndex
+  }
+  if (last < text.length) parts.push({ text: text.slice(last) })
+  return parts
 })
 </script>

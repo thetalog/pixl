@@ -84,6 +84,7 @@ async function submit() {
       form.append('taggedUsers', JSON.stringify(taggedUsers.value))
       await api.request('/posts/create-post', { method: 'POST', body: form })
       toast.success('Post created')
+      await clearNuxtData('followed-posts')
       await navigateTo('/')
     } else if (tab.value === 'reel') {
       form.append('file', files.value[0])
