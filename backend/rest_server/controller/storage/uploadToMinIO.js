@@ -86,24 +86,38 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
     if (!file?.buffer) throw new Error("Invalid file buffer provided");
     if (!file?.originalname) throw new Error("Invalid file originalname provided");
 
-    const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const objectName = `${userId}/${postCount + 1}/${Date.now()}_${i}_${safeName}`;
-    const ffmpegThumbnailOutput = `${userId}/${postCount + 1}/_thumbnail_${Date.now()}_${i}${safeName.replace(/\.[^.]+$/, "") + ".jpg"}`;
+    const mime = String(file.mimetype || file.mimeType || "").toLowerCase();
+    const originalName = String(file.originalname || "file");
+    const isVideo =
+      mime.startsWith("video/") ||
+      /\.(mp4|mov|webm|m4v|avi|mkv)$/i.test(originalName);
+    const isImage =
+      mime.startsWith("image/") ||
+      /\.(jpe?g|png|gif|webp|heic|heif|avif)$/i.test(originalName);
+
+    const safeName = originalName.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const count = Number(postCount) || 0;
+    const objectName = `${userId}/${count + 1}/${Date.now()}_${i}_${safeName}`;
+    const ffmpegThumbnailOutput = `${userId}/${count + 1}/_thumbnail_${Date.now()}_${i}${safeName.replace(/\.[^.]+$/, "") + ".jpg"}`;
     let duration = null;
 
-    if (file.mimetype.startsWith("video/")) {
+    if (isVideo) {
 
       // Create temp video path
       const tempVideoPath = path.join(
         os.tmpdir(),
-        `${Date.now()}_${file.originalname}`
+        `${Date.now()}_${safeName}`
       );
 
       // Write buffer to temp file
       fs.writeFileSync(tempVideoPath, file.buffer);
 
-      // Get duration from temp file
-      duration = await getVideoDurationInSeconds(tempVideoPath);
+      try {
+        duration = await getVideoDurationInSeconds(tempVideoPath);
+      } catch (durationErr) {
+        console.error("Could not read video duration:", durationErr);
+        duration = null;
+      }
 
       if (duration > 60) {
         fs.unlinkSync(tempVideoPath);
@@ -117,7 +131,7 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
       // Save path for ffmpeg later
       file._tempVideoPath = tempVideoPath;
     }
-    else if (file.mimetype.startsWith("image/")) {
+    else if (isImage) {
       // Instagram-style fixed duration for images
       duration = 5;
     }
@@ -125,13 +139,13 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
 
     try {
       await minioClient.putObject(bucketName, objectName, file.buffer, {
-        "Content-Type": file.mimetype,
+        "Content-Type": file.mimetype || (isVideo ? "video/mp4" : "application/octet-stream"),
       });
 
       const fileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${objectName}`;
       const thumbnailFileUrl = `${process.env.MINIO_PUBLIC_URL}/${bucketName}/${ffmpegThumbnailOutput}`;
       let thumbnailUrl = "";
-      if (file.mimetype.startsWith("video/") && file._tempVideoPath) {
+      if (isVideo && file._tempVideoPath) {
         try {
           const thumbnailBase = safeName.replace(/\.[^.]+$/, "");
           const thumbnailName = `${Date.now()}_${i}_${thumbnailBase}.jpg`;
@@ -175,7 +189,7 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
       }
       uploadResults.push({
         url: fileUrl,
-        mimeType: file?.mimetype.split("/")[0].toUpperCase(),
+        mimeType: isVideo ? "VIDEO" : isImage ? "IMAGE" : "IMAGE",
         thumbnail: thumbnailUrl,
       });
     } catch (err) {

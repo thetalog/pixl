@@ -29,9 +29,9 @@ async function createReelRecord(
     }
 
     const safeTags = Array.isArray(tags)
-      ? tags.filter((tag) => tag && typeof tag === "string")
+      ? tags.filter((tag) => tag && typeof tag === "string").map((tag) => tag.replace(/^#/, "").trim()).filter(Boolean)
       : typeof tags === "string" && tags.trim()
-        ? [tags.trim()]
+        ? [tags.replace(/^#/, "").trim()]
         : [];
 
     const taggedUsernames = Array.isArray(taggedUsers)
@@ -47,29 +47,35 @@ async function createReelRecord(
         })
       : [];
 
-    await prisma.reels.create({
+    const reel = await prisma.reels.create({
       data: {
         caption: caption || " ",
         tags: safeTags,
         taggedUsers: taggedUsernames,
-        media: {
-          create: filesArray.map((file) => ({
-            url: file.url,
-            mimeType: toMediaType(file.mimeType),
-            thumbnail: file.thumbnail || null,
-            musicCredit: musicCredit || null,
-          })),
-        },
-        user: {
-          connect: { id: userId },
-        },
-        ...(mentionedUsers.length > 0 && {
-          mentions: {
-            create: mentionedUsers.map((u) => ({ userId: u.id })),
-          },
-        }),
+        user: { connect: { id: userId } },
       },
     });
+
+    for (const file of filesArray) {
+      await prisma.media.create({
+        data: {
+          url: file.url,
+          mimeType: toMediaType(file.mimeType),
+          thumbnail: file.thumbnail || null,
+          musicCredit: musicCredit || null,
+          reel: { connect: { id: reel.id } },
+        },
+      });
+    }
+
+    if (mentionedUsers.length) {
+      await prisma.reelMentions.createMany({
+        data: mentionedUsers.map((u) => ({
+          userId: u.id,
+          reelId: reel.id,
+        })),
+      });
+    }
 
     await prisma.user.update({
       where: { id: userId },

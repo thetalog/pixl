@@ -35,7 +35,15 @@ function clearFiles() {
 function addFiles(list) {
   const incoming = Array.from(list || []).filter((f) => f instanceof File)
   if (!incoming.length) return
-  const next = tab.value === 'post' ? [...files.value, ...incoming].slice(0, 10) : incoming.slice(0, 1)
+  let accepted = incoming
+  if (tab.value === 'reel') {
+    accepted = incoming.filter((f) => f.type.startsWith('video/') || /\.(mp4|mov|webm|m4v|avi|mkv)$/i.test(f.name))
+    if (!accepted.length) {
+      toast.error('Reels need a video under 60 seconds. Use Post for photos.')
+      return
+    }
+  }
+  const next = tab.value === 'post' ? [...files.value, ...accepted].slice(0, 10) : accepted.slice(0, 1)
   clearFiles()
   files.value = next
   previews.value = next.map((file) => ({
@@ -87,6 +95,12 @@ async function submit() {
       await clearNuxtData('followed-posts')
       await navigateTo('/')
     } else if (tab.value === 'reel') {
+      const reelFile = files.value[0]
+      if (!reelFile || !(reelFile.type.startsWith('video/') || /\.(mp4|mov|webm|m4v|avi|mkv)$/i.test(reelFile.name))) {
+        toast.error('Reels need a video under 60 seconds. Use Post for photos.')
+        submitting.value = false
+        return
+      }
       form.append('file', files.value[0])
       form.append(
         'data',
@@ -152,7 +166,7 @@ onBeforeUnmount(() => clearFiles())
     >
       <input ref="fileInput" type="file" class="hidden" :accept="accept" :multiple="maxFiles > 1" @change="addFiles($event.target.files)" />
       <p class="text-sm text-pixl-muted">
-        Drag and drop {{ tab === 'post' ? 'up to 10 files' : 'a file' }}, or tap to browse.
+        Drag and drop {{ tab === 'reel' ? 'a video under 60 seconds' : tab === 'post' ? 'up to 10 files' : 'a file' }}, or tap to browse.
       </p>
     </div>
 

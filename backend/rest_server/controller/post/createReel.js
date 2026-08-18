@@ -38,6 +38,15 @@ exports.createReelController = async (req, res) => {
       });
     }
 
+    const mime = String(req.file.mimetype || "").toLowerCase();
+    const name = String(req.file.originalname || "").toLowerCase();
+    const isVideo = mime.startsWith("video/") || /\.(mp4|mov|webm|m4v|avi|mkv)$/.test(name);
+    if (!isVideo) {
+      return res.status(400).json({
+        message: "Reels need a video under 60 seconds. Photos should be shared as a post.",
+      });
+    }
+
     /* ---------- Upload Media ---------- */
 
     const uploadResults = await uploadPostOrReelToMinIO(
@@ -69,6 +78,12 @@ exports.createReelController = async (req, res) => {
       uploadResults
     );
 
+    if (response?.status === 400) {
+      return res.status(400).json({
+        message: response.message || "Invalid reel.",
+      });
+    }
+
     if (response?.status === 500) {
       return res.status(500).json({
         message: "Reel creation failed.",
@@ -87,7 +102,7 @@ exports.createReelController = async (req, res) => {
 
     return res.status(500).json({
       error: true,
-      message: "Something went wrong.",
+      message: error?.message || "Something went wrong.",
     });
   }
 };
