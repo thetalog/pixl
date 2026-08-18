@@ -75,11 +75,13 @@ watch(selectedCategory, (cat) => fetchCategory(cat))
           @click="navigateTo(`/posts/${p.id}`)"
         >
           <img
+            v-if="extractPreviewUrl(p)"
             :src="extractPreviewUrl(p)"
             alt=""
             class="w-full bg-pixl-elevated object-cover"
             loading="lazy"
             referrerpolicy="no-referrer"
+            @error="($event) => { $event.target.style.display = 'none' }"
           />
         </button>
       </div>

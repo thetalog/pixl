@@ -12,12 +12,13 @@
     />
     <span class="relative h-full w-full overflow-hidden rounded-full bg-pixl-card">
       <img
-        v-if="src"
+        v-if="src && normalizeUrl(src)"
         :src="normalizeUrl(src)"
         :alt="alt"
         class="h-full w-full object-cover"
         loading="lazy"
         referrerpolicy="no-referrer"
+        @error="($event) => { $event.target.style.display = 'none' }"
       />
       <span v-else class="flex h-full w-full items-center justify-center text-pixl-muted">
         <UiIcon name="user" :size="iconSize" />

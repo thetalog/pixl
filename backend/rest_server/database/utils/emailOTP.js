@@ -24,6 +24,7 @@ async function createEmailOTP(name, email, otp) {
       return false;
     }
   } catch (error) {
+    console.error("createEmailOTP failed:", error);
     return false;
   }
 }
@@ -44,14 +45,14 @@ async function getEmailOTP(email, otp) {
         },
       })
       .then((data) => {
-        return data
-          ? {
-            ...data,
-            isEmailAlreadyVerified: isUserFound.isEmailVerified,
-            name: isUserFound?.name,
-            email: isUserFound?.email,
-          }
-          : false;
+        if (!data || !isUserFound) return false;
+        return {
+          ...data,
+          isEmailAlreadyVerified: isUserFound.isEmailVerified,
+          name: isUserFound.name,
+          email: isUserFound.email,
+          userName: isUserFound.userName,
+        };
       });
   } catch (error) {
     console.log(error);
@@ -63,8 +64,6 @@ async function updateEmailOTP(emailOTPID, email, otp, emailVerifiedAt) {
     const transactionResponse = await prisma.$transaction([
       prisma.emailOTP.update({
         where: {
-          email: email,
-          otp: parseInt(otp),
           id: emailOTPID,
         },
         data: {
@@ -83,6 +82,7 @@ async function updateEmailOTP(emailOTPID, email, otp, emailVerifiedAt) {
     ]);
     return transactionResponse.length > 0 ? true : false;
   } catch (error) {
+    console.error("updateEmailOTP failed:", error);
     return false;
   }
 }

@@ -4,16 +4,41 @@ export function firstString(value) {
   return null
 }
 
+function apiBase() {
+  try {
+    return String(useRuntimeConfig()?.public?.apiBase || 'http://localhost:3001').replace(/\/$/, '')
+  } catch {
+    return 'http://localhost:3001'
+  }
+}
+
+function rewriteMinioUrl(absolute) {
+  try {
+    const parsed = new URL(absolute)
+    const isMinio =
+      (parsed.hostname === '127.0.0.1' || parsed.hostname === 'localhost') &&
+      parsed.port === '9000'
+    if (!isMinio) return absolute
+    return `${apiBase()}/storage${parsed.pathname}${parsed.search}`
+  } catch {
+    return absolute
+  }
+}
+
 export function normalizeUrl(url) {
   const raw = firstString(url)
   if (!raw) return ''
   const trimmed = raw.trim()
   if (!trimmed) return ''
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('blob:') || trimmed.startsWith('data:')) {
-    return trimmed
-  }
+  if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed
   if (trimmed.startsWith('ws://') || trimmed.startsWith('wss://')) return trimmed
-  return `http://${trimmed}`
+
+  const absolute =
+    trimmed.startsWith('http://') || trimmed.startsWith('https://')
+      ? trimmed
+      : `http://${trimmed}`
+
+  return rewriteMinioUrl(absolute)
 }
 
 export function previewUrl(media) {

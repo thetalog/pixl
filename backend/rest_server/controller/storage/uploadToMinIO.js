@@ -4,6 +4,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const path = require("path");
 const { getVideoDurationInSeconds } = require('get-video-duration');
 const os = require("os");
+require("dotenv").config();
 
 // ✅ Initialize MinIO Client
 const minioClient = new Minio.Client({
@@ -32,6 +33,27 @@ function multerUploadsCleanup(files) {
   }
 }
 
+async function ensurePublicRead(bucketName) {
+  const policy = JSON.stringify({
+    Version: "2012-10-17",
+    Statement: [
+      {
+        Sid: "PublicReadGetObject",
+        Effect: "Allow",
+        Principal: { AWS: ["*"] },
+        Action: ["s3:GetObject"],
+        Resource: [`arn:aws:s3:::${bucketName}/*`],
+      },
+    ],
+  });
+
+  try {
+    await minioClient.setBucketPolicy(bucketName, policy);
+  } catch (error) {
+    console.error(`❌ Error setting public policy on "${bucketName}":`, error);
+  }
+}
+
 // ✅ Ensure bucket exists
 async function ensureBucketExists(bucketName) {
   if (!bucketName) throw new Error("Bucket name is missing!");
@@ -43,6 +65,7 @@ async function ensureBucketExists(bucketName) {
       await minioClient.makeBucket(bucketName);
       console.log(`✅ Bucket "${bucketName}" created successfully.`);
     }
+    await ensurePublicRead(bucketName);
   } catch (error) {
     console.error("❌ Error ensuring bucket exists:", error);
     throw error;
@@ -257,6 +280,7 @@ async function uploadGroupDPMediaToMinIO(groupId, file) {
 }
 
 module.exports = {
+  minioClient,
   uploadPostOrReelToMinIO,
   uploadDirectMediaToMinIO,
   uploadGroupDPMediaToMinIO,

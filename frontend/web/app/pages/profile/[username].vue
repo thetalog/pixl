@@ -128,12 +128,17 @@ function openPost(post) {
               @click="openPost(p)"
             >
               <img
+                v-if="extractPreviewUrl(p)"
                 :src="extractPreviewUrl(p)"
                 alt=""
                 class="h-full w-full object-cover"
                 loading="lazy"
                 referrerpolicy="no-referrer"
+                @error="($event) => { $event.target.style.display = 'none' }"
               />
+              <span v-else class="grid h-full w-full place-items-center text-pixl-muted">
+                <UiIcon name="image" :size="22" />
+              </span>
             </button>
           </div>
         </div>

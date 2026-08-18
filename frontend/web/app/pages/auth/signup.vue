@@ -147,12 +147,19 @@ async function createAccount() {
       password: password.value,
       dateOfBirth: dateOfBirth.value,
     })
-    await sendOtp({ name: name.value.trim(), email: email.value.trim() })
-    message.value = 'Account created. Check your email for a code.'
-    step.value = 3
   } catch (e) {
     error.value = apiErrorMessage(e, 'Signup failed')
+    loading.value = false
+    return
+  }
+
+  try {
+    await sendOtp({ name: name.value.trim(), email: email.value.trim() })
+    message.value = 'Account created. Check your email for a code.'
+  } catch (e) {
+    error.value = apiErrorMessage(e, 'Could not send OTP. You can resend on the next step.')
   } finally {
+    step.value = 3
     loading.value = false
   }
 }
@@ -160,6 +167,7 @@ async function createAccount() {
 async function resendOtp() {
   otpSending.value = true
   error.value = ''
+  message.value = ''
   try {
     await sendOtp({ name: name.value.trim(), email: email.value.trim() })
     message.value = 'OTP sent.'
@@ -172,6 +180,7 @@ async function resendOtp() {
 
 async function confirmOtp() {
   error.value = ''
+  message.value = ''
   loading.value = true
   try {
     await verifyOtp({ email: email.value.trim(), otp: otp.value })

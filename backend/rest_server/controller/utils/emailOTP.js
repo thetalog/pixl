@@ -5,20 +5,16 @@ const {
   getEmailOTP,
   updateEmailOTP,
 } = require("../../database/utils/emailOTP");
-const { updateUser } = require("../../database/auth/user");
 dotenv.config();
-const { signJWT } = require("./jwt");
+const { signJWT } = require("../jwt");
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT),
-  secure: process.env.EMAIL_SECURE, // true for port 465, false for other ports
+  port: parseInt(process.env.EMAIL_PORT, 10) || 587,
+  secure: String(process.env.EMAIL_SECURE || "").toLowerCase() === "true",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
-  },
-  tls: {
-    ciphers: "SSLv3",
   },
 });
 
@@ -43,10 +39,18 @@ async function sendOTP({ name, email }) {
       subject: "Hello " + name, // Subject line
       html: `<b>Pixl OTP: ${OTP}</b>`, // html body
     });
-    return response.response.startsWith("250");
+    return Boolean(response?.messageId) || String(response?.response || "").startsWith("250");
   } catch (error) {
+    console.error("sendOTP failed:", error);
     return false;
   }
+}
+
+function toDate(value) {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
 async function verifyOTP({ email, otp }) {
@@ -55,50 +59,47 @@ async function verifyOTP({ email, otp }) {
     if (!dbResponse) return { message: "Wrong OTP!", status: 400 };
     if (dbResponse.isEmailAlreadyVerified)
       return { message: "Email already verified!", status: 400 };
-    const dateDuringOTPCreation = dbResponse.createAt.getDate();
-    const timeDuringOTPCreation = Math.round(
-      dbResponse.createAt.getTime() / 1000 / 60
-    );
-    const todayDate = new Date().getDate();
-    const todayTime = Math.round(new Date().getTime() / 1000 / 60);
-    if (
-      dateDuringOTPCreation === todayDate &&
-      timeDuringOTPCreation + 5 <= todayTime
-    ) {
-      return { message: "OTP Timeout", status: 400 };
-    } else {
-      if (parseInt(otp) !== dbResponse.otp)
-        return { message: "Wrong OTP!", status: 400 };
-      const response = await updateEmailOTP(
-        dbResponse.id,
-        email,
-        otp,
-        new Date().toISOString().replace("Z", "+00:00")
-      );
 
-      const jwtResponse = await signJWT(dbResponse?.email, dbResponse?.name);
-      if (jwtResponse?.status !== 201)
-        return {
-          status: 500,
-          message: "Something went wrong",
-        };
-      const responseJWTUpdate = await updateUser(
-        { email: dbResponse?.email },
-        { latestJWT: jwtResponse?.data }
-      );
-      if (!responseJWTUpdate)
-        return {
-          status: 500,
-          message: "Something went wrong!",
-        };
-      return {
-        message: response,
-        status: response ? 200 : 400,
-        data: jwtResponse?.data,
-      };
+    const createdAt = toDate(dbResponse.createdAt || dbResponse.createAt);
+    if (!createdAt) return { message: "OTP record is invalid.", status: 400 };
+
+    const ageMs = Date.now() - createdAt.getTime();
+    if (ageMs > 5 * 60 * 1000) {
+      return { message: "OTP expired. Request a new code.", status: 400 };
     }
+
+    if (parseInt(otp, 10) !== dbResponse.otp) {
+      return { message: "Wrong OTP!", status: 400 };
+    }
+
+    const updated = await updateEmailOTP(
+      dbResponse.id,
+      email,
+      otp,
+      new Date().toISOString()
+    );
+    if (!updated) {
+      return { message: "Could not verify OTP.", status: 500 };
+    }
+
+    const jwtResponse = await signJWT(
+      dbResponse.email,
+      dbResponse.name,
+      dbResponse.userName
+    );
+    if (jwtResponse?.status !== 201) {
+      return { status: 500, message: "Something went wrong" };
+    }
+
+    return {
+      message: "OTP verified.",
+      status: 200,
+      data: jwtResponse.data,
+      userName: dbResponse.userName,
+    };
   } catch (error) {
-    return { message: error?.message, status: 500 };
+    console.error("verifyOTP failed:", error);
+    return { message: "OTP failed during verification", status: 500 };
   }
 }
 module.exports = { sendOTP, verifyOTP };

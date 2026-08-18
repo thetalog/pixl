@@ -12,6 +12,7 @@ const liveRoutes = require("./routes/live.routes");
 const usersRoutes = require("./routes/users.routes");
 const profileRoutes = require("./routes/profile.routes");
 const servicesRoutes = require("./routes/services.routes");
+const { proxyStoredMedia } = require("./controller/storage/proxyMedia");
 
 require("dotenv").config();
 
@@ -52,6 +53,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(authRoutes);
 app.use(notificationRoutes);
 app.use(servicesRoutes);
+app.use("/storage", (req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  return proxyStoredMedia(req, res);
+});
 
 app.get("/", (req, res) => {
   res.status(200).send("Hi there!!");

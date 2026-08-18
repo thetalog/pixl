@@ -1,4 +1,5 @@
 const { sendOTPSchema, verifyOTPSchema } = require("./validator");
+const { sendOTP, verifyOTP } = require("../utils/emailOTP");
 
 exports.sendOtpController = async (req, res) => {
     try {
@@ -33,6 +34,7 @@ exports.verifyOtpController = async (req, res) => {
         return res.status(response.status).json({
             message: response.message,
             data: response?.data,
+            userName: response?.userName,
         });
     } catch (error) {
         console.error(error);

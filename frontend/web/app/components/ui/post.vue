@@ -40,13 +40,17 @@
               preload="metadata"
             />
             <img
-              v-else
+              v-else-if="previewUrl(m)"
               :src="previewUrl(m)"
               :alt="caption || 'Post media'"
               class="h-full w-full object-cover"
               loading="lazy"
               referrerpolicy="no-referrer"
+              @error="($event) => { $event.target.style.display = 'none' }"
             />
+            <div v-else class="grid h-full w-full place-items-center bg-pixl-elevated text-pixl-muted">
+              <UiIcon name="image" :size="28" />
+            </div>
           </div>
         </template>
       </div>
