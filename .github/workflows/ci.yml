@@ -15,12 +15,9 @@ env:
   DATABASE_URL: mongodb://localhost:27017/pixl-ci
 
 jobs:
-  build-frontend:
-    name: Build frontend
+  build:
+    name: Build frontend and backend
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend/web
 
     steps:
       - name: Checkout
@@ -31,65 +28,45 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
-          cache-dependency-path: frontend/web/package-lock.json
+          cache-dependency-path: |
+            frontend/web/package-lock.json
+            backend/rest_server/package-lock.json
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
+        working-directory: frontend/web
         run: npm ci
 
-      - name: Build Nuxt app
+      - name: Install backend dependencies
+        working-directory: backend/rest_server
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend/web
         run: npm run build
 
-      - name: Stage frontend artifact
+      - name: Stage frontend build
         run: |
-          mkdir -p ../../build/frontend
-          cp -R .output/. ../../build/frontend/
+          mkdir -p "${GITHUB_WORKSPACE}/build/frontend"
+          cp -R frontend/web/.output/. "${GITHUB_WORKSPACE}/build/frontend/"
+          test -f "${GITHUB_WORKSPACE}/build/frontend/server/index.mjs"
 
-      - name: Upload frontend build
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: build/frontend
-          if-no-files-found: error
-
-  build-backend:
-    name: Build backend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
+      - name: Stage backend build
         working-directory: backend/rest_server
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-          cache-dependency-path: backend/rest_server/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate Prisma client
-        run: npx prisma generate
-
-      - name: Stage backend artifact
         run: |
-          mkdir -p ../../build/backend
-          rsync -a \
-            --exclude .env \
-            --exclude .env.* \
-            --exclude .vscode \
-            --exclude thumbnail \
-            --exclude .DS_Store \
-            --exclude .git \
-            ./ ../../build/backend/
+          chmod +x scripts/stage-build.sh
+          BUILD_DIR="${GITHUB_WORKSPACE}/build/backend" bash scripts/stage-build.sh
 
-      - name: Upload backend build
+      - name: Verify build folders
+        run: |
+          ls -la build/
+          ls -la build/frontend/server | head -5
+          ls -la build/backend | head -20
+          test -f build/backend/index.js
+          test -d build/backend/node_modules/@prisma/client
+
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: backend-build
-          path: build/backend
+          name: pixl-build
+          path: build/
           if-no-files-found: error

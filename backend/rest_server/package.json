@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "bash scripts/stage-build.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma": "npx prisma generate && npx prisma db push"
   },
