@@ -6,7 +6,7 @@ export function firstString(value) {
 
 function apiBase() {
   try {
-    return String(useRuntimeConfig()?.public?.apiBase || 'http://localhost:3001').replace(/\/$/, '')
+    return String(useRuntimeConfig()?.public?.apiBase).replace(/\/$/, '')
   } catch {
     return 'http://localhost:3001'
   }

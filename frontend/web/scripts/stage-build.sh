@@ -8,7 +8,7 @@ BUILD_DIR="${BUILD_DIR:-$REPO_ROOT/build/frontend}"
 echo "Staging frontend build to $BUILD_DIR"
 
 cd "$WEB_DIR"
-npm run build
+npx nuxt build
 
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"

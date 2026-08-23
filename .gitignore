@@ -4,3 +4,17 @@ build/
 # OS / editor
 .DS_Store
 .idea/
+
+# Secrets and local keys
+*.pem
+*.key
+**/pixl-caf6b*.json
+backend/rest_server/mongo-init/replica.key
+
+# Gradle / Java build output
+backend/livestream_server/.gradle/
+backend/livestream_server/build/
+backend/livestream_server/bin/
+
+# Python virtualenvs under vendored libs
+**/.venv/

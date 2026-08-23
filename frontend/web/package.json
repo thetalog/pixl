@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "bash scripts/stage-build.sh",
+    "build": "nuxt build",
+    "stage": "bash scripts/stage-build.sh",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
