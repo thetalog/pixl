@@ -1,5 +1,5 @@
-const { PrismaClient, ProfileVisibility } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { ProfileVisibility } = require("@prisma/client");
+const prisma = require("../../lib/prisma");
 
 async function checkUserPrivacyStatus(targetUsername) {
   return await prisma.user

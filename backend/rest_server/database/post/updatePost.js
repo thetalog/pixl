@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../../lib/prisma");
 
 const updatePostByOwner = async ({ postId, userId, data = {} }) => {
     const post = await prisma.post.findFirst({

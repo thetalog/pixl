@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../../../lib/prisma");
 
 async function getGroupMessages(user, groupId, skip = 0, take = 50) {
     const group = await prisma.group.findUnique({

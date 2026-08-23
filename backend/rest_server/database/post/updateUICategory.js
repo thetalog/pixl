@@ -1,5 +1,5 @@
-const { PrismaClient, UICategory } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { UICategory } = require("@prisma/client");
+const prisma = require("../../lib/prisma");
 
 async function updatePostCategory(postId, uiCategory) {
     try {

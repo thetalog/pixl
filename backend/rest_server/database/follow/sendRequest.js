@@ -1,5 +1,5 @@
-const { PrismaClient, FollowStatus, ProfileVisibility } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { FollowStatus, ProfileVisibility } = require("@prisma/client");
+const prisma = require("../../lib/prisma");
 
 async function sendFollowRequest(user, targetUsername) {
   try {

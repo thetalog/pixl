@@ -1,5 +1,5 @@
-const { PrismaClient, ReactionType } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { ReactionType } = require("@prisma/client");
+const prisma = require("../../lib/prisma");
 
 async function toggleReelLike(user, reelId) {
     try {

@@ -1,5 +1,5 @@
-const { PrismaClient, GroupMemberRole } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { GroupMemberRole } = require("@prisma/client");
+const prisma = require("../../../lib/prisma");
 
 async function createGroup(
   user,

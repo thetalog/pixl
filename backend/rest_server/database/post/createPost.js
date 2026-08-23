@@ -1,5 +1,5 @@
-const { PrismaClient, MediaType } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { MediaType } = require("@prisma/client");
+const prisma = require("../../lib/prisma");
 
 const isObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
 

@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../../../lib/prisma");
 
 async function retractGroupMessage(user, groupId, messageId) {
   const getGroup = await prisma.group.findUnique({

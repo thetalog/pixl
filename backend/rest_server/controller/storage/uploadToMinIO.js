@@ -150,12 +150,10 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
           const thumbnailBase = safeName.replace(/\.[^.]+$/, "");
           const thumbnailName = `${Date.now()}_${i}_${thumbnailBase}.jpg`;
 
-          fs.mkdirSync("thumbnail", { recursive: true });
+          const thumbnailDir = path.join(os.tmpdir(), "pixl-thumbnails");
+          fs.mkdirSync(thumbnailDir, { recursive: true });
 
-          const thumbnailPath = path.resolve(
-            "thumbnail",
-            thumbnailName
-          );
+          const thumbnailPath = path.join(thumbnailDir, thumbnailName);
 
           await new Promise((resolve, reject) => {
             ffmpeg(file._tempVideoPath)
@@ -164,7 +162,7 @@ async function uploadPostOrReelToMinIO(userId, postCount, files) {
               .screenshots({
                 timestamps: ["1%"],
                 filename: thumbnailName,
-                folder: "thumbnail",
+                folder: thumbnailDir,
                 size: "1080x1920",
               });
           });

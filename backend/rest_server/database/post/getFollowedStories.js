@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../../lib/prisma");
 
 async function getFollowedStories(user, skip = 0, take = 20) {
   try {
