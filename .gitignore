@@ -1,0 +1,6 @@
+# CI build output (generated in GitHub Actions, not committed)
+build/
+
+# OS / editor
+.DS_Store
+.idea/
