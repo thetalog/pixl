@@ -1,2 +1,13 @@
 node_modules
-# Keep environment variables out of version control
+.env
+.env.*
+
+# Secrets and local keys (generate locally; never commit)
+*.pem
+*.key
+pixl-caf6b*.json
+mongo-init/replica.key
+
+# Generated / local-only
+thumbnail/
+.vscode/

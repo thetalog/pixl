@@ -1,3 +1,5 @@
+# Local Mongo replica set. Generate the key once before starting:
+#   bash scripts/ensure-replica-key.sh
 services:
   minio:
     image: minio/minio:latest
@@ -21,8 +23,7 @@ services:
       - 27018:27018
     volumes:
       - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
-      - ${PWD}/replica.key:/data/replica.key
-      - ./mongo-init/init-user.js:/docker-entrypoint-initdb.d/init-user.js
+      - ./mongo-init/replica.key:/data/replica.key:ro
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
@@ -39,7 +40,7 @@ services:
       - 27019:27019
     volumes:
       - ${DOCKER_VOLUME}/mongo2_vol:/data/db
-      - ${PWD}/replica.key:/data/replica.key
+      - ./mongo-init/replica.key:/data/replica.key:ro
     networks:
       - mongo_net
     environment:
@@ -56,7 +57,7 @@ services:
       - 27020:27020
     volumes:
       - ${DOCKER_VOLUME}/mongo3_vol:/data/db
-      - ${PWD}/replica.key:/data/replica.key
+      - ./mongo-init/replica.key:/data/replica.key:ro
     networks:
       - mongo_net
     environment:

@@ -6,13 +6,23 @@ const { GoogleAuth } = require('google-auth-library');
  * Uses google-auth-library for OAuth2 authentication
  */
 
+function buildGoogleAuthOptions() {
+  const options = {
+    scopes: ['https://www.googleapis.com/auth/firebase.messaging'],
+  };
+
+  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+    options.credentials = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  }
+
+  return options;
+}
+
 class FCMClient {
   constructor() {
     this.projectId = process.env.FIREBASE_PROJECT_ID;
-    this.auth = new GoogleAuth({
-      scopes: ['https://www.googleapis.com/auth/firebase.messaging']
-    });
-    
+    this.auth = new GoogleAuth(buildGoogleAuthOptions());
+
     if (!this.projectId) {
       throw new Error('FIREBASE_PROJECT_ID environment variable is required');
     }
@@ -120,9 +130,7 @@ class FCMClient {
   }
 }
 
-// Export singleton instance
 const fcmClient = new FCMClient();
-// Export singleton instance
 module.exports = fcmClient;
 
 // Export class for testing/custom instances
