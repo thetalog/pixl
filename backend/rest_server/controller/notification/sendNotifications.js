@@ -29,6 +29,13 @@ const sendNotificationController = async (req, res) => {
             data: data || {},
         });
 
+        if (result.skipped) {
+            return res.status(503).json({
+                success: false,
+                error: result.error || "FCM is not configured",
+            });
+        }
+
         return res.status(200).json({
             success: true,
             messageId: result.messageId,
