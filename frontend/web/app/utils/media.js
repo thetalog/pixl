@@ -12,11 +12,13 @@ function apiBase() {
   }
 }
 
-function rewriteMinioUrl(absolute) {
+/**
+ * Legacy local/MinIO URLs are not reachable from browsers in production.
+ * Rewrite them through the API media proxy. AWS S3 HTTPS URLs pass through.
+ */
+function rewriteLegacyStorageUrl(absolute) {
   try {
     const parsed = new URL(absolute)
-    // Local / Docker MinIO hostnames are not reachable from the browser.
-    // Rewrite through the API media proxy: GET /storage/:bucket/:object
     const isDockerMinio = parsed.hostname === 'minio'
     const isLocalMinio =
       (parsed.hostname === '127.0.0.1' || parsed.hostname === 'localhost') &&
@@ -41,7 +43,7 @@ export function normalizeUrl(url) {
       ? trimmed
       : `http://${trimmed}`
 
-  return rewriteMinioUrl(absolute)
+  return rewriteLegacyStorageUrl(absolute)
 }
 
 export function previewUrl(media) {

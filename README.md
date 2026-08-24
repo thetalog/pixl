@@ -36,7 +36,7 @@ backend/
 - **Framework**: Express.js
 - **ORM**: Prisma with MongoDB
 - **Authentication**: JWT with email verification
-- **File Storage**: MinIO for object storage
+- **File Storage**: AWS S3 for object storage
 - **Real-time**: Socket.IO for live features
 - **Notifications**: Firebase Cloud Messaging
 - **Validation**: JOI for request validation
@@ -74,7 +74,7 @@ backend/rest_server/
 - `/api/posts/` - Create, update, delete posts with media
 - `/api/reels/` - Reel creation and management
 - `/api/stories/` - Stories with 24-hour expiration
-- `/api/media/upload` - Multi-file media upload with MinIO
+- `/api/media/upload` - Multi-file media upload with AWS S3
 
 ### Social Features
 - `/api/follow/` - Follow/unfollow with privacy controls
@@ -166,7 +166,7 @@ The database schema is designed for optimal performance and data integrity:
 ### Prerequisites
 - Node.js (v14+)
 - MongoDB
-- MinIO (for file storage)
+- AWS S3 (for file storage)
 - Firebase project for push notifications
 
 ### Setup Instructions
@@ -215,12 +215,15 @@ EMAIL_SECURE=false
 EMAIL_USER="your-email@gmail.com"
 EMAIL_PASSWORD="your-app-password"
 
-# MinIO Configuration
-MINIO_ENDPOINT="localhost"
-MINIO_PORT=9000
-MINIO_ACCESS_KEY="your-access-key"
-MINIO_SECRET_KEY="your-secret-key"
-MINIO_BUCKET_NAME="pixl-media"
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID="your-access-key"
+AWS_SECRET_ACCESS_KEY="your-secret-key"
+AWS_REGION="ap-south-1"
+S3_BUCKET_POSTS="pixl-posts"
+S3_BUCKET_DM="pixl-dm"
+S3_BUCKET_GROUP_MSG="pixl-group-msg"
+S3_BUCKET_GROUP_DP="pixl-group-dp"
+S3_BUCKET_PROFILE="pixl-profile"
 
 # Firebase Configuration
 FIREBASE_PROJECT_ID="your-firebase-project-id"

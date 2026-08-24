@@ -30,7 +30,6 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mimetics": "^1.0.5",
-    "minio": "^8.0.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.16",
     "prisma": "6.12.0",

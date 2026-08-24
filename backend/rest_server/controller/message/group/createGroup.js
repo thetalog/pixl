@@ -1,8 +1,8 @@
 const { createGroup } = require("../../../database/message/group/createGroup");
 
 const {
-  uploadGroupDPMediaToMinIO,
-} = require("../../storage/uploadToMinIO");
+  uploadGroupDP,
+} = require("../../storage/uploadToS3");
 
 const generateGroupIds = require("../../../utils/generateId");
 
@@ -38,7 +38,7 @@ exports.createGroupController = async (req, res) => {
 
     const groupId = generateGroupIds();
 
-    const uploadResults = await uploadGroupDPMediaToMinIO(
+    const uploadResults = await uploadGroupDP(
       groupId,
       file
     );

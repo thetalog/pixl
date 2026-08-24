@@ -1,5 +1,5 @@
 const { createStory } = require("../../database/post/createStory");
-const { uploadPostOrReelToMinIO } = require("../storage/uploadToMinIO");
+const { uploadPostOrReel } = require("../storage/uploadToS3");
 
 /* ================= CREATE STORY ================= */
 
@@ -41,7 +41,7 @@ const createStoryController = async (req, res) => {
 
     /* ---------- Upload ---------- */
 
-    const uploadResults = await uploadPostOrReelToMinIO(
+    const uploadResults = await uploadPostOrReel(
       user.id,
       0, // Stories don't need post count
       file

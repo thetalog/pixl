@@ -1,5 +1,5 @@
 const prisma = require("../../lib/prisma");
-const { uploadProfilePicToMinIO } = require("../storage/uploadToMinIO");
+const { uploadProfilePic } = require("../storage/uploadToS3");
 
 exports.updateProfilePictureController = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ exports.updateProfilePictureController = async (req, res) => {
       return res.status(400).json({ message: "Profile image is required." });
     }
 
-    const profilePic = await uploadProfilePicToMinIO(req.user.id, req.file);
+    const profilePic = await uploadProfilePic(req.user.id, req.file);
     const updated = await prisma.user.update({
       where: { id: req.user.id },
       data: { profilePic },

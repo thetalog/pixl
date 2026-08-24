@@ -1,8 +1,8 @@
 const { sendGroupMessage } = require("../../../database/message/group/sendMessage");
 
 const {
-  uploadGroupMediaToMinIO,
-} = require("../../storage/uploadToMinIO");
+  uploadGroupMedia,
+} = require("../../storage/uploadToS3");
 
 const generateConversationId = require("../../../utils/generateId");
 
@@ -34,7 +34,7 @@ exports.sendGroupMessageController = async (req, res) => {
     let uploadResults = [];
 
     if (files?.length) {
-      uploadResults = await uploadGroupMediaToMinIO(
+      uploadResults = await uploadGroupMedia(
         user?.id,
         conversationId,
         files

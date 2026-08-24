@@ -1,12 +1,11 @@
 # Pixl production stack for a single AWS EC2 host.
 #
 # MongoDB: ONE replica-set member (satisfies Prisma $transaction).
-# Multiple Mongo containers on the SAME EC2 do NOT provide EC2-level HA —
-# if the instance dies, all members die. Use Atlas for real HA later.
+# Media: AWS S3 (not MinIO).
 #
 # Usage:
 #   cp .env.example .env
-#   # edit secrets / DOMAIN
+#   # edit secrets / DOMAIN / AWS credentials
 #   docker compose up -d --build
 
 name: pixl
@@ -41,55 +40,9 @@ services:
       timeout: 8s
       retries: 20
       start_period: 60s
-    # Not published to the host — Docker network only
     expose:
       - "27017"
     mem_limit: 768m
-
-  minio:
-    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
-    container_name: pixl-minio
-    restart: unless-stopped
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-    volumes:
-      - minio_data:/data
-    networks:
-      - pixl_internal
-    healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/minio/health/ready"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
-      start_period: 15s
-    expose:
-      - "9000"
-      - "9001"
-    mem_limit: 512m
-
-  minio-init:
-    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
-    container_name: pixl-minio-init
-    depends_on:
-      minio:
-        condition: service_healthy
-    environment:
-      MINIO_ENDPOINT: http://minio:9000
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_POSTS_BUCKET: ${MINIO_POSTS_BUCKET:-pixl}
-      MINIO_CONVERSATION_DIRECT_MESSAGE_BUCKET: ${MINIO_CONVERSATION_DIRECT_MESSAGE_BUCKET:-conversation-direct-messages}
-      MINIO_CONVERSATION_GROUP_MESSAGE_BUCKET: ${MINIO_CONVERSATION_GROUP_MESSAGE_BUCKET:-conversation-group-messages}
-      MINIO_CONVERSATION_GROUP_DP_BUCKET: ${MINIO_CONVERSATION_GROUP_DP_BUCKET:-conversation-group-dp}
-      MINIO_PROFILE_BUCKET: ${MINIO_PROFILE_BUCKET:-pixl-profile}
-    volumes:
-      - ./deploy/minio/create-buckets.sh:/create-buckets.sh:ro
-    entrypoint: ["/bin/sh", "/create-buckets.sh"]
-    networks:
-      - pixl_internal
-    restart: "no"
 
   backend:
     build:
@@ -100,8 +53,6 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
-      minio-init:
-        condition: service_completed_successfully
     environment:
       NODE_ENV: production
       PORT: "3001"
@@ -113,18 +64,15 @@ services:
       EMAIL_SECURE: ${EMAIL_SECURE:-false}
       EMAIL_USER: ${EMAIL_USER}
       EMAIL_PASSWORD: ${EMAIL_PASSWORD}
-      MINIO_ENDPOINT: minio
-      MINIO_PORT: "9000"
-      MINIO_USE_SSL: "false"
-      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
-      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
-      # Stored in DB; browser rewrites hostname "minio" via API /storage proxy
-      MINIO_PUBLIC_URL: http://minio:9000
-      MINIO_POSTS_BUCKET: ${MINIO_POSTS_BUCKET:-pixl}
-      MINIO_CONVERSATION_DIRECT_MESSAGE_BUCKET: ${MINIO_CONVERSATION_DIRECT_MESSAGE_BUCKET:-conversation-direct-messages}
-      MINIO_CONVERSATION_GROUP_MESSAGE_BUCKET: ${MINIO_CONVERSATION_GROUP_MESSAGE_BUCKET:-conversation-group-messages}
-      MINIO_CONVERSATION_GROUP_DP_BUCKET: ${MINIO_CONVERSATION_GROUP_DP_BUCKET:-conversation-group-dp}
-      MINIO_PROFILE_BUCKET: ${MINIO_PROFILE_BUCKET:-pixl-profile}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      S3_PUBLIC_BASE_URL: ${S3_PUBLIC_BASE_URL:-}
+      S3_BUCKET_POSTS: ${S3_BUCKET_POSTS}
+      S3_BUCKET_DM: ${S3_BUCKET_DM}
+      S3_BUCKET_GROUP_MSG: ${S3_BUCKET_GROUP_MSG}
+      S3_BUCKET_GROUP_DP: ${S3_BUCKET_GROUP_DP}
+      S3_BUCKET_PROFILE: ${S3_BUCKET_PROFILE}
       FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-}
       FIREBASE_SERVICE_ACCOUNT: ${FIREBASE_SERVICE_ACCOUNT:-}
       FRONTEND_URL: ${FRONTEND_URL}
@@ -182,4 +130,3 @@ networks:
 
 volumes:
   mongo_data:
-  minio_data:

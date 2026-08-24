@@ -25,7 +25,7 @@ async function createStory(
 
       media: {
         create: {
-          url: file.url,              // from MinIO
+          url: file.url,              // from S3
           mimeType: file.mimeType,    // IMAGE | VIDEO
           thumbnail:
             file.mimeType === "VIDEO" ? file.thumbnail ?? null : null,

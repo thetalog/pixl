@@ -1,8 +1,8 @@
 const { sendDirectMessage } = require("../../../database/message/direct/sendMessage");
 
 const {
-  uploadDirectMediaToMinIO,
-} = require("../../storage/uploadToMinIO");
+  uploadDirectMedia,
+} = require("../../storage/uploadToS3");
 
 exports.sendDirectMessageController = async (req, res) => {
   try {
@@ -32,7 +32,7 @@ exports.sendDirectMessageController = async (req, res) => {
     let uploadResults = [];
 
     if (files?.length) {
-      uploadResults = await uploadDirectMediaToMinIO(user?.id, files);
+      uploadResults = await uploadDirectMedia(user?.id, files);
 
       if (!uploadResults || uploadResults.length === 0) {
         return res.status(500).json({
