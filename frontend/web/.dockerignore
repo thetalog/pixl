@@ -1,0 +1,14 @@
+node_modules
+.nuxt
+.output
+dist
+.env
+.env.*
+!.env.example
+.git
+.gitignore
+.vscode
+.DS_Store
+scripts/stage-build.sh
+npm-debug.log*
+*.log
