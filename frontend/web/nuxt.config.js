@@ -6,6 +6,36 @@ import { dirname, join } from 'node:path'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
 
+function normalizeApiBase(raw) {
+  let value = String(raw || '').trim()
+  if (!value || value === 'undefined' || value === 'null') return ''
+
+  value = value.replace(/^https?:\/\/https:\/\//i, 'https://')
+  value = value.replace(/^https?:\/\/http:\/\//i, 'http://')
+
+  if (!/^https?:\/\//i.test(value)) {
+    value = `https://${value}`
+  }
+
+  try {
+    const url = new URL(value)
+    if (
+      (url.protocol === 'https:' && (url.port === '443' || url.port === '80' || url.port === '3001')) ||
+      (url.protocol === 'http:' && url.port === '80')
+    ) {
+      url.port = ''
+    }
+    return url.origin.replace(/\/$/, '')
+  } catch {
+    return value.replace(/\/$/, '')
+  }
+}
+
+const rawApiBase =
+  process.env.NUXT_PUBLIC_API_BASE ||
+  process.env.API_BASE ||
+  ''
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -45,15 +75,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      // Prefer full URL, else build from host + port (.env)
-      apiBase:
-        process.env.NUXT_PUBLIC_API_BASE ||
-        process.env.API_BASE ||
-        `http://${process.env.NUXT_PUBLIC_API_HOST || process.env.API_HOST || '127.0.0.1'}:${process.env.NUXT_PUBLIC_API_PORT || process.env.API_PORT || '3001'}`,
+      apiBase: normalizeApiBase(rawApiBase) || 'https://api.pixl-personal-project.online',
       liveWsBase:
         process.env.NUXT_PUBLIC_LIVE_WS_BASE ||
         process.env.LIVE_WS_BASE ||
-        'ws://127.0.0.1:9090',
+        'wss://api.pixl-personal-project.online',
     },
   },
 

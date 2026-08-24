@@ -1,3 +1,5 @@
+import { normalizeApiBase } from './apiBase'
+
 export function firstString(value) {
   if (typeof value === 'string') return value
   if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'string') return value[0]
@@ -6,9 +8,9 @@ export function firstString(value) {
 
 function apiBase() {
   try {
-    return String(useRuntimeConfig()?.public?.apiBase).replace(/\/$/, '')
+    return normalizeApiBase(useRuntimeConfig()?.public?.apiBase)
   } catch {
-    return 'http://localhost:3001'
+    return 'https://api.pixl-personal-project.online'
   }
 }
 

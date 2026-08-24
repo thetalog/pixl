@@ -1,7 +1,10 @@
+import { normalizeApiBase } from '~/utils/apiBase'
+
 const COOKIE_OPTS = { sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24 * 30 }
 
 export function usePixlApi() {
   const runtimeConfig = useRuntimeConfig()
+  const apiBase = normalizeApiBase(runtimeConfig.public.apiBase)
   const jwtTokenCookie = useCookie('jwt_token', COOKIE_OPTS)
   const legacyTokenCookie = useCookie('pixl_token', COOKIE_OPTS)
   const profileUsernameCookie = useCookie('profile_username', COOKIE_OPTS)
@@ -28,7 +31,7 @@ export function usePixlApi() {
 
     try {
       return await $fetch(path, {
-        baseURL: runtimeConfig.public.apiBase,
+        baseURL: apiBase,
         ...fetchOptions,
         headers,
       })

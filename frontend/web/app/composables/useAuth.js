@@ -1,3 +1,5 @@
+import { normalizeApiBase } from '~/utils/apiBase'
+
 const COOKIE_OPTS = { sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24 * 30 }
 
 function extractJwt(res) {
@@ -16,6 +18,7 @@ function extractUserName(res) {
 export const useAuth = () => {
   const api = usePixlApi()
   const runtimeConfig = useRuntimeConfig()
+  const apiBase = normalizeApiBase(runtimeConfig.public.apiBase)
   const jwtTokenCookie = useCookie('jwt_token', COOKIE_OPTS)
   const legacyTokenCookie = useCookie('pixl_token', COOKIE_OPTS)
   const profileUsernameCookie = useCookie('profile_username', COOKIE_OPTS)
@@ -42,7 +45,7 @@ export const useAuth = () => {
   const login = async ({ email, password }) => {
     const res = await $fetch('/auth/login', {
       method: 'POST',
-      baseURL: runtimeConfig.public.apiBase,
+      baseURL: apiBase,
       body: { email, password },
     })
     persistSession(res)
@@ -53,7 +56,7 @@ export const useAuth = () => {
   const signup = async (payload) => {
     return await $fetch('/auth/signup', {
       method: 'POST',
-      baseURL: runtimeConfig.public.apiBase,
+      baseURL: apiBase,
       body: payload,
     })
   }
@@ -61,7 +64,7 @@ export const useAuth = () => {
   const sendOtp = async ({ name, email }) => {
     return await $fetch('/send-otp', {
       method: 'POST',
-      baseURL: runtimeConfig.public.apiBase,
+      baseURL: apiBase,
       body: { name, email },
     })
   }
@@ -69,7 +72,7 @@ export const useAuth = () => {
   const verifyOtp = async ({ email, otp }) => {
     return await $fetch('/verify-otp', {
       method: 'POST',
-      baseURL: runtimeConfig.public.apiBase,
+      baseURL: apiBase,
       body: { email, otp: Number(otp) },
     })
   }
