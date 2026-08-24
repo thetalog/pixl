@@ -2,10 +2,11 @@
 .DS_Store
 .idea/
 
-# Secrets (keep backend/rest_server/.env as the single env file)
+# Secrets
 .env
 .env.*
 !backend/rest_server/.env
+!frontend/web/.env
 
 # Keys / credentials
 *.pem

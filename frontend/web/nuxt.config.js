@@ -45,8 +45,15 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE,
-      liveWsBase: process.env.LIVE_WS_BASE || 'ws://localhost:9090',
+      // Prefer full URL, else build from host + port (.env)
+      apiBase:
+        process.env.NUXT_PUBLIC_API_BASE ||
+        process.env.API_BASE ||
+        `http://${process.env.NUXT_PUBLIC_API_HOST || process.env.API_HOST || '127.0.0.1'}:${process.env.NUXT_PUBLIC_API_PORT || process.env.API_PORT || '3001'}`,
+      liveWsBase:
+        process.env.NUXT_PUBLIC_LIVE_WS_BASE ||
+        process.env.LIVE_WS_BASE ||
+        'ws://127.0.0.1:9090',
     },
   },
 
