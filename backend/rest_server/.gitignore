@@ -1,6 +1,4 @@
 node_modules
-.env
-.env.*
 
 # Secrets and local keys (generate locally; never commit)
 *.pem

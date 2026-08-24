@@ -1,14 +1,13 @@
-# CI build output (generated in GitHub Actions, not committed)
-build/
-
 # OS / editor
 .DS_Store
 .idea/
 
-# Secrets and local keys
+# Secrets (keep backend/rest_server/.env as the single env file)
 .env
 .env.*
-!.env.example
+!backend/rest_server/.env
+
+# Keys / credentials
 *.pem
 *.key
 **/pixl-caf6b*.json
@@ -21,3 +20,6 @@ backend/livestream_server/bin/
 
 # Python virtualenvs under vendored libs
 **/.venv/
+
+# Generated
+build/
