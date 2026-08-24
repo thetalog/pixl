@@ -1,86 +1,21 @@
-# Local Mongo replica set. Generate the key once before starting:
-#   bash scripts/ensure-replica-key.sh
+# =============================================================================
+# Local-only Mongo + MinIO (legacy). Prefer the root docker-compose.yml for EC2.
+# Generate nothing here for production — use ../docker-compose.yml instead.
+# =============================================================================
 services:
   minio:
     image: minio/minio:latest
-    container_name: minio
+    profiles: ["legacy-local"]
     ports:
       - "9000:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     volumes:
-      - ${DOCKER_VOLUME}/minio_vol:/data
+      - minio_vol:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
 
-  mongod1:
-    container_name: mongod1
-    hostname: mongod1
-    image: mongo
-    ports:
-      - 27018:27018
-    volumes:
-      - ${DOCKER_VOLUME}/mongo1_vol:/data/db:z
-      - ./mongo-init/replica.key:/data/replica.key:ro
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    command: ["mongod", "--port", "27018", "--auth", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
-    networks:
-      - mongo_net
-    restart: unless-stopped
-
-  mongod2:
-    container_name: mongod2
-    hostname: mongod2
-    image: mongo
-    ports:
-      - 27019:27019
-    volumes:
-      - ${DOCKER_VOLUME}/mongo2_vol:/data/db
-      - ./mongo-init/replica.key:/data/replica.key:ro
-    networks:
-      - mongo_net
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    command: ["mongod", "--port", "27019", "--auth", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
-    restart: unless-stopped
-
-  mongod3:
-    container_name: mongod3
-    hostname: mongod3
-    image: mongo
-    ports:
-      - 27020:27020
-    volumes:
-      - ${DOCKER_VOLUME}/mongo3_vol:/data/db
-      - ./mongo-init/replica.key:/data/replica.key:ro
-    networks:
-      - mongo_net
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    command: ["mongod", "--port", "27020", "--auth", "--replSet", "rs0", "--keyFile", "/data/replica.key", "--bind_ip_all"]
-    restart: unless-stopped
-
-  mongod-init:
-    container_name: mongod-init
-    image: mongo
-    depends_on:
-      - mongod1
-      - mongod2
-      - mongod3
-    volumes:
-      - ./mongo-init/init-replica.js:/mongo-init/init-replica.js:ro
-      - ./scripts/init-replica.sh:/init-replica.sh:ro
-    networks:
-      - mongo_net
-    entrypoint: ["/bin/sh", "-c", "sleep 15 & /init-replica.sh"]
-    restart: unless-stopped
-
-networks:
-  mongo_net:
-    driver: bridge
+volumes:
+  minio_vol:

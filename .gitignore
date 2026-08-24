@@ -6,6 +6,9 @@ build/
 .idea/
 
 # Secrets and local keys
+.env
+.env.*
+!.env.example
 *.pem
 *.key
 **/pixl-caf6b*.json

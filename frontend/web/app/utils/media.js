@@ -15,10 +15,13 @@ function apiBase() {
 function rewriteMinioUrl(absolute) {
   try {
     const parsed = new URL(absolute)
-    const isMinio =
+    // Local / Docker MinIO hostnames are not reachable from the browser.
+    // Rewrite through the API media proxy: GET /storage/:bucket/:object
+    const isDockerMinio = parsed.hostname === 'minio'
+    const isLocalMinio =
       (parsed.hostname === '127.0.0.1' || parsed.hostname === 'localhost') &&
-      parsed.port === '9000'
-    if (!isMinio) return absolute
+      (parsed.port === '9000' || parsed.port === '')
+    if (!isDockerMinio && !isLocalMinio) return absolute
     return `${apiBase()}/storage${parsed.pathname}${parsed.search}`
   } catch {
     return absolute
