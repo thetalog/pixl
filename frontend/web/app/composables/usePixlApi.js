@@ -25,8 +25,16 @@ export function usePixlApi() {
       ...(fetchOptions.headers || {}),
     }
 
-    if (token.value && !headers.Authorization) {
+    if (token.value && !headers.Authorization && !headers.authorization) {
       headers.Authorization = `Bearer ${token.value}`
+    }
+
+    // Let the browser set multipart boundary — never force Content-Type on FormData.
+    const isFormData =
+      typeof FormData !== 'undefined' && fetchOptions.body instanceof FormData
+    if (isFormData) {
+      delete headers['Content-Type']
+      delete headers['content-type']
     }
 
     try {

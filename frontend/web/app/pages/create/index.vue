@@ -83,9 +83,10 @@ async function submit() {
   }
   submitting.value = true
   try {
+    const uploadFiles = await prepareUploadFiles(files.value)
     const form = new FormData()
     if (tab.value === 'post') {
-      for (const f of files.value) form.append('file', f)
+      for (const f of uploadFiles) form.append('file', f)
       form.append('caption', caption.value)
       form.append('location', location.value)
       form.append('tags', JSON.stringify(parseList(tags.value)))
@@ -95,13 +96,13 @@ async function submit() {
       await clearNuxtData('followed-posts')
       await navigateTo('/')
     } else if (tab.value === 'reel') {
-      const reelFile = files.value[0]
+      const reelFile = uploadFiles[0]
       if (!reelFile || !(reelFile.type.startsWith('video/') || /\.(mp4|mov|webm|m4v|avi|mkv)$/i.test(reelFile.name))) {
         toast.error('Reels need a video under 60 seconds. Use Post for photos.')
         submitting.value = false
         return
       }
-      form.append('file', files.value[0])
+      form.append('file', reelFile)
       form.append(
         'data',
         JSON.stringify({
@@ -115,7 +116,7 @@ async function submit() {
       toast.success('Reel created')
       await navigateTo('/reels')
     } else {
-      form.append('file', files.value[0])
+      form.append('file', uploadFiles[0])
       form.append(
         'data',
         JSON.stringify({
@@ -130,7 +131,15 @@ async function submit() {
       await navigateTo('/')
     }
   } catch (e) {
-    toast.error(apiErrorMessage(e, 'Upload failed'))
+    const msg = apiErrorMessage(e, 'Upload failed')
+    const isNetwork =
+      /failed to fetch|networkerror|<no response>/i.test(String(msg)) ||
+      (!e?.statusCode && !e?.status && /fetch/i.test(String(e?.message || '')))
+    toast.error(
+      isNetwork
+        ? 'Upload blocked (file too large for the server). Try a smaller image, or raise nginx client_max_body_size on the API host.'
+        : msg
+    )
   } finally {
     submitting.value = false
   }

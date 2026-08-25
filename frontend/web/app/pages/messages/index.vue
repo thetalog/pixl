@@ -83,8 +83,9 @@ async function createGroup() {
   }
   creatingGroup.value = true
   try {
+    const [pic] = await prepareUploadFiles([groupFile.value])
     const form = new FormData()
-    form.append('file', groupFile.value)
+    form.append('file', pic || groupFile.value)
     form.append(
       'postData',
       JSON.stringify({

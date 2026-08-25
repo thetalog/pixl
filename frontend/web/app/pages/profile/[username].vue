@@ -96,8 +96,9 @@ async function onPickPic(event) {
   if (!file || picUploading.value) return
   picUploading.value = true
   try {
+    const [pic] = await prepareUploadFiles([file])
     const form = new FormData()
-    form.append('file', file)
+    form.append('file', pic || file)
     const res = await api.request('/profile/picture', { method: 'POST', body: form })
     const nextPic = res?.data?.profilePic
     if (profile.value && nextPic) profile.value.profilePic = nextPic

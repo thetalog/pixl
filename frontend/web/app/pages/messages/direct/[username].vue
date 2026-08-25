@@ -109,9 +109,8 @@ async function send() {
   try {
     const form = new FormData()
     form.append('postData', JSON.stringify({ receiverUsername: targetUsername.value, message: msg ? msg : ' ' }))
-    for (const a of keepAtt) {
-      if (a?.file) form.append('files', a.file)
-    }
+    const ready = await prepareUploadFiles(keepAtt.map((a) => a.file).filter(Boolean))
+    for (const f of ready) form.append('files', f)
     await api.request('/message/direct/send-message', { method: 'POST', body: form })
     for (const a of keepAtt) if (a?.url) URL.revokeObjectURL(a.url)
     await reload(true)
