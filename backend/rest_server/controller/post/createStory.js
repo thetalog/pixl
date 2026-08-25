@@ -39,12 +39,34 @@ const createStoryController = async (req, res) => {
       }
     }
 
+    /* ---------- Rekognition moderation (photos) ---------- */
+
+    const { moderateAndLabelFiles } = require("../../lib/rekognition");
+    const { notifyUser } = require("../../lib/notifyUser");
+
+    const moderation = await moderateAndLabelFiles([file]);
+    if (moderation.blocked) {
+      await notifyUser(user.id, {
+        type: "moderation",
+        message:
+          moderation.reason ||
+          "Your story was blocked because it may violate Pixl community guidelines.",
+      });
+      return res.status(451).json({
+        error: true,
+        code: "CONTENT_BLOCKED",
+        message:
+          moderation.reason ||
+          "This photo was blocked by content moderation.",
+      });
+    }
+
     /* ---------- Upload ---------- */
 
     const uploadResults = await uploadPostOrReel(
       user.id,
       0, // Stories don't need post count
-      file
+      moderation.files?.[0] || file
     );
 
     if (uploadResults?.error) {

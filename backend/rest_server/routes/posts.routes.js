@@ -27,6 +27,10 @@ const { updatePostController } = require("../controller/post/updatePost");
 const { getSavedPostsController } = require("../controller/post/getSavedPosts");
 const { getPostsByTagController } = require("../controller/post/getPostsByTag");
 const { reactStoryController } = require("../controller/story/reactStory");
+const {
+  aiImageSearchController,
+  similarImagesController,
+} = require("../controller/post/aiImageSearch");
 
 const router = express.Router();
 
@@ -49,6 +53,9 @@ router.patch("/edit-caption", editPostCaptionController);
 router.get("/get-all-public-posts", getAllPublicPostsController);
 router.get("/get-all-public-reels", getAllPublicReelsController);
 router.get("/get-single-public-post", getSinglePublicPostController);
+router.get("/ai-search", aiImageSearchController);
+router.get("/similar", similarImagesController);
+router.post("/similar", upload.single("file"), similarImagesController);
 router.post("/:postId/comment", postCommentController);
 router.post("/:reelId/reel-comment", reelCommentController);
 router.get("/get-followed-posts", getFollowedPostsController);

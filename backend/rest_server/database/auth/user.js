@@ -23,7 +23,7 @@ async function getUserByEmailAndPassword(email, hashedPassword) {
     });
 
     if (!response) {
-      return { error: true, status: 404 };
+      return { error: true, status: 401, message: "Invalid email or password." };
     }
 
     return response;

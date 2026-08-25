@@ -12,12 +12,18 @@ const { removeFollowRequestController } = require("../controller/follow/removeFo
 const { removeFollowingController } = require("../controller/follow/removeFollowing.js");
 const { getFollowStatusController } = require("../controller/follow/getFollowStatus.js");
 const { getFollowersController, getFollowingController } = require("../controller/follow/getFollowLists.js");
+const {
+  getUserNotificationsController,
+  markNotificationsReadController,
+} = require("../controller/notification/userNotifications");
 
 const router = express.Router();
 router.post("/check-username", checkUsernameExist);
 router.get("/search/get-profile-by-username", searchUserController);
 router.get("/search/all", searchUsersController);
 router.get("/profile", getOwnProfileController);
+router.get("/notifications", getUserNotificationsController);
+router.patch("/notifications/read", markNotificationsReadController);
 router.post("/follow/approve", approveFollowController);
 router.post("/follow/reject", rejectFollowController);
 router.post("/follow/request", requestFollowController);

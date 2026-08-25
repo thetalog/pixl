@@ -1,5 +1,7 @@
 const { createPostRecord } = require("../../database/post/createPost");
 const { uploadPostOrReel } = require("../storage/uploadToS3");
+const { moderateAndLabelFiles } = require("../../lib/rekognition");
+const { notifyUser } = require("../../lib/notifyUser");
 
 /* ================= SAFE PARSE ================= */
 
@@ -21,7 +23,7 @@ const safeParse = (value, fallback) => {
     }
 
     if (trimmed.includes(",")) {
-      return trimmed.split(",").map(x => x.trim()).filter(Boolean);
+      return trimmed.split(",").map((x) => x.trim()).filter(Boolean);
     }
 
     return trimmed.length ? [trimmed] : fallback;
@@ -45,11 +47,30 @@ exports.createPostController = async (req, res) => {
     location = typeof location === "string" ? location : "";
     caption = typeof caption === "string" ? caption : "";
 
-    /* ---------- Validation ---------- */
-
     if (!req.files || !req.files.length) {
       return res.status(400).json({
         message: "At least one file is required.",
+      });
+    }
+
+    /* ---------- Rekognition moderation + labels ---------- */
+
+    const moderation = await moderateAndLabelFiles(req.files);
+    if (moderation.blocked) {
+      await notifyUser(userId, {
+        type: "moderation",
+        message:
+          moderation.reason ||
+          "Your photo was blocked because it may violate Pixl community guidelines.",
+      });
+
+      return res.status(451).json({
+        error: true,
+        code: "CONTENT_BLOCKED",
+        message:
+          moderation.reason ||
+          "This photo was blocked by content moderation.",
+        labels: moderation.labels || [],
       });
     }
 
@@ -58,11 +79,11 @@ exports.createPostController = async (req, res) => {
     const uploadResults = await uploadPostOrReel(
       userId,
       postsCount,
-      req.files
+      moderation.files || req.files
     );
 
     if (uploadResults?.error) {
-      return res.status(500).json(uploadResults);
+      return res.status(uploadResults.status || 500).json(uploadResults);
     }
 
     if (!uploadResults || uploadResults.length === 0) {
@@ -88,13 +109,11 @@ exports.createPostController = async (req, res) => {
       });
     }
 
-    /* ---------- Success ---------- */
-
     return res.status(200).json({
       error: false,
       message: "Post created successfully.",
+      labels: uploadResults.flatMap((f) => f.labels || []),
     });
-
   } catch (error) {
     console.error("Create post controller error:", error);
 

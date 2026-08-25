@@ -202,6 +202,8 @@ async function uploadPostOrReel(userId, postCount, files) {
         url: fileUrl,
         mimeType: isVideo ? "VIDEO" : isImage ? "IMAGE" : "IMAGE",
         thumbnail: thumbnailUrl,
+        labels: Array.isArray(file._rekognitionLabels) ? file._rekognitionLabels : [],
+        labelScores: file._rekognitionScores || {},
       });
     } catch (err) {
       console.error("Error uploading post file:", err);

@@ -57,6 +57,7 @@ model User {
   MessageReactions       MessageReaction[]
   MessageSeen            MessageSeen[]
   postsCount             Int                  @default(0)
+  fcmToken               String?
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
 }
@@ -216,8 +217,9 @@ model UserNotification {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   message   String
-  type      String // "mention", "comment", "like", etc.
+  type      String // "mention", "comment", "like", "moderation", etc.
   postId    String?  @db.ObjectId // Optional: reference to a post if it's a mention notification
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -301,6 +303,8 @@ model Media {
   musicCredit String?
   mimeType    MediaType
   thumbnail   String?
+  labels      String[]  @default([])
+  labelScores Json?
   postId      String?   @db.ObjectId
   post        Post?     @relation(fields: [postId], references: [id])
   reelId      String?   @db.ObjectId

@@ -4,6 +4,7 @@ async function findPublicPosts() {
     try {
         const posts = await prisma.post.findMany({
             where: {
+                postDisabled: false,
                 user: { profileVisibility: ProfileVisibility.PUBLIC },
             },
             include: {
