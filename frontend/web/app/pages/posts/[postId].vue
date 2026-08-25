@@ -27,6 +27,25 @@ const post = computed(() => response.value?.data || null)
     </button>
     <UiSkeleton v-if="pending" height="520px" rounded="rounded-card" />
     <UiEmptyState v-else-if="error || !post" title="Post not found." />
-    <UiPost v-else :post="post" play-video />
+    <template v-else>
+      <UiPost :post="post" play-video />
+      <div class="mt-4 flex gap-2">
+        <UiButton
+          size="sm"
+          variant="ghost"
+          @click="navigateTo(`/search?tab=similar&postId=${encodeURIComponent(post.id)}`)"
+        >
+          Find similar images
+        </UiButton>
+        <UiButton
+          v-if="(post.systemTags || []).length"
+          size="sm"
+          variant="ghost"
+          @click="navigateTo(`/search?tab=ai&q=${encodeURIComponent((post.systemTags || []).slice(0, 3).join(' '))}`)"
+        >
+          Search related
+        </UiButton>
+      </div>
+    </template>
   </div>
 </template>

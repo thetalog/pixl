@@ -25,11 +25,11 @@
       <NuxtLink
         to="/notifications"
         class="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-pixl-text hover:bg-white/8"
-        aria-label="Requests"
+        aria-label="Activity"
       >
         <UiIcon name="heart" :size="22" />
         <span
-          v-if="count"
+          v-if="badgeCount"
           class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-pixl-accent"
         />
       </NuxtLink>
@@ -38,5 +38,13 @@
 </template>
 
 <script setup>
-const { count } = useRequests()
+const { count: requestCount, refresh: refreshRequests } = useRequests()
+const { unreadCount, refresh: refreshNotifications } = useNotifications()
+
+const badgeCount = computed(() => Number(requestCount.value || 0) + Number(unreadCount.value || 0))
+
+onMounted(() => {
+  refreshRequests()
+  refreshNotifications()
+})
 </script>

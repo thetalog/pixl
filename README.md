@@ -16,6 +16,8 @@ Instagram-style social platform with posts, reels, stories, messaging, and live 
 - **Messaging** — Direct and group chat with media attachments
 - **Live** — Start/join streams with live comments
 - **Media** — Upload to AWS S3, served via API proxy
+- **Moderation** — Amazon Rekognition blocks unsafe photos; alerts appear under Activity (♡)
+- **AI search** — Natural-language image search + visual similarity
 - **Push** — Firebase Cloud Messaging (optional)
 
 ---
@@ -82,6 +84,9 @@ S3_BUCKET_DM=
 S3_BUCKET_GROUP_MSG=
 S3_BUCKET_GROUP_DP=
 S3_BUCKET_PROFILE=
+
+# Rekognition (same AWS keys; enable DetectModerationLabels + DetectLabels on the IAM user)
+# REKOGNITION_MODERATION_MIN_CONFIDENCE=75
 
 # Email (OTP)
 EMAIL_HOST=

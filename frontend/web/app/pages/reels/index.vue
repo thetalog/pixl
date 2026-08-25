@@ -1,8 +1,9 @@
 <script setup>
-definePageMeta({ middleware: 'auth', hideBottomNav: true, hideHeader: true })
+definePageMeta({ middleware: 'auth', hideHeader: true })
 
 const api = usePixlApi()
 const toast = useToast()
+const { reelsImmersive } = useChrome()
 
 const reels = ref([])
 const skip = ref(0)
@@ -16,6 +17,16 @@ const commentDraft = ref('')
 const comments = ref([])
 const commentsLoading = ref(false)
 const sendingComment = ref(false)
+
+watch(
+  [reels, loading],
+  () => {
+    // Immersive full-bleed only while there are reels to watch.
+    // Empty / loading states keep the bottom nav so users can leave.
+    reelsImmersive.value = reels.value.length > 0
+  },
+  { immediate: true }
+)
 
 async function loadMore() {
   if (loading.value || done.value) return
@@ -113,14 +124,21 @@ watch(reels, async () => {
   await nextTick()
   document.querySelectorAll('[data-reel]').forEach((el) => observer?.observe(el))
 })
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+  observer?.disconnect()
+  reelsImmersive.value = false
+})
 </script>
 
 <template>
-  <div class="h-[100dvh] overflow-y-scroll snap-y snap-mandatory bg-black lg:pl-0">
-    <div v-if="!reels.length && loading" class="grid h-full place-items-center text-sm text-pixl-muted">Loading reels…</div>
-    <UiEmptyState v-else-if="!reels.length" title="No reels yet." cta="Create one" @action="navigateTo('/create')" />
-
+  <div
+    class="overflow-y-scroll snap-y snap-mandatory bg-black lg:pl-0"
+    :class="reels.length ? 'h-[100dvh]' : 'min-h-[70dvh] pb-4'"
+  >
+    <div v-if="!reels.length && loading" class="grid h-[60dvh] place-items-center text-sm text-pixl-muted">Loading reels…</div>
+    <div v-else-if="!reels.length" class="px-4 pt-10">
+      <UiEmptyState title="No reels yet." cta="Create one" @action="navigateTo('/create')" />
+    </div>
     <section
       v-for="(reel, i) in reels"
       :key="reel.id"

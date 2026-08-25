@@ -43,7 +43,7 @@ watch(selectedCategory, (cat) => fetchCategory(cat))
       @click="navigateTo('/search')"
     >
       <UiIcon name="search" :size="20" />
-      Search username…
+      Search people or “sunset beach”…
     </button>
 
     <div class="mt-4 flex gap-2 overflow-x-auto scrollbar-hide">

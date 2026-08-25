@@ -131,15 +131,20 @@ async function submit() {
       await navigateTo('/')
     }
   } catch (e) {
+    const status = e?.statusCode || e?.status
     const msg = apiErrorMessage(e, 'Upload failed')
-    const isNetwork =
-      /failed to fetch|networkerror|<no response>/i.test(String(msg)) ||
-      (!e?.statusCode && !e?.status && /fetch/i.test(String(e?.message || '')))
-    toast.error(
-      isNetwork
-        ? 'Upload blocked (file too large for the server). Try a smaller image, or raise nginx client_max_body_size on the API host.'
-        : msg
-    )
+    if (status === 451 || e?.data?.code === 'CONTENT_BLOCKED') {
+      toast.error(msg || 'This photo was blocked by content moderation.')
+    } else {
+      const isNetwork =
+        /failed to fetch|networkerror|<no response>/i.test(String(msg)) ||
+        (!status && /fetch/i.test(String(e?.message || '')))
+      toast.error(
+        isNetwork
+          ? 'Upload blocked (file too large for the server). Try a smaller image, or raise nginx client_max_body_size on the API host.'
+          : msg
+      )
+    }
   } finally {
     submitting.value = false
   }
@@ -197,7 +202,7 @@ onBeforeUnmount(() => clearFiles())
     <div class="mt-6 space-y-4">
       <UiTextField v-model="caption" label="Caption" multiline />
       <UiTextField v-if="tab === 'reel'" v-model="musicCredit" label="Music credit" />
-      <UiTextField v-if="tab !== 'reel'" v-model="location" label="Location" />
+      <UiLocationTypeahead v-if="tab !== 'reel'" v-model="location" />
       <UiTextField v-model="tags" label="Tags" placeholder="art, night, city" />
       <div>
         <p class="mb-1.5 text-sm font-medium text-pixl-muted">Tag people</p>
