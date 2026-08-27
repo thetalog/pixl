@@ -1,0 +1,17 @@
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/pkgconfig/uvgrtp.pc
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/libuvgrtp.a
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/clock.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/context.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/frame.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/lib.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/media_stream.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/rtcp.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/session.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/util.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/version.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/include/uvgrtp/wrapper_c.hh
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/cmake/uvgrtp/uvgrtpTargets.cmake
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/cmake/uvgrtp/uvgrtpTargets-release.cmake
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/cmake/uvgrtp/uvgrtpConfig.cmake
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/cmake/uvgrtp/uvgrtpMacros.cmake
+/home/deep/Documents/code/Personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android-arm64/install/lib/cmake/uvgrtp/uvgrtpConfigVersion.cmake

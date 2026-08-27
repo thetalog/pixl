@@ -1,0 +1,24 @@
+general: {
+  debug_level = 4
+}
+
+nat: {
+  stun_server = "coturn"
+  stun_port = 3478
+  nice_debug = false
+  full_trickle = false
+  ice_lite = true
+  ice_tcp = true
+  nat_1_1_mapping = "NAT_1_1_MAPPING"
+  rtp_port_range = "10000-10200"
+}
+
+media: {
+  ipv6 = false
+}
+
+plugins: {
+}
+
+transports: {
+}

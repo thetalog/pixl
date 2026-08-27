@@ -1,0 +1,30 @@
+const prisma = require("../../lib/prisma");
+
+async function createUserAccount(data) {
+  const response = await prisma.user
+    .create({
+      data: {
+        email: data?.email,
+        name: data?.name,
+        isEmailVerified: data?.isEmailVerified,
+        password: data?.password,
+        age: parseInt(data?.age),
+        userName: data?.userName,
+      },
+    })
+    .then((response) => {
+      return {
+        message: "User created Successfully",
+        status: 201,
+        data: response,
+      };
+    })
+    .catch((err) => {
+      if (err?.code === "P2002")
+        return { message: "User already registered", status: 409 };
+      console.log(err);
+      return { message: "User registration failed", status: 500 };
+    });  return response;
+}
+
+module.exports = { createUserAccount };

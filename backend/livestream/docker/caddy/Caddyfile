@@ -1,0 +1,8 @@
+{
+  email: off
+}
+
+http://localhost:8443 {
+  reverse_proxy host.docker.internal:3000
+  tls internal
+}

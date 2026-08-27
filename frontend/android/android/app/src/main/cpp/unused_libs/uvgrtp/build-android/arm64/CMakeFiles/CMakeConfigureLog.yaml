@@ -1,0 +1,2840 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_UNAME"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "uname"
+    candidate_directories:
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+    searched_directories:
+      - "/opt/homebrew/bin/uname"
+      - "/opt/homebrew/sbin/uname"
+      - "/Users/deep/depot_tools/uname"
+      - "/Users/deep/develop/flutter/bin/uname"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/uname"
+      - "/Users/deep/Library/Android/sdk/platform-tools/uname"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/uname"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/uname"
+      - "/usr/local/bin/uname"
+      - "/System/Cryptexes/App/usr/bin/uname"
+    found: "/usr/bin/uname"
+    search_context:
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineSystem.cmake:207 (message)"
+      - "CMakeLists.txt:10 (project)"
+    message: |
+      The target system is: Android - 1 - aarch64
+      The host system is: Darwin - 25.1.0 - arm64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeNinjaFindMake.cmake:5 (find_program)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_MAKE_PROGRAM"
+    description: "Program used to build from build.ninja files."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ninja-build"
+      - "ninja"
+      - "samu"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ninja-build"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ninja"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/samu"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/ninja-build"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/ninja"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/samu"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/ninja-build"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/ninja"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/samu"
+      - "/opt/homebrew/bin/ninja-build"
+    found: "/opt/homebrew/bin/ninja"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "/opt/homebrew/share/cmake/Modules/"
+    found: "/opt/homebrew/share/cmake/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:10 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android21 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification is Clang, found in:
+        /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/4.2.0/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ld.lld"
+      - "ld"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_NM"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-nm"
+      - "nm"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-nm"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJDUMP"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-objdump"
+      - "objdump"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objdump"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_OBJCOPY"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-objcopy"
+      - "objcopy"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-objcopy"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_READELF"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-readelf"
+      - "readelf"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-readelf"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_DLLTOOL"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-dlltool"
+      - "dlltool"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-dlltool"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_ADDR2LINE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-addr2line"
+      - "addr2line"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-addr2line"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_TAPI"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "tapi"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/tapi"
+      - "/opt/homebrew/bin/tapi"
+      - "/opt/homebrew/sbin/tapi"
+      - "/Users/deep/depot_tools/tapi"
+      - "/Users/deep/develop/flutter/bin/tapi"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/tapi"
+      - "/Users/deep/Library/Android/sdk/platform-tools/tapi"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/tapi"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/tapi"
+      - "/usr/local/bin/tapi"
+      - "/System/Cryptexes/App/usr/bin/tapi"
+      - "/usr/bin/tapi"
+      - "/bin/tapi"
+      - "/usr/sbin/tapi"
+      - "/sbin/tapi"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/tapi"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/tapi"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/tapi"
+      - "/opt/pmk/env/global/bin/tapi"
+      - "/usr/lib/aarch64-linux-android/21/bin/tapi"
+      - "/usr/lib/aarch64-linux-android/21/sbin/tapi"
+      - "/usr/lib/aarch64-linux-android/21/tapi"
+    found: false
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:26 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_AR"
+    description: "LLVM archiver"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ar-18.0"
+      - "llvm-ar-18"
+      - "llvm-ar18"
+      - "llvm-ar"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar-18.0"
+      - "/opt/homebrew/bin/llvm-ar-18.0"
+      - "/opt/homebrew/sbin/llvm-ar-18.0"
+      - "/Users/deep/depot_tools/llvm-ar-18.0"
+      - "/Users/deep/develop/flutter/bin/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ar-18.0"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ar-18.0"
+      - "/usr/local/bin/llvm-ar-18.0"
+      - "/System/Cryptexes/App/usr/bin/llvm-ar-18.0"
+      - "/usr/bin/llvm-ar-18.0"
+      - "/bin/llvm-ar-18.0"
+      - "/usr/sbin/llvm-ar-18.0"
+      - "/sbin/llvm-ar-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ar-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ar-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ar-18.0"
+      - "/opt/pmk/env/global/bin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar-18"
+      - "/opt/homebrew/bin/llvm-ar-18"
+      - "/opt/homebrew/sbin/llvm-ar-18"
+      - "/Users/deep/depot_tools/llvm-ar-18"
+      - "/Users/deep/develop/flutter/bin/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ar-18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ar-18"
+      - "/usr/local/bin/llvm-ar-18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ar-18"
+      - "/usr/bin/llvm-ar-18"
+      - "/bin/llvm-ar-18"
+      - "/usr/sbin/llvm-ar-18"
+      - "/sbin/llvm-ar-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ar-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ar-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ar-18"
+      - "/opt/pmk/env/global/bin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar18"
+      - "/opt/homebrew/bin/llvm-ar18"
+      - "/opt/homebrew/sbin/llvm-ar18"
+      - "/Users/deep/depot_tools/llvm-ar18"
+      - "/Users/deep/develop/flutter/bin/llvm-ar18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ar18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ar18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ar18"
+      - "/usr/local/bin/llvm-ar18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ar18"
+      - "/usr/bin/llvm-ar18"
+      - "/bin/llvm-ar18"
+      - "/usr/sbin/llvm-ar18"
+      - "/sbin/llvm-ar18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ar18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ar18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ar18"
+      - "/opt/pmk/env/global/bin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ar18"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:38 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_RANLIB"
+    description: "Generate index for LLVM archive"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ranlib-18.0"
+      - "llvm-ranlib-18"
+      - "llvm-ranlib18"
+      - "llvm-ranlib"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib-18.0"
+      - "/opt/homebrew/bin/llvm-ranlib-18.0"
+      - "/opt/homebrew/sbin/llvm-ranlib-18.0"
+      - "/Users/deep/depot_tools/llvm-ranlib-18.0"
+      - "/Users/deep/develop/flutter/bin/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ranlib-18.0"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ranlib-18.0"
+      - "/usr/local/bin/llvm-ranlib-18.0"
+      - "/System/Cryptexes/App/usr/bin/llvm-ranlib-18.0"
+      - "/usr/bin/llvm-ranlib-18.0"
+      - "/bin/llvm-ranlib-18.0"
+      - "/usr/sbin/llvm-ranlib-18.0"
+      - "/sbin/llvm-ranlib-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ranlib-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ranlib-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ranlib-18.0"
+      - "/opt/pmk/env/global/bin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib-18"
+      - "/opt/homebrew/bin/llvm-ranlib-18"
+      - "/opt/homebrew/sbin/llvm-ranlib-18"
+      - "/Users/deep/depot_tools/llvm-ranlib-18"
+      - "/Users/deep/develop/flutter/bin/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ranlib-18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ranlib-18"
+      - "/usr/local/bin/llvm-ranlib-18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ranlib-18"
+      - "/usr/bin/llvm-ranlib-18"
+      - "/bin/llvm-ranlib-18"
+      - "/usr/sbin/llvm-ranlib-18"
+      - "/sbin/llvm-ranlib-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ranlib-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ranlib-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ranlib-18"
+      - "/opt/pmk/env/global/bin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib18"
+      - "/opt/homebrew/bin/llvm-ranlib18"
+      - "/opt/homebrew/sbin/llvm-ranlib18"
+      - "/Users/deep/depot_tools/llvm-ranlib18"
+      - "/Users/deep/develop/flutter/bin/llvm-ranlib18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ranlib18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ranlib18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ranlib18"
+      - "/usr/local/bin/llvm-ranlib18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ranlib18"
+      - "/usr/bin/llvm-ranlib18"
+      - "/bin/llvm-ranlib18"
+      - "/usr/sbin/llvm-ranlib18"
+      - "/sbin/llvm-ranlib18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ranlib18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ranlib18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ranlib18"
+      - "/opt/pmk/env/global/bin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ranlib18"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:207 (include)"
+      - "CMakeLists.txt:10 (project)"
+    mode: "program"
+    variable: "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-18.0"
+      - "clang-scan-deps-18"
+      - "clang-scan-deps18"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps-18.0"
+      - "/opt/homebrew/bin/clang-scan-deps-18.0"
+      - "/opt/homebrew/sbin/clang-scan-deps-18.0"
+      - "/Users/deep/depot_tools/clang-scan-deps-18.0"
+      - "/Users/deep/develop/flutter/bin/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/platform-tools/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/clang-scan-deps-18.0"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/clang-scan-deps-18.0"
+      - "/usr/local/bin/clang-scan-deps-18.0"
+      - "/System/Cryptexes/App/usr/bin/clang-scan-deps-18.0"
+      - "/usr/bin/clang-scan-deps-18.0"
+      - "/bin/clang-scan-deps-18.0"
+      - "/usr/sbin/clang-scan-deps-18.0"
+      - "/sbin/clang-scan-deps-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/clang-scan-deps-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-scan-deps-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-scan-deps-18.0"
+      - "/opt/pmk/env/global/bin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/21/bin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/21/sbin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/21/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps-18"
+      - "/opt/homebrew/bin/clang-scan-deps-18"
+      - "/opt/homebrew/sbin/clang-scan-deps-18"
+      - "/Users/deep/depot_tools/clang-scan-deps-18"
+      - "/Users/deep/develop/flutter/bin/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/clang-scan-deps-18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/clang-scan-deps-18"
+      - "/usr/local/bin/clang-scan-deps-18"
+      - "/System/Cryptexes/App/usr/bin/clang-scan-deps-18"
+      - "/usr/bin/clang-scan-deps-18"
+      - "/bin/clang-scan-deps-18"
+      - "/usr/sbin/clang-scan-deps-18"
+      - "/sbin/clang-scan-deps-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/clang-scan-deps-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-scan-deps-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-scan-deps-18"
+      - "/opt/pmk/env/global/bin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/21/bin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/21/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps18"
+      - "/opt/homebrew/bin/clang-scan-deps18"
+      - "/opt/homebrew/sbin/clang-scan-deps18"
+      - "/Users/deep/depot_tools/clang-scan-deps18"
+      - "/Users/deep/develop/flutter/bin/clang-scan-deps18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/clang-scan-deps18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/clang-scan-deps18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/clang-scan-deps18"
+      - "/usr/local/bin/clang-scan-deps18"
+      - "/System/Cryptexes/App/usr/bin/clang-scan-deps18"
+      - "/usr/bin/clang-scan-deps18"
+      - "/bin/clang-scan-deps18"
+      - "/usr/sbin/clang-scan-deps18"
+      - "/sbin/clang-scan-deps18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/clang-scan-deps18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-scan-deps18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-scan-deps18"
+      - "/opt/pmk/env/global/bin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/21/bin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/21/clang-scan-deps18"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:10 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_6e00c
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -std=c++17 -fPIE   -v -MD -MT CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Android (13691557, +pgo, -bolt, +lto, -mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         (in-process)
+         "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ -resource-dir /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -std=c++17 -fdeprecated-macro -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -target-feature -fmv -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target arm64-apple-darwin25.1.0
+        ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include
+        End of search list.
+        [2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_6e00c   && :
+        Android (13691557, +pgo, -bolt, +lto, -mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=both --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_6e00c /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:217 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:10 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1]
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include]
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1]
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include]
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        implicit include dirs: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:10 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ']
+        ignore line: []
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_6e00c]
+        ignore line: [[1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -std=c++17 -fPIE   -v -MD -MT CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Android (13691557  +pgo  -bolt  +lto  -mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-J6zwSZ -resource-dir /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -std=c++17 -fdeprecated-macro -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -target-feature -fmv -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target arm64-apple-darwin25.1.0]
+        ignore line: [ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/c++/v1]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [[2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -static-libstdc++ -Wl --build-id=sha1 -Wl --no-rosegment -Wl --no-undefined-version -Wl --fatal-warnings -Wl --no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_6e00c   && :]
+        ignore line: [Android (13691557  +pgo  -bolt  +lto  -mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        link line: [ "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=both --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_6e00c /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=both] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_6e00c] ==> ignore
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o] ==> obj [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-rosegment] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_6e00c.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-Bstatic] ==> search static
+          arg [-lc++] ==> lib [c++]
+          arg [-Bdynamic] ==> search dynamic
+          arg [-lm] ==> lib [m]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o] ==> obj [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+        linker tool for 'CXX': /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld
+        remove lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit libs: [c++;m;-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+        implicit dirs: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:10 (project)"
+    message: |
+      Running the CXX compiler's linker: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.4 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/FindThreads.cmake:162 (check_cxx_source_compiles)"
+      - "/opt/homebrew/share/cmake/Modules/FindThreads.cmake:226 (_threads_check_libc)"
+      - "cmake/FindDependencies.cmake:4 (find_package)"
+      - "CMakeLists.txt:48 (include)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-YuDJ5U"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-YuDJ5U"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-YuDJ5U'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_34217
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_34217.dir/src.cxx.o -MF CMakeFiles/cmTC_34217.dir/src.cxx.o.d -o CMakeFiles/cmTC_34217.dir/src.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-YuDJ5U/src.cxx
+        FAILED: [code=1] CMakeFiles/cmTC_34217.dir/src.cxx.o 
+        /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_34217.dir/src.cxx.o -MF CMakeFiles/cmTC_34217.dir/src.cxx.o.d -o CMakeFiles/cmTC_34217.dir/src.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-YuDJ5U/src.cxx
+        /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-YuDJ5U/src.cxx:13:3: error: use of undeclared identifier 'pthread_cancel'
+           13 |   pthread_cancel(thread);
+              |   ^
+        1 error generated.
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindThreads.cmake:199 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/FindThreads.cmake:232 (_threads_check_flag_pthread)"
+      - "cmake/FindDependencies.cmake:4 (find_package)"
+      - "CMakeLists.txt:48 (include)"
+    checks:
+      - "Check if compiler accepts -pthread"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-bNne26"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-bNne26"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "THREADS_HAVE_PTHREAD_ARG"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-bNne26'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_86a46
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_86a46.dir/CheckForPthreads.cxx.o -MF CMakeFiles/cmTC_86a46.dir/CheckForPthreads.cxx.o.d -o CMakeFiles/cmTC_86a46.dir/CheckForPthreads.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-bNne26/CheckForPthreads.cxx
+        [2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_86a46.dir/CheckForPthreads.cxx.o -o cmTC_86a46  -pthread  -latomic -lm && :
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindGit.cmake:111 (find_program)"
+      - "cmake/FindDependencies.cmake:8 (find_package)"
+      - "CMakeLists.txt:48 (include)"
+    mode: "program"
+    variable: "GIT_EXECUTABLE"
+    description: "Git command line client"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "git"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+      - "/usr/local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/"
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/usr/"
+      - "/bin/"
+      - "/sbin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/"
+      - "/usr/X11R6/bin/"
+      - "/usr/X11R6/sbin/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/bin/"
+      - "/usr/pkg/sbin/"
+      - "/usr/pkg/"
+      - "/opt/bin/"
+      - "/opt/sbin/"
+      - "/opt/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/git"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/git"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/git"
+      - "/opt/homebrew/bin/git"
+      - "/opt/homebrew/sbin/git"
+      - "/Users/deep/depot_tools/git"
+      - "/Users/deep/develop/flutter/bin/git"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/git"
+      - "/Users/deep/Library/Android/sdk/platform-tools/git"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/git"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/git"
+      - "/usr/local/bin/git"
+      - "/System/Cryptexes/App/usr/bin/git"
+    found: "/usr/bin/git"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "/opt/homebrew/share/cmake/Modules/"
+    found: "/opt/homebrew/share/cmake/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_INCLUDE_PATH:
+        - "/usr/include/X11"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android21 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is Clang, found in:
+        /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/4.2.0/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:26 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_AR"
+    description: "LLVM archiver"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ar-18.0"
+      - "llvm-ar-18"
+      - "llvm-ar18"
+      - "llvm-ar"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+      - "/usr/local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/"
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/usr/"
+      - "/bin/"
+      - "/sbin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/"
+      - "/usr/X11R6/bin/"
+      - "/usr/X11R6/sbin/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/bin/"
+      - "/usr/pkg/sbin/"
+      - "/usr/pkg/"
+      - "/opt/bin/"
+      - "/opt/sbin/"
+      - "/opt/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar-18.0"
+      - "/opt/homebrew/bin/llvm-ar-18.0"
+      - "/opt/homebrew/sbin/llvm-ar-18.0"
+      - "/Users/deep/depot_tools/llvm-ar-18.0"
+      - "/Users/deep/develop/flutter/bin/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ar-18.0"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ar-18.0"
+      - "/usr/local/bin/llvm-ar-18.0"
+      - "/System/Cryptexes/App/usr/bin/llvm-ar-18.0"
+      - "/usr/bin/llvm-ar-18.0"
+      - "/bin/llvm-ar-18.0"
+      - "/usr/sbin/llvm-ar-18.0"
+      - "/sbin/llvm-ar-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ar-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ar-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ar-18.0"
+      - "/opt/pmk/env/global/bin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ar-18.0"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ar-18.0"
+      - "/usr/local/bin/llvm-ar-18.0"
+      - "/usr/local/sbin/llvm-ar-18.0"
+      - "/usr/local/llvm-ar-18.0"
+      - "/usr/bin/llvm-ar-18.0"
+      - "/usr/sbin/llvm-ar-18.0"
+      - "/usr/llvm-ar-18.0"
+      - "/bin/llvm-ar-18.0"
+      - "/sbin/llvm-ar-18.0"
+      - "/opt/homebrew/bin/llvm-ar-18.0"
+      - "/opt/homebrew/sbin/llvm-ar-18.0"
+      - "/opt/homebrew/llvm-ar-18.0"
+      - "/usr/X11R6/bin/llvm-ar-18.0"
+      - "/usr/X11R6/sbin/llvm-ar-18.0"
+      - "/usr/X11R6/llvm-ar-18.0"
+      - "/usr/pkg/bin/llvm-ar-18.0"
+      - "/usr/pkg/sbin/llvm-ar-18.0"
+      - "/usr/pkg/llvm-ar-18.0"
+      - "/opt/bin/llvm-ar-18.0"
+      - "/opt/sbin/llvm-ar-18.0"
+      - "/opt/llvm-ar-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar-18"
+      - "/opt/homebrew/bin/llvm-ar-18"
+      - "/opt/homebrew/sbin/llvm-ar-18"
+      - "/Users/deep/depot_tools/llvm-ar-18"
+      - "/Users/deep/develop/flutter/bin/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ar-18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ar-18"
+      - "/usr/local/bin/llvm-ar-18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ar-18"
+      - "/usr/bin/llvm-ar-18"
+      - "/bin/llvm-ar-18"
+      - "/usr/sbin/llvm-ar-18"
+      - "/sbin/llvm-ar-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ar-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ar-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ar-18"
+      - "/opt/pmk/env/global/bin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ar-18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ar-18"
+      - "/usr/local/bin/llvm-ar-18"
+      - "/usr/local/sbin/llvm-ar-18"
+      - "/usr/local/llvm-ar-18"
+      - "/usr/bin/llvm-ar-18"
+      - "/usr/sbin/llvm-ar-18"
+      - "/usr/llvm-ar-18"
+      - "/bin/llvm-ar-18"
+      - "/sbin/llvm-ar-18"
+      - "/opt/homebrew/bin/llvm-ar-18"
+      - "/opt/homebrew/sbin/llvm-ar-18"
+      - "/opt/homebrew/llvm-ar-18"
+      - "/usr/X11R6/bin/llvm-ar-18"
+      - "/usr/X11R6/sbin/llvm-ar-18"
+      - "/usr/X11R6/llvm-ar-18"
+      - "/usr/pkg/bin/llvm-ar-18"
+      - "/usr/pkg/sbin/llvm-ar-18"
+      - "/usr/pkg/llvm-ar-18"
+      - "/opt/bin/llvm-ar-18"
+      - "/opt/sbin/llvm-ar-18"
+      - "/opt/llvm-ar-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar18"
+      - "/opt/homebrew/bin/llvm-ar18"
+      - "/opt/homebrew/sbin/llvm-ar18"
+      - "/Users/deep/depot_tools/llvm-ar18"
+      - "/Users/deep/develop/flutter/bin/llvm-ar18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ar18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ar18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ar18"
+      - "/usr/local/bin/llvm-ar18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ar18"
+      - "/usr/bin/llvm-ar18"
+      - "/bin/llvm-ar18"
+      - "/usr/sbin/llvm-ar18"
+      - "/sbin/llvm-ar18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ar18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ar18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ar18"
+      - "/opt/pmk/env/global/bin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ar18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ar18"
+      - "/usr/local/bin/llvm-ar18"
+      - "/usr/local/sbin/llvm-ar18"
+      - "/usr/local/llvm-ar18"
+      - "/usr/bin/llvm-ar18"
+      - "/usr/sbin/llvm-ar18"
+      - "/usr/llvm-ar18"
+      - "/bin/llvm-ar18"
+      - "/sbin/llvm-ar18"
+      - "/opt/homebrew/bin/llvm-ar18"
+      - "/opt/homebrew/sbin/llvm-ar18"
+      - "/opt/homebrew/llvm-ar18"
+      - "/usr/X11R6/bin/llvm-ar18"
+      - "/usr/X11R6/sbin/llvm-ar18"
+      - "/usr/X11R6/llvm-ar18"
+      - "/usr/pkg/bin/llvm-ar18"
+      - "/usr/pkg/sbin/llvm-ar18"
+      - "/usr/pkg/llvm-ar18"
+      - "/opt/bin/llvm-ar18"
+      - "/opt/sbin/llvm-ar18"
+      - "/opt/llvm-ar18"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:38 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_RANLIB"
+    description: "Generate index for LLVM archive"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "llvm-ranlib-18.0"
+      - "llvm-ranlib-18"
+      - "llvm-ranlib18"
+      - "llvm-ranlib"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+      - "/usr/local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/"
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/usr/"
+      - "/bin/"
+      - "/sbin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/"
+      - "/usr/X11R6/bin/"
+      - "/usr/X11R6/sbin/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/bin/"
+      - "/usr/pkg/sbin/"
+      - "/usr/pkg/"
+      - "/opt/bin/"
+      - "/opt/sbin/"
+      - "/opt/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib-18.0"
+      - "/opt/homebrew/bin/llvm-ranlib-18.0"
+      - "/opt/homebrew/sbin/llvm-ranlib-18.0"
+      - "/Users/deep/depot_tools/llvm-ranlib-18.0"
+      - "/Users/deep/develop/flutter/bin/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ranlib-18.0"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ranlib-18.0"
+      - "/usr/local/bin/llvm-ranlib-18.0"
+      - "/System/Cryptexes/App/usr/bin/llvm-ranlib-18.0"
+      - "/usr/bin/llvm-ranlib-18.0"
+      - "/bin/llvm-ranlib-18.0"
+      - "/usr/sbin/llvm-ranlib-18.0"
+      - "/sbin/llvm-ranlib-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ranlib-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ranlib-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ranlib-18.0"
+      - "/opt/pmk/env/global/bin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ranlib-18.0"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ranlib-18.0"
+      - "/usr/local/bin/llvm-ranlib-18.0"
+      - "/usr/local/sbin/llvm-ranlib-18.0"
+      - "/usr/local/llvm-ranlib-18.0"
+      - "/usr/bin/llvm-ranlib-18.0"
+      - "/usr/sbin/llvm-ranlib-18.0"
+      - "/usr/llvm-ranlib-18.0"
+      - "/bin/llvm-ranlib-18.0"
+      - "/sbin/llvm-ranlib-18.0"
+      - "/opt/homebrew/bin/llvm-ranlib-18.0"
+      - "/opt/homebrew/sbin/llvm-ranlib-18.0"
+      - "/opt/homebrew/llvm-ranlib-18.0"
+      - "/usr/X11R6/bin/llvm-ranlib-18.0"
+      - "/usr/X11R6/sbin/llvm-ranlib-18.0"
+      - "/usr/X11R6/llvm-ranlib-18.0"
+      - "/usr/pkg/bin/llvm-ranlib-18.0"
+      - "/usr/pkg/sbin/llvm-ranlib-18.0"
+      - "/usr/pkg/llvm-ranlib-18.0"
+      - "/opt/bin/llvm-ranlib-18.0"
+      - "/opt/sbin/llvm-ranlib-18.0"
+      - "/opt/llvm-ranlib-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib-18"
+      - "/opt/homebrew/bin/llvm-ranlib-18"
+      - "/opt/homebrew/sbin/llvm-ranlib-18"
+      - "/Users/deep/depot_tools/llvm-ranlib-18"
+      - "/Users/deep/develop/flutter/bin/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ranlib-18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ranlib-18"
+      - "/usr/local/bin/llvm-ranlib-18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ranlib-18"
+      - "/usr/bin/llvm-ranlib-18"
+      - "/bin/llvm-ranlib-18"
+      - "/usr/sbin/llvm-ranlib-18"
+      - "/sbin/llvm-ranlib-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ranlib-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ranlib-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ranlib-18"
+      - "/opt/pmk/env/global/bin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ranlib-18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ranlib-18"
+      - "/usr/local/bin/llvm-ranlib-18"
+      - "/usr/local/sbin/llvm-ranlib-18"
+      - "/usr/local/llvm-ranlib-18"
+      - "/usr/bin/llvm-ranlib-18"
+      - "/usr/sbin/llvm-ranlib-18"
+      - "/usr/llvm-ranlib-18"
+      - "/bin/llvm-ranlib-18"
+      - "/sbin/llvm-ranlib-18"
+      - "/opt/homebrew/bin/llvm-ranlib-18"
+      - "/opt/homebrew/sbin/llvm-ranlib-18"
+      - "/opt/homebrew/llvm-ranlib-18"
+      - "/usr/X11R6/bin/llvm-ranlib-18"
+      - "/usr/X11R6/sbin/llvm-ranlib-18"
+      - "/usr/X11R6/llvm-ranlib-18"
+      - "/usr/pkg/bin/llvm-ranlib-18"
+      - "/usr/pkg/sbin/llvm-ranlib-18"
+      - "/usr/pkg/llvm-ranlib-18"
+      - "/opt/bin/llvm-ranlib-18"
+      - "/opt/sbin/llvm-ranlib-18"
+      - "/opt/llvm-ranlib-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib18"
+      - "/opt/homebrew/bin/llvm-ranlib18"
+      - "/opt/homebrew/sbin/llvm-ranlib18"
+      - "/Users/deep/depot_tools/llvm-ranlib18"
+      - "/Users/deep/develop/flutter/bin/llvm-ranlib18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/llvm-ranlib18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/llvm-ranlib18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/llvm-ranlib18"
+      - "/usr/local/bin/llvm-ranlib18"
+      - "/System/Cryptexes/App/usr/bin/llvm-ranlib18"
+      - "/usr/bin/llvm-ranlib18"
+      - "/bin/llvm-ranlib18"
+      - "/usr/sbin/llvm-ranlib18"
+      - "/sbin/llvm-ranlib18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/llvm-ranlib18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/llvm-ranlib18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/llvm-ranlib18"
+      - "/opt/pmk/env/global/bin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/21/bin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/llvm-ranlib18"
+      - "/usr/lib/aarch64-linux-android/21/llvm-ranlib18"
+      - "/usr/local/bin/llvm-ranlib18"
+      - "/usr/local/sbin/llvm-ranlib18"
+      - "/usr/local/llvm-ranlib18"
+      - "/usr/bin/llvm-ranlib18"
+      - "/usr/sbin/llvm-ranlib18"
+      - "/usr/llvm-ranlib18"
+      - "/bin/llvm-ranlib18"
+      - "/sbin/llvm-ranlib18"
+      - "/opt/homebrew/bin/llvm-ranlib18"
+      - "/opt/homebrew/sbin/llvm-ranlib18"
+      - "/opt/homebrew/llvm-ranlib18"
+      - "/usr/X11R6/bin/llvm-ranlib18"
+      - "/usr/X11R6/sbin/llvm-ranlib18"
+      - "/usr/X11R6/llvm-ranlib18"
+      - "/usr/pkg/bin/llvm-ranlib18"
+      - "/usr/pkg/sbin/llvm-ranlib18"
+      - "/usr/pkg/llvm-ranlib18"
+      - "/opt/bin/llvm-ranlib18"
+      - "/opt/sbin/llvm-ranlib18"
+      - "/opt/llvm-ranlib18"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Compiler/Clang-FindBinUtils.cmake:50 (find_program)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:201 (include)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    mode: "program"
+    variable: "CMAKE_C_COMPILER_CLANG_SCAN_DEPS"
+    description: "`clang-scan-deps` dependency scanner"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "clang-scan-deps-18.0"
+      - "clang-scan-deps-18"
+      - "clang-scan-deps18"
+      - "clang-scan-deps"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+      - "/usr/local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/"
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/usr/"
+      - "/bin/"
+      - "/sbin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/"
+      - "/usr/X11R6/bin/"
+      - "/usr/X11R6/sbin/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/bin/"
+      - "/usr/pkg/sbin/"
+      - "/usr/pkg/"
+      - "/opt/bin/"
+      - "/opt/sbin/"
+      - "/opt/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps-18.0"
+      - "/opt/homebrew/bin/clang-scan-deps-18.0"
+      - "/opt/homebrew/sbin/clang-scan-deps-18.0"
+      - "/Users/deep/depot_tools/clang-scan-deps-18.0"
+      - "/Users/deep/develop/flutter/bin/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/platform-tools/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/clang-scan-deps-18.0"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/clang-scan-deps-18.0"
+      - "/usr/local/bin/clang-scan-deps-18.0"
+      - "/System/Cryptexes/App/usr/bin/clang-scan-deps-18.0"
+      - "/usr/bin/clang-scan-deps-18.0"
+      - "/bin/clang-scan-deps-18.0"
+      - "/usr/sbin/clang-scan-deps-18.0"
+      - "/sbin/clang-scan-deps-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/clang-scan-deps-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-scan-deps-18.0"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-scan-deps-18.0"
+      - "/opt/pmk/env/global/bin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/21/bin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/21/sbin/clang-scan-deps-18.0"
+      - "/usr/lib/aarch64-linux-android/21/clang-scan-deps-18.0"
+      - "/usr/local/bin/clang-scan-deps-18.0"
+      - "/usr/local/sbin/clang-scan-deps-18.0"
+      - "/usr/local/clang-scan-deps-18.0"
+      - "/usr/bin/clang-scan-deps-18.0"
+      - "/usr/sbin/clang-scan-deps-18.0"
+      - "/usr/clang-scan-deps-18.0"
+      - "/bin/clang-scan-deps-18.0"
+      - "/sbin/clang-scan-deps-18.0"
+      - "/opt/homebrew/bin/clang-scan-deps-18.0"
+      - "/opt/homebrew/sbin/clang-scan-deps-18.0"
+      - "/opt/homebrew/clang-scan-deps-18.0"
+      - "/usr/X11R6/bin/clang-scan-deps-18.0"
+      - "/usr/X11R6/sbin/clang-scan-deps-18.0"
+      - "/usr/X11R6/clang-scan-deps-18.0"
+      - "/usr/pkg/bin/clang-scan-deps-18.0"
+      - "/usr/pkg/sbin/clang-scan-deps-18.0"
+      - "/usr/pkg/clang-scan-deps-18.0"
+      - "/opt/bin/clang-scan-deps-18.0"
+      - "/opt/sbin/clang-scan-deps-18.0"
+      - "/opt/clang-scan-deps-18.0"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps-18"
+      - "/opt/homebrew/bin/clang-scan-deps-18"
+      - "/opt/homebrew/sbin/clang-scan-deps-18"
+      - "/Users/deep/depot_tools/clang-scan-deps-18"
+      - "/Users/deep/develop/flutter/bin/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/clang-scan-deps-18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/clang-scan-deps-18"
+      - "/usr/local/bin/clang-scan-deps-18"
+      - "/System/Cryptexes/App/usr/bin/clang-scan-deps-18"
+      - "/usr/bin/clang-scan-deps-18"
+      - "/bin/clang-scan-deps-18"
+      - "/usr/sbin/clang-scan-deps-18"
+      - "/sbin/clang-scan-deps-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/clang-scan-deps-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-scan-deps-18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-scan-deps-18"
+      - "/opt/pmk/env/global/bin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/21/bin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/clang-scan-deps-18"
+      - "/usr/lib/aarch64-linux-android/21/clang-scan-deps-18"
+      - "/usr/local/bin/clang-scan-deps-18"
+      - "/usr/local/sbin/clang-scan-deps-18"
+      - "/usr/local/clang-scan-deps-18"
+      - "/usr/bin/clang-scan-deps-18"
+      - "/usr/sbin/clang-scan-deps-18"
+      - "/usr/clang-scan-deps-18"
+      - "/bin/clang-scan-deps-18"
+      - "/sbin/clang-scan-deps-18"
+      - "/opt/homebrew/bin/clang-scan-deps-18"
+      - "/opt/homebrew/sbin/clang-scan-deps-18"
+      - "/opt/homebrew/clang-scan-deps-18"
+      - "/usr/X11R6/bin/clang-scan-deps-18"
+      - "/usr/X11R6/sbin/clang-scan-deps-18"
+      - "/usr/X11R6/clang-scan-deps-18"
+      - "/usr/pkg/bin/clang-scan-deps-18"
+      - "/usr/pkg/sbin/clang-scan-deps-18"
+      - "/usr/pkg/clang-scan-deps-18"
+      - "/opt/bin/clang-scan-deps-18"
+      - "/opt/sbin/clang-scan-deps-18"
+      - "/opt/clang-scan-deps-18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps18"
+      - "/opt/homebrew/bin/clang-scan-deps18"
+      - "/opt/homebrew/sbin/clang-scan-deps18"
+      - "/Users/deep/depot_tools/clang-scan-deps18"
+      - "/Users/deep/develop/flutter/bin/clang-scan-deps18"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps18"
+      - "/Users/deep/Library/Android/sdk/platform-tools/clang-scan-deps18"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/clang-scan-deps18"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/clang-scan-deps18"
+      - "/usr/local/bin/clang-scan-deps18"
+      - "/System/Cryptexes/App/usr/bin/clang-scan-deps18"
+      - "/usr/bin/clang-scan-deps18"
+      - "/bin/clang-scan-deps18"
+      - "/usr/sbin/clang-scan-deps18"
+      - "/sbin/clang-scan-deps18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/clang-scan-deps18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-scan-deps18"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-scan-deps18"
+      - "/opt/pmk/env/global/bin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/21/bin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/21/sbin/clang-scan-deps18"
+      - "/usr/lib/aarch64-linux-android/21/clang-scan-deps18"
+      - "/usr/local/bin/clang-scan-deps18"
+      - "/usr/local/sbin/clang-scan-deps18"
+      - "/usr/local/clang-scan-deps18"
+      - "/usr/bin/clang-scan-deps18"
+      - "/usr/sbin/clang-scan-deps18"
+      - "/usr/clang-scan-deps18"
+      - "/bin/clang-scan-deps18"
+      - "/sbin/clang-scan-deps18"
+      - "/opt/homebrew/bin/clang-scan-deps18"
+      - "/opt/homebrew/sbin/clang-scan-deps18"
+      - "/opt/homebrew/clang-scan-deps18"
+      - "/usr/X11R6/bin/clang-scan-deps18"
+      - "/usr/X11R6/sbin/clang-scan-deps18"
+      - "/usr/X11R6/clang-scan-deps18"
+      - "/usr/pkg/bin/clang-scan-deps18"
+      - "/usr/pkg/sbin/clang-scan-deps18"
+      - "/usr/pkg/clang-scan-deps18"
+      - "/opt/bin/clang-scan-deps18"
+      - "/opt/sbin/clang-scan-deps18"
+      - "/opt/clang-scan-deps18"
+    found: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_C_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat "
+      CMAKE_C_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_bb4eb
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        Android (13691557, +pgo, -bolt, +lto, -mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         (in-process)
+         "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi -resource-dir /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -target-feature -fmv -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target arm64-apple-darwin25.1.0
+        ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android
+         /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include
+        End of search list.
+        [2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -o cmTC_bb4eb   && :
+        Android (13691557, +pgo, -bolt, +lto, -mlgo, based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android21
+        Thread model: posix
+        InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin
+         "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=both --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_bb4eb /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:217 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include]
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include]
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        implicit include dirs: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+        ignore line: [Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi']
+        ignore line: []
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_bb4eb]
+        ignore line: [[1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat   -fPIE   -v -MD -MT CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Android (13691557  +pgo  -bolt  +lto  -mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang" -cc1 -triple aarch64-none-linux-android21 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-QgYJEi -resource-dir /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include -internal-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include -internal-externc-isystem /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include -Wformat -ferror-limit 19 -femulated-tls -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -target-feature +outline-atomics -target-feature -fmv -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 18.0.4 based upon LLVM 18.0.4 default target arm64-apple-darwin25.1.0]
+        ignore line: [ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/include]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [[2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -static-libstdc++ -Wl --build-id=sha1 -Wl --no-rosegment -Wl --no-undefined-version -Wl --fatal-warnings -Wl --no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o -o cmTC_bb4eb   && :]
+        ignore line: [Android (13691557  +pgo  -bolt  +lto  -mlgo  based on r522817d) clang version 18.0.4 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android21]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin]
+        link line: [ "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=both --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_bb4eb /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21 -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android -L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib --build-id=sha1 --no-rosegment --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=both] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_bb4eb] ==> ignore
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o] ==> obj [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-L/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-rosegment] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_bb4eb.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o] ==> obj [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+        linker tool for 'C': /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld
+        remove lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib] ==> [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit libs: [-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtbegin_dynamic.o;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21/crtend_android.o]
+        implicit dirs: [/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/lib/clang/18/lib/linux/aarch64;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/21;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android;/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "/opt/homebrew/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "build-android/arm64/_deps/googletest-src/CMakeLists.txt:6 (project)"
+    message: |
+      Running the C compiler's linker: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.4 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CheckSymbolExists.cmake:193 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCXXSymbolExists.cmake:105 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "CMakeLists.txt:218 (check_cxx_symbol_exists)"
+    checks:
+      - "Looking for getrandom"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-32YPyV"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-32YPyV"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "HAVE_GETRANDOM"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-32YPyV'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_58c2d
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-32YPyV/CheckSymbolExists.cxx
+        FAILED: [code=1] CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o 
+        /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_58c2d.dir/CheckSymbolExists.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-32YPyV/CheckSymbolExists.cxx
+        /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-32YPyV/CheckSymbolExists.cxx:8:19: error: use of undeclared identifier 'getrandom'
+            8 |   return ((int*)(&getrandom))[argc];
+              |                   ^
+        1 error generated.
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CheckSymbolExists.cmake:193 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCXXSymbolExists.cmake:105 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "CMakeLists.txt:219 (check_cxx_symbol_exists)"
+    checks:
+      - "Looking for sendmsg"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-iiqeTH"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-iiqeTH"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "HAVE_SENDMSG"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-iiqeTH'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_7946c
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_7946c.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_7946c.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_7946c.dir/CheckSymbolExists.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-iiqeTH/CheckSymbolExists.cxx
+        [2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_7946c.dir/CheckSymbolExists.cxx.o -o cmTC_7946c  -latomic -lm && :
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/CheckSymbolExists.cmake:193 (try_compile)"
+      - "/opt/homebrew/share/cmake/Modules/CheckCXXSymbolExists.cmake:105 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "CMakeLists.txt:220 (check_cxx_symbol_exists)"
+    checks:
+      - "Looking for sendmmsg"
+    directories:
+      source: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-GXvqoa"
+      binary: "/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-GXvqoa"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-21"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android21"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+    buildResult:
+      variable: "HAVE_SENDMMSG"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-GXvqoa'
+        
+        Run Build Command(s): /opt/homebrew/bin/ninja -v cmTC_6a3b4
+        [1/2] /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security    -std=c++17 -fPIE -MD -MT CMakeFiles/cmTC_6a3b4.dir/CheckSymbolExists.cxx.o -MF CMakeFiles/cmTC_6a3b4.dir/CheckSymbolExists.cxx.o.d -o CMakeFiles/cmTC_6a3b4.dir/CheckSymbolExists.cxx.o -c /Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/CMakeFiles/CMakeScratch/TryCompile-GXvqoa/CheckSymbolExists.cxx
+        [2/2] : && /Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android21 --sysroot=/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_6a3b4.dir/CheckSymbolExists.cxx.o -o cmTC_6a3b4  -latomic -lm && :
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:517 (find_program)"
+      - "CMakeLists.txt:235 (find_package)"
+    mode: "program"
+    variable: "PKG_CONFIG_EXECUTABLE"
+    description: "pkg-config executable"
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "pkg-config"
+      - "pkgconf"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/Users/deep/depot_tools/"
+      - "/Users/deep/develop/flutter/bin/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/"
+      - "/Users/deep/Library/Android/sdk/platform-tools/"
+      - "/Users/deep/Library/Android/sdk/cmdline-tools/latest/bin/"
+      - "/Library/Frameworks/Python.framework/Versions/3.11/bin/"
+      - "/usr/local/bin/"
+      - "/System/Cryptexes/App/usr/bin/"
+      - "/usr/bin/"
+      - "/bin/"
+      - "/usr/sbin/"
+      - "/sbin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
+      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
+      - "/opt/pmk/env/global/bin/"
+      - "/usr/lib/aarch64-linux-android/21/bin/"
+      - "/usr/lib/aarch64-linux-android/21/sbin/"
+      - "/usr/lib/aarch64-linux-android/21/"
+      - "/usr/local/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/"
+      - "/usr/bin/"
+      - "/usr/sbin/"
+      - "/usr/"
+      - "/bin/"
+      - "/sbin/"
+      - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/"
+      - "/usr/X11R6/bin/"
+      - "/usr/X11R6/sbin/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/bin/"
+      - "/usr/pkg/sbin/"
+      - "/usr/pkg/"
+      - "/opt/bin/"
+      - "/opt/sbin/"
+      - "/opt/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/pkg-config"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/bin/pkgconf"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/pkg-config"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sbin/pkgconf"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/pkg-config"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/pkgconf"
+    found: "/opt/homebrew/bin/pkg-config"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:761 (find_library)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:811 (_pkg_find_libs)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1149 (_pkg_recalculate)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1192 (_pkg_check_modules_internal)"
+      - "CMakeLists.txt:249 (pkg_search_module)"
+    mode: "library"
+    variable: "pkgcfg_lib_CRYPTOPP_cryptopp"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "cryptopp"
+    candidate_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/cryptopp/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/cryptopp/"
+    searched_directories:
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/cryptopp/"
+      - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/cryptopp/"
+    found: false
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64"
+      ENV{PATH}:
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/deep/depot_tools"
+        - "/Users/deep/develop/flutter/bin"
+        - "/Users/deep/Library/Android/Sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin"
+        - "/Users/deep/Library/Android/Sdk/platform-tools"
+        - "/Users/deep/Library/Android/Sdk/cmdline-tools/latest/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/lib/aarch64-linux-android/21"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+      CMAKE_SYSROOT: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+      CMAKE_FIND_ROOT_PATH: "/Users/deep/Library/Android/sdk/ndk/27.3.13750724"
+...

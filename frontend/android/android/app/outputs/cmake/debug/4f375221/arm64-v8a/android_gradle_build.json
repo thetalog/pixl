@@ -1,0 +1,103 @@
+{
+  "buildFiles": [
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/CMakeLists.txt",
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/CM_linux_packages.cmake",
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/anya/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/anya/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "cpuid::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "cpuid",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/cpuid",
+      "runtimeFiles": []
+    },
+    "cryptopp::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "cryptopp",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a/libcryptopp.a"
+    },
+    "rtsp_serve::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "rtsp_serve",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/librtsp_serve.so",
+      "runtimeFiles": []
+    },
+    "yuv::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuv",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/outputs/cmake/debug/4f375221/arm64-v8a/libyuv/libyuv.a"
+    },
+    "yuv_common_objects::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuv_common_objects"
+    },
+    "yuv_neon64::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuv_neon64"
+    },
+    "yuv_shared::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuv_shared",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/libyuv.so",
+      "runtimeFiles": []
+    },
+    "yuv_sme::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuv_sme"
+    },
+    "yuv_sve::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuv_sve"
+    },
+    "yuvconstants::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuvconstants",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/yuvconstants",
+      "runtimeFiles": []
+    },
+    "yuvconvert::@65971e152f36faa1b30f": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "yuvconvert",
+      "output": "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/build/app/intermediates/cxx/debug/4f375221/obj/arm64-v8a/yuvconvert",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/home/anya/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/home/anya/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": [
+    "cpp",
+    "cc"
+  ]
+}

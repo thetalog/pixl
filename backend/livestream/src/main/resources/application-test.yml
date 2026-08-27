@@ -1,0 +1,34 @@
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:pixl_live;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+livestream:
+  janus:
+    enabled: false
+  node:
+    callbacks-enabled: false
+  ice:
+    turn-secret: test-turn-secret
+    stun-urls: stun:localhost:3478
+
+logging:
+  level:
+    com.pixl.livestream: WARN

@@ -1,0 +1,112 @@
+server:
+  port: ${SERVER_PORT:8085}
+  shutdown: graceful
+
+spring:
+  application:
+    name: pixl-livestream
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: ${LIVESTREAM_DB_URL:jdbc:postgresql://localhost:5433/pixl_live}
+    username: ${LIVESTREAM_DB_USER:pixl}
+    password: ${LIVESTREAM_DB_PASSWORD:pixl}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: pixl-livestream
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+livestream:
+  internal-secret: ${LIVE_INTERNAL_SECRET:dev-internal-secret-change-me}
+  jwt:
+    secret: ${LIVESTREAM_JWT_SECRET:dev-live-jwt-secret-change-me-32}
+    issuer: pixl-node
+    audience: pixl-livestream
+  cors:
+    allowed-origins: ${LIVE_CORS_ORIGINS:http://localhost:3000,https://pixl-personal-project.online}
+  public-base-url: ${LIVE_PUBLIC_BASE_URL:http://localhost:8085}
+  ws-path: /ws/live
+  signaling-url: ${LIVE_SIGNALING_URL:ws://localhost:8085/ws/live}
+  node:
+    base-url: ${PIXL_NODE_URL:http://localhost:3001}
+    callback-secret: ${LIVE_INTERNAL_SECRET:dev-internal-secret-change-me}
+  janus:
+    enabled: ${JANUS_ENABLED:true}
+    http-url: ${JANUS_HTTP_URL:http://localhost:8088/janus}
+    admin-url: ${JANUS_ADMIN_URL:http://localhost:7088/admin}
+    admin-secret: ${JANUS_ADMIN_SECRET:janusoverlord}
+    bitrate-bps: ${JANUS_BITRATE:1200000}
+    timeout-ms: ${JANUS_TIMEOUT_MS:20000}
+  ice:
+    stun-urls: ${STUN_URLS:stun:localhost:3478}
+    turn-server: ${TURN_SERVER:localhost}
+    turn-udp-port: ${TURN_UDP_PORT:3478}
+    turn-tcp-port: ${TURN_TCP_PORT:3478}
+    turn-tls-port: ${TURN_TLS_PORT:5349}
+    turn-secret: ${TURN_SECRET:change-me-turn-secret}
+    turn-realm: ${TURN_REALM:pixl.local}
+    turn-ttl-seconds: ${TURN_TTL_SECONDS:3600}
+    turn-username: ${TURN_USERNAME:}
+    turn-password: ${TURN_PASSWORD:}
+  presence:
+    heartbeat-seconds: 20
+    timeout-seconds: 60
+    host-reconnect-window-seconds: ${HOST_RECONNECT_WINDOW_SECONDS:45}
+  chat:
+    max-length: 280
+    rate-per-minute: 20
+  limits:
+    max-viewers-per-stream: ${MAX_VIEWERS_PER_STREAM:5000}
+    max-connections-per-user: ${MAX_CONNECTIONS_PER_USER:4}
+    max-ws-message-bytes: 32768
+  recording:
+    enabled-default: false
+    storage: ${RECORDING_STORAGE:local}
+    local-path: ${RECORDING_LOCAL_PATH:/var/pixl/recordings}
+    s3-endpoint: ${RECORDING_S3_ENDPOINT:http://localhost:9000}
+    s3-bucket: ${RECORDING_S3_BUCKET:pixl-recordings}
+    s3-access-key: ${RECORDING_S3_ACCESS_KEY:minioadmin}
+    s3-secret-key: ${RECORDING_S3_SECRET_KEY:minioadmin}
+    s3-region: ${RECORDING_S3_REGION:us-east-1}
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    com.pixl.livestream: INFO

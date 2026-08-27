@@ -1,0 +1,4 @@
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/CMakeFiles/uvgrtp_version.dir
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/CMakeFiles/uvgrtp.dir
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/CMakeFiles/edit_cache.dir
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,7 @@
+.env
+.env.*
+thumbnail/
+mongo-init/replica.key
+*.pem
+*.key
+pixl-caf6b*.json

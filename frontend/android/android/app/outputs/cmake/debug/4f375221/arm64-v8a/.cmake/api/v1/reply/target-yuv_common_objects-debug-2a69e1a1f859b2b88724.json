@@ -1,0 +1,533 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/compare.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/compare_common.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/compare_gcc.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/compare_win.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert_argb.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert_from_argb.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert_from.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert_jpeg.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert_to_argb.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/convert_to_i420.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/cpu_id.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/mjpeg_decoder.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/mjpeg_validate.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/planar_functions.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate_any.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate_argb.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate_common.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate_gcc.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate_lsx.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/rotate_win.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_any.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_common.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_gcc.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_lasx.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_lsx.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_rvv.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/row_win.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_any.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_argb.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_common.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_gcc.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_lsx.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_rgb.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_rvv.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_uv.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/scale_win.cc.o"
+		},
+		{
+			"path" : "libyuv/CMakeFiles/yuv_common_objects.dir/./source/video_common.cc.o"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"lib/libyuv/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 78,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 67,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -fvisibility=hidden -fvisibility-inlines-hidden"
+				},
+				{
+					"fragment" : "-std=c++20"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39
+			],
+			"sysroot" : 
+			{
+				"path" : "/home/anya/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+			}
+		}
+	],
+	"id" : "yuv_common_objects::@65971e152f36faa1b30f",
+	"name" : "yuv_common_objects",
+	"paths" : 
+	{
+		"build" : "libyuv",
+		"source" : "lib/libyuv"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/compare.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/compare_common.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/compare_gcc.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/compare_win.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert_argb.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert_from_argb.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert_from.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert_jpeg.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert_to_argb.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/convert_to_i420.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/cpu_id.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/mjpeg_decoder.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/mjpeg_validate.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/planar_functions.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate_any.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate_argb.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate_common.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate_gcc.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate_lsx.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/rotate_win.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_any.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_common.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_gcc.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_lasx.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_lsx.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_rvv.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/row_win.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_any.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_argb.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_common.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_gcc.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_lsx.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_rgb.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_rvv.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_uv.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/scale_win.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/libyuv/source/video_common.cc",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

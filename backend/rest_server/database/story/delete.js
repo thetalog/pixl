@@ -1,0 +1,39 @@
+const prisma = require("../../lib/prisma");
+
+async function deleteStory(userID, storyID) {
+  try {
+    const response = await prisma.$transaction([
+      prisma.storiesMentions.deleteMany({
+        where: {
+          storyId: storyID,
+        },
+      }),
+      prisma.storiesReactions.deleteMany({
+        where: {
+          storyId: storyID,
+        },
+      }),
+      prisma.storiesSeen.deleteMany({
+        where: {
+          storyId: storyID,
+        },
+      }),
+      prisma.stories.delete({
+        where: {
+          id: storyID,
+          userId: userID,
+        },
+      }),
+    ]);
+
+    return {
+      message: "Story and mentions deleted",
+      data: response,
+      status: 200,
+    };
+  } catch (error) {
+    return { message: "Story deletion failed", error, status: 500 };
+  } finally {  }
+}
+
+module.exports = { deleteStory };

@@ -1,0 +1,332 @@
+#include <android/log.h>
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "PIXLRTP", __VA_ARGS__)
+#include <arpa/inet.h>
+#include <errno.h>
+#include <jni.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include <atomic>
+#include <chrono>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <uvgrtp/lib.hh>
+#include <vector>
+
+// ------------------------------------------
+// CONFIG
+// ------------------------------------------
+constexpr char SENDER_ADDR[] = "0.0.0.0";
+constexpr char RECEIVER_ADDR[] = "192.168.1.2";
+
+constexpr uint16_t SENDER_VIDEO_PORT = 52000;
+constexpr uint16_t RECEIVER_VIDEO_PORT = 7776;
+
+constexpr auto VIDEO_FRAME_INTERVAL = std::chrono::milliseconds(33);
+constexpr auto RUN_TIME = std::chrono::seconds(300);
+
+static std::atomic<bool> shutdown_flag{false};
+
+// ------------------------------------------
+// NAL Unit Structure
+// ------------------------------------------
+struct NALUnit {
+  std::vector<uint8_t>
+      data;  // stores payload WITHOUT start codes (Annex-B stripped)
+};
+
+static std::vector<NALUnit> preloaded_nals;
+
+bool file_exists(const std::string& path) {
+  struct stat st;
+  return (stat(path.c_str(), &st) == 0);
+}
+
+// ------------------------------------------
+// Preload video file into memory
+// ------------------------------------------
+// Helper: scan buffer for Annex-B NALs and fill preloaded_nals (STRIPS start
+// codes)
+static void parse_annexb_nals(const std::vector<uint8_t>& buf) {
+  preloaded_nals.clear();
+  const uint8_t* p = buf.data();
+  size_t size = buf.size();
+  if (size < 4) return;
+
+  auto is4 = [&](size_t k) -> bool {
+    return (k + 3 < size && p[k] == 0x00 && p[k + 1] == 0x00 &&
+            p[k + 2] == 0x00 && p[k + 3] == 0x01);
+  };
+  auto is3 = [&](size_t k) -> bool {
+    return (k + 2 < size && p[k] == 0x00 && p[k + 1] == 0x00 &&
+            p[k + 2] == 0x01);
+  };
+
+  // find first start code
+  size_t i = 0;
+  while (i + 2 < size && !is3(i) && !is4(i)) ++i;
+  if (i + 2 >= size) return;
+
+  while (i < size) {
+    size_t sc_len = 0;
+    if (is4(i))
+      sc_len = 4;
+    else if (is3(i))
+      sc_len = 3;
+    else
+      break;  // no more start codes
+
+    size_t nal_payload_start = i + sc_len;
+    size_t j = nal_payload_start;
+
+    // find next start code
+    while (j + 2 < size && !is3(j) && !is4(j)) ++j;
+
+    size_t nal_payload_end =
+        (j + 2 < size) ? j : size;  // if no next start, go to end
+
+    if (nal_payload_end > nal_payload_start) {
+      preloaded_nals.push_back(
+          {std::vector<uint8_t>(p + nal_payload_start, p + nal_payload_end)});
+    }
+
+    i = j;  // next start code position (or size)
+  }
+}
+
+// Read entire file into memory, then parse
+bool preload_video_file() {
+  LOGI("Preloading video file (fast buffered read)...");
+
+  std::string video_path =
+      "/sdcard/Download/sample_960x400_ocean_with_audio.hevc";
+
+  if (!file_exists(video_path)) {
+    LOGI("❌ File does not exist: %s", video_path.c_str());
+    return false;
+  }
+
+  std::ifstream f(video_path, std::ios::binary | std::ios::ate);
+  if (!f.is_open()) {
+    LOGI("❌ Cannot open file: %s (errno=%d %s)", video_path.c_str(), errno,
+         strerror(errno));
+    return false;
+  }
+
+  std::streamsize size = f.tellg();
+  if (size <= 0) {
+    LOGI("❌ File empty or cannot determine size: %lld", (long long)size);
+    f.close();
+    return false;
+  }
+
+  f.seekg(0, std::ios::beg);
+  std::vector<uint8_t> buffer((size_t)size);
+  if (!f.read(reinterpret_cast<char*>(buffer.data()), size)) {
+    LOGI("❌ Error reading file into buffer");
+    f.close();
+    return false;
+  }
+  f.close();
+
+  LOGI("📥 Parsed file into memory, size = %zu bytes. Scanning for NALs...",
+       buffer.size());
+
+  parse_annexb_nals(buffer);
+
+  LOGI("✅ Found %zu NAL units", preloaded_nals.size());
+
+  // Debug: log first bytes of first few NALs
+  for (size_t i = 0; i < preloaded_nals.size() && i < 6; ++i) {
+    auto& d = preloaded_nals[i].data;
+    if (d.size() >= 4) {
+      LOGI("NAL[%zu] len=%zu start=%02X %02X %02X %02X", i, d.size(), d[0],
+           d[1], d[2], d[3]);
+    } else {
+      LOGI("NAL[%zu] len=%zu (too small)", i, d.size());
+    }
+  }
+
+  return !preloaded_nals.empty();
+}
+
+// ------------------------------------------
+// SENDER THREAD
+// ------------------------------------------
+void video_sender(uvgrtp::session* session, NALUnit nalUnitRecv) {
+  LOGI("Video sender starting...");
+
+  uvgrtp::media_stream* stream = session->create_stream(
+      SENDER_VIDEO_PORT, RECEIVER_VIDEO_PORT, RTP_FORMAT_H265, RCE_RTCP);
+
+  if (!stream) {
+    LOGI("❌ create_stream FAILED");
+    return;
+  }
+
+  if (nalUnitRecv.data.empty() || preloaded_nals.empty()) {
+    LOGI("❌ No NAL units loaded!");
+    session->destroy_stream(stream);
+    return;
+  }
+
+  LOGI("Starting stream with %zu NAL units", preloaded_nals.size());
+
+  auto send_nal = [&](uint8_t* payload, size_t payload_size) -> rtp_error_t {
+    // Only send if payload is valid and looks like a NAL unit
+    if (payload_size < 2) return RTP_GENERIC_ERROR;
+    // NAL unit header: forbidden_zero_bit (bit 7) must be 0
+    if ((payload[0] & 0x80) != 0) return RTP_GENERIC_ERROR;
+    std::vector<uint8_t> frame;
+    frame.reserve(4 + payload_size);
+    frame.push_back(0x00);
+    frame.push_back(0x00);
+    frame.push_back(0x00);
+    frame.push_back(0x01);
+    frame.insert(frame.end(), payload, payload + payload_size);
+    return stream->push_frame(frame.data(), frame.size(), 0);
+  };
+
+  // Send only the first VPS, SPS, PPS (types 32, 33, 34)
+  bool sent_vps = false, sent_sps = false, sent_pps = false;
+  for (size_t i = 0; i < preloaded_nals.size(); ++i) {
+    auto& d = preloaded_nals[i].data;
+    if (d.empty()) continue;
+    uint8_t b0 = d[0];
+    int t = (b0 >> 1) & 0x3F;
+    if ((t == 32 && !sent_vps) || (t == 33 && !sent_sps) ||
+        (t == 34 && !sent_pps)) {
+      if (d.size() < 2 || (d[0] & 0x80)) {
+        LOGI("Skipping invalid PARAM NAL[%zu] type=%d size=%zu", i, t,
+             d.size());
+        continue;
+      }
+      LOGI("Sending PARAM NAL[%zu] type=%d size=%zu", i, t, d.size());
+      rtp_error_t err = send_nal(d.data(), d.size());
+      if (err != RTP_OK) {
+        LOGI("Warning: failed to push param NAL idx=%zu err=%d", i, err);
+      }
+      if (t == 32) sent_vps = true;
+      if (t == 33) sent_sps = true;
+      if (t == 34) sent_pps = true;
+    }
+    if (sent_vps && sent_sps && sent_pps) break;
+  }
+  // give receiver a moment to process params
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+  // ---- main sender loop ----
+  size_t nal_index = 0;
+  auto start_time = std::chrono::steady_clock::now();
+
+  while (!shutdown_flag && nal_index < preloaded_nals.size()) {
+    NALUnit& nalUnit = preloaded_nals[nal_index];
+    auto& nal = nalUnit.data;  // payload WITHOUT start codes
+
+    // Skip empty or invalid NALs
+    if (nal.empty() || nal.size() < 2 || (nal[0] & 0x80)) {
+      LOGI("⚠️ Skipping invalid NAL[%zu] size=%zu", nal_index, nal.size());
+      nal_index++;
+      continue;
+    }
+
+    uint8_t* payload = nal.data();
+    size_t payload_size = nal.size();
+
+    int nal_unit_type = (payload[0] >> 1) & 0x3F;
+
+    // Don't resend VPS/SPS/PPS after initial
+    if (nal_unit_type == 32 && sent_vps) {
+      nal_index++;
+      continue;
+    }
+    if (nal_unit_type == 33 && sent_sps) {
+      nal_index++;
+      continue;
+    }
+    if (nal_unit_type == 34 && sent_pps) {
+      nal_index++;
+      continue;
+    }
+
+    LOGI(
+        "NAL[%zu] payload_size=%zu start_bytes=%02X %02X %02X %02X nal_type=%d",
+        nal_index, payload_size, payload[0], payload_size > 1 ? payload[1] : 0,
+        payload_size > 2 ? payload[2] : 0, payload_size > 3 ? payload[3] : 0,
+        nal_unit_type);
+
+    rtp_error_t err = send_nal(payload, payload_size);
+    if (err != RTP_OK) {
+      LOGI("❌ push_frame failed at NAL %zu (err=%d) — type=%d size=%zu",
+           nal_index, err, nal_unit_type, payload_size);
+    } else {
+      LOGI("✅ push_frame OK for NAL %zu (type=%d size=%zu)", nal_index,
+           nal_unit_type, payload_size);
+    }
+
+    nal_index++;
+
+    // Pacing
+    std::this_thread::sleep_for(VIDEO_FRAME_INTERVAL);
+
+    // Optionally stop after RUN_TIME
+    if (RUN_TIME.count() > 0) {
+      auto elapsed = std::chrono::steady_clock::now() - start_time;
+      if (elapsed >= RUN_TIME) break;
+    }
+  }
+
+  session->destroy_stream(stream);
+  LOGI("✅ Video sender stopped.");
+}
+
+// ------------------------------------------
+// Main RTP stream function
+// ------------------------------------------
+void start_rtp_stream(NALUnit nalUnitRecv) {
+  LOGI("🚀 start_rtp_stream() triggered!");
+
+  if (!preload_video_file()) {
+    LOGI("❌ Failed to preload video file");
+    return;
+  }
+
+  uvgrtp::context ctx;
+  uvgrtp::session* session =
+      ctx.create_session(std::make_pair(SENDER_ADDR, RECEIVER_ADDR));
+
+  if (!session) {
+    LOGI("❌ Could not create session");
+    return;
+  }
+
+  LOGI("✅ Session created, starting sender thread...");
+
+  std::thread video(video_sender, session, nalUnitRecv);
+  video.join();
+
+  ctx.destroy_session(session);
+
+  preloaded_nals.clear();
+
+  LOGI("✅ Streaming finished.");
+}
+
+// ------------------------------------------
+// JNI entrypoint
+// ------------------------------------------
+extern "C" JNIEXPORT void JNICALL
+Java_com_nativebridge_pixl_MainActivity_nativeStartRtspServerBackground(
+    JNIEnv* env, jobject thiz) {
+  LOGI("📱 JNI call received, starting RTP stream in background thread...");
+  // std::thread([]() { start_rtp_stream(); }).detach();
+}
+
+// --- LOOPING ENABLED: streamed video will repeat indefinitely ---

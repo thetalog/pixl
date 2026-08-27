@@ -1,0 +1,111 @@
+name: pixl-live
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: pixl_live
+      POSTGRES_USER: pixl
+      POSTGRES_PASSWORD: pixl
+    ports:
+      - "5433:5432"
+    volumes:
+      - live_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pixl -d pixl_live"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - live_minio:/data
+
+  coturn:
+    build: ./docker/coturn
+    environment:
+      TURN_SECRET: ${TURN_SECRET:-dev-turn-secret-change-me}
+      TURN_EXTERNAL_IP: ${TURN_EXTERNAL_IP:-127.0.0.1}
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+      - "5349:5349"
+      - "5349:5349/udp"
+      - "49160-49200:49160-49200/udp"
+
+  janus:
+    build: ./docker/janus
+    environment:
+      JANUS_PUBLIC_IP: ${JANUS_PUBLIC_IP:-127.0.0.1}
+    volumes:
+      - ./docker/janus/janus.jcfg:/usr/local/etc/janus/janus.jcfg.template:ro
+    ports:
+      - "8088:8088"
+      - "7088:7088"
+      - "10000-10200:10000-10200/udp"
+    depends_on:
+      - coturn
+
+  pixl-livestream:
+    build: .
+    environment:
+      SERVER_PORT: 8085
+      LIVESTREAM_DB_URL: jdbc:postgresql://postgres:5432/pixl_live
+      LIVESTREAM_DB_USER: pixl
+      LIVESTREAM_DB_PASSWORD: pixl
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      LIVE_INTERNAL_SECRET: ${LIVE_INTERNAL_SECRET:-dev-internal-secret-change-me}
+      LIVESTREAM_JWT_SECRET: ${LIVESTREAM_JWT_SECRET:-dev-live-jwt-secret-change-me-32}
+      PIXL_NODE_URL: ${PIXL_NODE_URL:-http://host.docker.internal:3001}
+      JANUS_ENABLED: "true"
+      JANUS_HTTP_URL: http://janus:8088/janus
+      JANUS_TIMEOUT_MS: "20000"
+      TURN_SERVER: ${TURN_PUBLIC_HOST:-localhost}
+      TURN_SECRET: ${TURN_SECRET:-dev-turn-secret-change-me}
+      TURN_REALM: pixl.local
+      STUN_URLS: stun:${TURN_PUBLIC_HOST:-localhost}:3478
+      LIVE_SIGNALING_URL: ${LIVE_SIGNALING_URL:-ws://localhost:8085/ws/live}
+      LIVE_PUBLIC_BASE_URL: ${LIVE_PUBLIC_BASE_URL:-http://localhost:8085}
+      LIVE_CORS_ORIGINS: ${LIVE_CORS_ORIGINS:-http://localhost:3000,https://localhost:8443}
+      RECORDING_STORAGE: minio
+      RECORDING_S3_ENDPOINT: http://minio:9000
+      RECORDING_S3_BUCKET: pixl-recordings
+      RECORDING_S3_ACCESS_KEY: minioadmin
+      RECORDING_S3_SECRET_KEY: minioadmin
+    ports:
+      - "8085:8085"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      janus:
+        condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./build/libs/pixl-livestream-1.0.0.jar:/app/app.jar:ro
+
+volumes:
+  live_pg:
+  live_minio:

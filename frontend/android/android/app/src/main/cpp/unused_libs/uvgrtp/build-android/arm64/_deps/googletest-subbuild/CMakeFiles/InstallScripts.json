@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/uvgrtp/build-android/arm64/_deps/googletest-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

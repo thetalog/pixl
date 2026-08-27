@@ -1,0 +1,11 @@
+prefix=/Users/deep/Documents/code/personal/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/cryptopp
+exec_prefix=${prefix}
+libdir=${prefix}
+includedir=${prefix}
+
+Name: Crypto++
+Description: Crypto++ Library
+Version: 8.9
+Libs: -L${libdir} -lcryptopp
+Cflags: -I${includedir}
+

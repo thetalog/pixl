@@ -1,0 +1,8 @@
+general: {
+  admin_key = "pixlsupersecret"
+}
+
+room-1234: {
+  description = "placeholder"
+  is_private = false
+}

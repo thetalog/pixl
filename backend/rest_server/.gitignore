@@ -1,0 +1,11 @@
+node_modules
+
+# Secrets and local keys (generate locally; never commit)
+*.pem
+*.key
+pixl-caf6b*.json
+mongo-init/replica.key
+
+# Generated / local-only
+thumbnail/
+.vscode/

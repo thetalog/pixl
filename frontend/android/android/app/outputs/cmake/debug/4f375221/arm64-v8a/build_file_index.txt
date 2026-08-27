@@ -1,0 +1,3 @@
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/CMakeLists.txt
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/CM_linux_packages.cmake
+/home/anya/Documents/personal_projects/pixl/frontend/pixl_clean/android/app/src/main/cpp/lib/libyuv/CMakeLists.txt

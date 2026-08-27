@@ -1,0 +1,61 @@
+# Simple CircleCI configuration for building uvgRTP
+
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2021.04
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Install GCC
+          command: 'sudo apt-get update && sudo apt-get install -y gcc g++'
+      - run:
+          name: Install CMAKE
+          command: 'sudo apt-get install -y cmake'
+      - run:
+          name: Install Crypto++
+          command: 'sudo apt-get install -y libcrypto++-dev'
+      - run:
+          name: Create build files
+          command: 'cmake -H. -Bbuild'
+      - run:
+          name: Build the uvgRTP library
+          command: 'cmake --build build'
+      - run:
+          name: Build the examples
+          command: 'cmake --build build/examples'
+      - run:
+          name: Run binding example
+          command: 'build/examples/binding'
+      - run:
+          name: Run configuration example
+          command: 'build/examples/configuration'
+      - run:
+          name: Run timestamp example
+          command: 'build/examples/custom_timestamps'
+      - run:
+          name: Run RTP hook example
+          command: 'build/examples/receiving_hook'
+      - run:
+          name: Run RTP polling example
+          command: 'build/examples/receiving_poll'
+      - run:
+          name: Run RTCP hook example
+          command: 'build/examples/rtcp_hook'
+      - run:
+          name: Run sending example
+          command: 'build/examples/sending'
+      - run:
+          name: Run generic format example
+          command: 'build/examples/sending_generic'
+      - run:
+          name: Run user managed SRTP key example
+          command: 'build/examples/srtp_user'
+      - run:
+          name: Run ZRTP + SRTP multistream key example
+          command: 'build/examples/zrtp_multistream'
+
+# the SRTP + ZRTP example does not have an end so it is not included

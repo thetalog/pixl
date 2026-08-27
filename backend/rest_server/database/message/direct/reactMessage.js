@@ -1,0 +1,51 @@
+const prisma = require("../../../lib/prisma");
+
+async function addDirectMessageReaction(user, messageId, senderUsername, emoji) {
+  const getSenderUser = await prisma.user.findUnique({
+    where: {
+      userName: senderUsername,
+    },
+  });
+  if (!getSenderUser) {
+    return { message: "Sender not found", status: 404 };
+  }
+  if (getSenderUser?.id === user?.id) {
+    return { message: "Sender and receiver are same", status: 400 };
+  }
+  const getmessage = await prisma.message.findUnique({
+    where: {
+      id: messageId,
+      senderId: getSenderUser.id,
+      receiverId: user?.id,
+    },
+  });
+  if (!getmessage) {
+    return { message: "Message not found", status: 404 };
+  }
+  const senderId = getSenderUser.id;
+  const response = await prisma.message
+    .update({
+      where: {
+        id: messageId,
+        senderId: senderId,
+        receiverId: user?.id,
+      },
+      data: {
+        reactions: {
+          create: {
+            userId: user?.id,
+            emoji: emoji,
+          },
+        },
+      },
+    })
+    .then(async (response) => {
+      return { message: "Direct Message React Successfully", status: 201 };
+    })
+    .catch((error) => {
+      console.log(error);
+      return { message: "Direct Message React failed", status: 500 };
+    });  return response;
+}
+
+module.exports = { addDirectMessageReaction };
