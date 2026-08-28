@@ -38,14 +38,20 @@ function isLoopbackHost(host) {
   return value === 'localhost' || value === '127.0.0.1' || value === '::1' || value === '[::1]'
 }
 
-export { isLoopbackHost }
+/** Wildcard bind addresses: valid to listen on, not valid to connect to. */
+function isUnspecifiedHost(host) {
+  const value = String(host || '').toLowerCase()
+  return value === '0.0.0.0' || value === '::' || value === '[::]'
+}
+
+export { isLoopbackHost, isUnspecifiedHost }
 
 /**
  * When the Nuxt app is opened from a phone on LAN (http://192.168.x.x:3000),
  * env URLs like http://localhost:3001 are unreachable. Use the page hostname.
  */
 export function rewriteLoopbackHost(raw, pageHost) {
-  if (!raw || !pageHost || isLoopbackHost(pageHost)) return raw
+  if (!raw || !pageHost || isLoopbackHost(pageHost) || isUnspecifiedHost(pageHost)) return raw
   try {
     const url = new URL(raw, `http://${pageHost}`)
     if (!isLoopbackHost(url.hostname)) return raw
@@ -84,9 +90,17 @@ export function lanSafeApiBase(configured, location = pageLocation()) {
 
 export function lanSafeWsBase(configured, location = pageLocation()) {
   const fallback = location ? rewriteLoopbackHost(configured, location.hostname) : configured
-  if (!location || !isPrivateLanHost(location.hostname)) return fallback
-  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:'
-  return `${proto}//${location.host}${DEV_LIVE_WS_PROXY}`
+  if (!location) return fallback
+  const securePage = location.protocol === 'https:'
+  const insecureBase = /^(ws|http):\/\//i.test(String(fallback || ''))
+  // Route through the same-origin proxy when the configured base is unusable:
+  // a loopback base is unreachable from other devices on the LAN, and an https
+  // page is not allowed to open a plain ws:// socket.
+  if (isPrivateLanHost(location.hostname) || (securePage && insecureBase)) {
+    const proto = securePage ? 'wss:' : 'ws:'
+    return `${proto}//${location.host}${DEV_LIVE_WS_PROXY}`
+  }
+  return fallback
 }
 
 export function rewriteIceServers(servers, pageHost) {

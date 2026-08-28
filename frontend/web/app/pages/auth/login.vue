@@ -2,7 +2,7 @@
   <div class="relative grid min-h-screen lg:grid-cols-2">
     <div class="hidden flex-col justify-between border-r border-white/6 bg-pixl-elevated p-12 lg:flex">
       <div class="flex items-center gap-3">
-        <span class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-lg font-bold text-white">P</span>
+        <img src="/logo.png" alt="" width="44" height="44" class="h-11 w-11 rounded-2xl" />
         <span class="text-2xl font-semibold tracking-tight">Pixl</span>
       </div>
       <div>
@@ -19,7 +19,7 @@
     <div class="flex items-center justify-center p-6">
       <div class="w-full max-w-sm rounded-card bg-pixl-card/80 p-6 shadow-pixl ring-1 ring-white/6 backdrop-blur-xl">
         <div class="mb-6 flex items-center gap-2 lg:hidden">
-          <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-sm font-bold text-white">P</span>
+          <img src="/logo.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl" />
           <span class="text-xl font-semibold">Pixl</span>
         </div>
         <h1 class="text-2xl font-semibold tracking-tight">Welcome back</h1>

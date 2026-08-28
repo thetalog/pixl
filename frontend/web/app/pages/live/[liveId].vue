@@ -28,6 +28,8 @@ const likeCount = computed(() => active.value.likeCount.value || 0)
 const comments = computed(() => active.value.chat.comments.value || [])
 const sending = computed(() => active.value.chat.sending.value)
 const ended = computed(() => active.value.ended.value)
+const micOn = computed(() => host.webrtc.micOn.value)
+const cameraOn = computed(() => host.webrtc.cameraOn.value)
 const videoStream = computed(() => {
   if (isHost.value) return host.webrtc.localStream.value || null
   return viewer.webrtc.remoteStream.value || null
@@ -105,8 +107,8 @@ function toggleCamera() {
       <div class="flex items-center justify-between gap-3 px-4 py-3">
         <LiveControls
           v-if="isHost"
-          :mic-on="host.webrtc.micOn"
-          :camera-on="host.webrtc.cameraOn"
+          :mic-on="micOn"
+          :camera-on="cameraOn"
           :ending="ending"
           @toggle-mic="toggleMic"
           @toggle-camera="toggleCamera"

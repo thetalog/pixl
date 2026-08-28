@@ -48,6 +48,11 @@ public class SecurityConfig {
         config.addAllowedOriginPattern("https://192.168.*.*:*");
         config.addAllowedOriginPattern("http://10.*.*.*:*");
         config.addAllowedOriginPattern("https://10.*.*.*:*");
+        // A dev server bound to the wildcard address is often browsed as that
+        // literal, which arrives here as a same-machine Origin the patterns above
+        // do not cover.
+        config.addAllowedOriginPattern("http://0.0.0.0:*");
+        config.addAllowedOriginPattern("https://0.0.0.0:*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);

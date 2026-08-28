@@ -3,9 +3,7 @@
     class="fixed inset-y-0 left-0 z-40 hidden w-[72px] flex-col border-r border-white/6 bg-pixl-bg/90 px-2 backdrop-blur-xl xl:w-[240px] xl:px-3 lg:flex"
   >
     <NuxtLink to="/" class="mt-5 mb-8 flex items-center gap-3 px-2" aria-label="Pixl home">
-      <span class="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-sm font-bold tracking-tight text-white">
-        P
-      </span>
+      <img src="/logo.png" alt="" width="40" height="40" class="h-10 w-10 rounded-2xl" />
       <span class="hidden text-xl font-semibold tracking-tight xl:inline">Pixl</span>
     </NuxtLink>
 

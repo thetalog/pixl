@@ -1,9 +1,7 @@
 <template>
   <header class="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/6 px-4 glass-nav">
     <NuxtLink to="/" class="flex items-center gap-2" aria-label="Pixl home">
-      <span class="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-xs font-bold text-white">
-        P
-      </span>
+      <img src="/logo.png" alt="" width="32" height="32" class="h-8 w-8 rounded-xl" />
       <span class="text-lg font-semibold tracking-tight">Pixl</span>
     </NuxtLink>
 

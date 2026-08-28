@@ -43,8 +43,15 @@ function proxyLiveUpgrade(req, socket, head) {
 }
 
 export function attachLiveWsProxy(server) {
-  if (!server?.on || server.__pixlLiveWsProxy) return
-  server.__pixlLiveWsProxy = true
+  if (!server?.on) return
+
+  // A dev-server restart drops every 'upgrade' listener but keeps the same
+  // server, so re-install instead of treating this as already attached.
+  if (server.__pixlLiveWsProxy) {
+    server.__pixlLiveWsProxy()
+    return
+  }
+
   console.info('[live-ws-proxy] attached')
 
   let others = []
@@ -65,8 +72,14 @@ export function attachLiveWsProxy(server) {
     server.on('upgrade', routeUpgrade)
   }
 
-  install()
-  for (const ms of [0, 100, 500, 2000]) {
-    setTimeout(install, ms)
+  // Nuxt and Vite register their own upgrade listeners slightly after this
+  // hook runs, so re-run install to keep this handler in front of them.
+  server.__pixlLiveWsProxy = () => {
+    install()
+    for (const ms of [0, 100, 500, 2000]) {
+      setTimeout(install, ms)
+    }
   }
+
+  server.__pixlLiveWsProxy()
 }

@@ -2,7 +2,7 @@
   <div class="flex min-h-screen items-center justify-center p-6">
     <div class="w-full max-w-md rounded-card bg-pixl-card/80 p-6 shadow-pixl ring-1 ring-white/6 backdrop-blur-xl">
       <div class="mb-6 flex items-center gap-2">
-        <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-pixl-accent to-pixl-cyan text-sm font-bold text-white">P</span>
+        <img src="/logo.png" alt="" width="36" height="36" class="h-9 w-9 rounded-xl" />
         <span class="text-xl font-semibold">Pixl</span>
       </div>
 
