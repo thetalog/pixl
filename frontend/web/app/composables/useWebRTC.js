@@ -1,3 +1,5 @@
+import { rewriteIceServers } from '~/utils/apiBase'
+
 export function useWebRTC() {
   const localStream = ref(null)
   const remoteStream = ref(null)
@@ -11,29 +13,58 @@ export function useWebRTC() {
   let onLocalCandidate = null
   let pendingRemoteIce = []
 
-  async function getPreview({ audio = true, video = true } = {}) {
-    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-      throw new Error('Camera access needs a secure origin (localhost or HTTPS).')
-    }
-    stopLocal()
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio,
-      video: video
-        ? {
-            facingMode: { ideal: facingMode.value },
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
-          }
-        : false,
-    })
-    localStream.value = stream
-    return stream
+  function stripMdnsIce(sdp) {
+    return String(sdp || '')
+      .split(/\r?\n/)
+      .filter((line) => !line.toLowerCase().includes('.local'))
+      .join('\r\n')
   }
 
-  function attachPeer(iceServers, { onCandidate, onTrack } = {}) {
+  async function getPreview({ audio = true, video = true } = {}) {
+    if (typeof navigator === 'undefined') {
+      throw new Error('Camera is only available in the browser.')
+    }
+    const secure = typeof window !== 'undefined' && window.isSecureContext
+    if (!navigator.mediaDevices?.getUserMedia) {
+      const host = typeof window !== 'undefined' ? window.location.host : 'YOUR-IP:3000'
+      throw new Error(
+        secure
+          ? 'Camera is not available in this browser.'
+          : `On a phone, open https://${host} (not http). Accept the certificate warning, then allow the camera.`
+      )
+    }
+    stopLocal()
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio,
+        video: video
+          ? {
+              facingMode: { ideal: facingMode.value },
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+            }
+          : false,
+      })
+      localStream.value = stream
+      return stream
+    } catch (error) {
+      if (typeof window !== 'undefined' && !window.isSecureContext) {
+        throw new Error(
+          `On a phone, open https://${window.location.host} (not http). Accept the certificate warning, then allow the camera.`
+        )
+      }
+      throw error
+    }
+  }
+
+  function attachPeer(iceServers, { onCandidate, onTrack, recvonly = false } = {}) {
     closePeer()
     onLocalCandidate = onCandidate
-    pc = new RTCPeerConnection({ iceServers: iceServers || [] })
+    pc = new RTCPeerConnection({ iceServers: rewriteIceServers(iceServers || []) })
+    if (recvonly) {
+      pc.addTransceiver('audio', { direction: 'recvonly' })
+      pc.addTransceiver('video', { direction: 'recvonly' })
+    }
     pc.onicecandidate = (event) => {
       if (!onLocalCandidate) return
       if (event.candidate) {
@@ -66,6 +97,7 @@ export function useWebRTC() {
   async function createOffer() {
     if (!pc) throw new Error('Peer connection is missing')
     const offer = await pc.createOffer()
+    offer.sdp = stripMdnsIce(offer.sdp)
     await pc.setLocalDescription(offer)
     return offer
   }
@@ -79,7 +111,12 @@ export function useWebRTC() {
 
   async function applyRemoteOffer(sdp) {
     if (!pc) throw new Error('Peer connection is missing')
-    if (pc.signalingState !== 'stable') return
+    if (pc.signalingState !== 'stable') {
+      attachPeer(pc.getConfiguration?.().iceServers || [], {
+        onCandidate: onLocalCandidate,
+        recvonly: !localStream.value,
+      })
+    }
     await pc.setRemoteDescription({ type: 'offer', sdp })
     await flushIce()
     const answer = await pc.createAnswer()

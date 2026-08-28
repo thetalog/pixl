@@ -100,19 +100,42 @@ async function getLiveStream(liveId) {
   return findLiveStreamRecord(liveId, streamDetailInclude);
 }
 
-function activeLiveWhere() {
-  return {
+function activeLiveWhere({ requireJava = true } = {}) {
+  const where = {
     status: { in: ["LIVE", "STARTING", "CREATED"] },
-    javaStreamId: { not: null },
-    createdAt: { gte: new Date(Date.now() - 6 * 60 * 60 * 1000) },
+    createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
   };
+  if (requireJava) {
+    where.javaStreamId = { not: null };
+  }
+  return where;
 }
 
 async function listLiveStreams() {
   return prisma.liveStream.findMany({
     where: activeLiveWhere(),
     include: { user: { select: publicUser } },
-    orderBy: { startedAt: "desc" },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+async function getActiveLiveByUserId(userId, { requireJava = true } = {}) {
+  if (!userId) return null;
+  return prisma.liveStream.findFirst({
+    where: {
+      userId,
+      ...activeLiveWhere({ requireJava }),
+    },
+    include: { user: { select: publicUser } },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+async function findByJavaStreamId(javaStreamId) {
+  if (!javaStreamId) return null;
+  return prisma.liveStream.findFirst({
+    where: { javaStreamId: String(javaStreamId) },
+    include: { user: { select: publicUser } },
   });
 }
 
@@ -128,7 +151,7 @@ async function getActiveLiveByUsername(username) {
       ...activeLiveWhere(),
     },
     include: { user: { select: publicUser } },
-    orderBy: [{ startedAt: "desc" }, { createdAt: "desc" }],
+    orderBy: { createdAt: "desc" },
   });
 }
 
@@ -219,7 +242,9 @@ module.exports = {
   endLiveStream,
   getLiveStream,
   listLiveStreams,
+  getActiveLiveByUserId,
   getActiveLiveByUsername,
+  findByJavaStreamId,
   addViewer,
   removeViewer,
   addLiveComment,

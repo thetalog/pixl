@@ -18,8 +18,9 @@ async function loadLives() {
   loadingLives.value = true
   try {
     lives.value = await apiLive.list()
-  } catch {
+  } catch (e) {
     lives.value = []
+    toast.error(apiErrorMessage(e, 'Could not load lives'))
   } finally {
     loadingLives.value = false
   }

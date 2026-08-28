@@ -222,3 +222,5 @@ See `deploy/nginx/api.conf.snippet` for the full recommended lines. The web app 
 ## License
 
 ISC
+
+chrome://flags/#enable-webrtc-hide-local-ips-with-mdns

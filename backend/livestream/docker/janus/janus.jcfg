@@ -1,14 +1,21 @@
 general: {
-  debug_level = 4
+  debug_level = 5
 }
 
 nat: {
-  stun_server = "coturn"
-  stun_port = 3478
+  # No stun_server: a STUN probe to coturn over Docker UDP is fatal in
+  # Janus 1.1 (no BINDING response) and the process exits. nat_1_1_mapping
+  # supplies the reachable address instead.
+  #
+  # ice_lite must stay false: a lite agent never sends connectivity checks,
+  # so it cannot pair with a browser whose only host candidates are mDNS
+  # (.local) -- which is every viewer that has not granted camera access.
+  # Compose publishes rtp_port_range as UDP only, so ice_tcp would advertise
+  # unreachable candidates.
   nice_debug = false
   full_trickle = false
-  ice_lite = true
-  ice_tcp = true
+  ice_lite = false
+  ice_tcp = false
   nat_1_1_mapping = "NAT_1_1_MAPPING"
   rtp_port_range = "10000-10200"
 }

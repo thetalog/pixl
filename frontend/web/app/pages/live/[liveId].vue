@@ -1,5 +1,11 @@
 <script setup>
-definePageMeta({ middleware: 'auth', hideBottomNav: true, hideHeader: true })
+definePageMeta({
+  middleware: 'auth',
+  hideBottomNav: true,
+  hideHeader: true,
+  ssr: false,
+  pageTransition: false,
+})
 
 const route = useRoute()
 const toast = useToast()

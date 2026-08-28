@@ -63,11 +63,17 @@ public class ViewerService {
     public void leave(String streamId, String connectionId, boolean host) {
         presence.remove(streamId, connectionId);
         log.info("viewer_left streamId={} connectionId={}", streamId, connectionId);
-        if (host) {
-            Instant deadline = Instant.now().plusSeconds(properties.getPresence().getHostReconnectWindowSeconds());
-            presence.markHostDisconnect(streamId, deadline);
-            log.info("host_disconnected streamId={} reconnectUntil={}", streamId, deadline);
+        if (!host) {
+            return;
         }
+        String currentHost = presence.getHostConnection(streamId).orElse(null);
+        if (currentHost != null && !currentHost.equals(connectionId)) {
+            log.info("stale host socket closed streamId={} closed={} active={}", streamId, connectionId, currentHost);
+            return;
+        }
+        Instant deadline = Instant.now().plusSeconds(properties.getPresence().getHostReconnectWindowSeconds());
+        presence.markHostDisconnect(streamId, deadline);
+        log.info("host_disconnected streamId={} reconnectUntil={}", streamId, deadline);
     }
 
     public void heartbeat(String streamId, String connectionId) {

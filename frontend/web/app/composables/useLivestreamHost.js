@@ -1,3 +1,5 @@
+import { CONNECTION } from '~/utils/liveReconnect'
+
 export function useLivestreamHost() {
   const live = useLivestream()
   const socket = useLivestreamSocket()
@@ -15,6 +17,28 @@ export function useLivestreamHost() {
 
   let off = null
   let publishing = false
+  let joinRetry = null
+  let joinAttempts = 0
+
+  function clearJoinRetry() {
+    if (joinRetry) {
+      clearTimeout(joinRetry)
+      joinRetry = null
+    }
+  }
+
+  function scheduleJoinRetry() {
+    if (publishing || joinRetry || joinAttempts >= 8) return
+    joinRetry = window.setTimeout(() => {
+      joinRetry = null
+      if (publishing) return
+      joinAttempts += 1
+      if (socket.status.value === CONNECTION.CONNECTED) {
+        socket.send('JOIN_STREAM')
+      }
+      scheduleJoinRetry()
+    }, 1500)
+  }
 
   function handle(message) {
     chat.ingest(message)
@@ -46,18 +70,25 @@ export function useLivestreamHost() {
       if (message.payload?.media === 'publisher') {
         if (publishing) return
         publishing = true
+        clearJoinRetry()
         publish().catch((err) => {
           publishing = false
           toast.error(err.message || 'Could not publish')
+          scheduleJoinRetry()
         })
         return
       }
       publishing = false
+      joinAttempts = 0
       socket.send('JOIN_STREAM')
+      scheduleJoinRetry()
     }
   }
 
   async function publish() {
+    if (!webrtc.localStream.value) {
+      await webrtc.getPreview()
+    }
     const iceServers = session.value?.iceServers || []
     webrtc.attachPeer(iceServers, {
       onCandidate: (candidate) => socket.send('ICE_CANDIDATE', candidate),
@@ -69,7 +100,6 @@ export function useLivestreamHost() {
   async function begin({ title, visibility, recordingEnabled } = {}) {
     starting.value = true
     try {
-      await webrtc.getPreview()
       const created = await live.create({ title, visibility, recordingEnabled })
       stream.value = created
       session.value = created.session
@@ -78,6 +108,8 @@ export function useLivestreamHost() {
       if (!url) throw new Error('Missing livestream token')
       off = socket.onMessage(handle)
       socket.connect(url)
+      scheduleJoinRetry()
+      await webrtc.getPreview()
       return created
     } finally {
       starting.value = false
@@ -89,12 +121,13 @@ export function useLivestreamHost() {
     stream.value = current
     session.value = current.session
     liveStatus.value = current.status || 'CREATED'
-    await webrtc.getPreview()
-    await nextTick()
     const url = live.signalingUrl(current.session)
     if (!url) throw new Error('Missing livestream token')
     off = socket.onMessage(handle)
     socket.connect(url)
+    scheduleJoinRetry()
+    await nextTick()
+    await webrtc.getPreview()
   }
 
   async function endLive() {
@@ -107,6 +140,7 @@ export function useLivestreamHost() {
   }
 
   onBeforeUnmount(() => {
+    clearJoinRetry()
     off?.()
   })
 

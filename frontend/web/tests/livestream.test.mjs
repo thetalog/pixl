@@ -35,3 +35,32 @@ test('LAN phone access rewrites localhost API and websocket URLs', async () => {
     'http://localhost:3001'
   )
 })
+
+test('LAN phone uses same-origin API and websocket proxies', async () => {
+  const { lanSafeApiBase, lanSafeWsBase } = await import('../app/utils/apiBase.js')
+  const lan = {
+    hostname: '192.168.1.104',
+    host: '192.168.1.104:3000',
+    origin: 'https://192.168.1.104:3000',
+    protocol: 'https:',
+  }
+  assert.equal(lanSafeApiBase('http://localhost:3001', lan), 'https://192.168.1.104:3000/pixl-api')
+  assert.equal(lanSafeWsBase('ws://localhost:8085/ws/live', lan), 'wss://192.168.1.104:3000/ws/live')
+  assert.equal(
+    lanSafeApiBase('https://api.pixl-personal-project.online', {
+      hostname: 'pixl-personal-project.online',
+      origin: 'https://pixl-personal-project.online',
+    }),
+    'https://api.pixl-personal-project.online'
+  )
+})
+
+test('LAN phone rewrites ICE servers off localhost', async () => {
+  const { rewriteIceServers } = await import('../app/utils/apiBase.js')
+  const ice = rewriteIceServers(
+    [{ urls: ['stun:localhost:3478', 'turn:127.0.0.1:3478?transport=udp'] }],
+    '192.168.1.104'
+  )
+  assert.equal(ice[0].urls[0], 'stun:192.168.1.104:3478')
+  assert.equal(ice[0].urls[1], 'turn:192.168.1.104:3478?transport=udp')
+})

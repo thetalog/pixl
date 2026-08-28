@@ -1,6 +1,18 @@
 import { CONNECTION, nextBackoffMs } from '~/utils/liveReconnect'
 import { liveMessage, parseLiveMessage } from '~/utils/liveProtocol'
 
+function claimsFromWsUrl(wsUrl) {
+  try {
+    const token = new URL(wsUrl).searchParams.get('token') || ''
+    const part = token.split('.')[1]
+    if (!part) return {}
+    const padded = part.replace(/-/g, '+').replace(/_/g, '/')
+    return JSON.parse(atob(padded)) || {}
+  } catch {
+    return {}
+  }
+}
+
 export function useLivestreamSocket() {
   const status = ref(CONNECTION.CONNECTION_LOST)
   const lastError = ref('')
@@ -12,6 +24,7 @@ export function useLivestreamSocket() {
   let heartbeat = null
   let closedByUser = false
   let url = ''
+  let claims = {}
 
   function emit(message) {
     for (const handler of handlers) handler(message)
@@ -24,7 +37,14 @@ export function useLivestreamSocket() {
 
   function send(type, payload = {}, meta = {}) {
     if (!socket || socket.readyState !== WebSocket.OPEN) return false
-    socket.send(liveMessage(type, { ...meta, payload }))
+    socket.send(
+      liveMessage(type, {
+        streamId: claims.streamId || '',
+        senderId: claims.sub || '',
+        ...meta,
+        payload,
+      }),
+    )
     return true
   }
 
@@ -32,6 +52,7 @@ export function useLivestreamSocket() {
     if (typeof window === 'undefined') return
     closedByUser = false
     url = nextUrl
+    claims = claimsFromWsUrl(nextUrl)
     cleanupSocket()
     status.value = CONNECTION.RECONNECTING
     socket = new WebSocket(url)

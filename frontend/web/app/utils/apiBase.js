@@ -38,6 +38,8 @@ function isLoopbackHost(host) {
   return value === 'localhost' || value === '127.0.0.1' || value === '::1' || value === '[::1]'
 }
 
+export { isLoopbackHost }
+
 /**
  * When the Nuxt app is opened from a phone on LAN (http://192.168.x.x:3000),
  * env URLs like http://localhost:3001 are unreachable. Use the page hostname.
@@ -59,6 +61,51 @@ export function rewriteLoopbackForLan(raw) {
   return rewriteLoopbackHost(raw, window.location.hostname)
 }
 
+export function isPrivateLanHost(host) {
+  const value = String(host || '').toLowerCase().replace(/^\[|\]$/g, '')
+  if (isLoopbackHost(value)) return false
+  return /^(192\.168\.|10\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(value)
+}
+
+function pageLocation() {
+  return typeof window === 'undefined' ? null : window.location
+}
+
+/** Same-origin Nitro proxy so HTTPS phone pages are not mixed-content blocked. */
+export const DEV_API_PROXY = '/pixl-api'
+export const DEV_LIVE_WS_PROXY = '/ws/live'
+
+export function lanSafeApiBase(configured, location = pageLocation()) {
+  const normalized = normalizeApiBase(configured)
+  const fallback = location ? rewriteLoopbackHost(normalized, location.hostname) : normalized
+  if (!location || !isPrivateLanHost(location.hostname)) return fallback
+  return `${location.origin}${DEV_API_PROXY}`
+}
+
+export function lanSafeWsBase(configured, location = pageLocation()) {
+  const fallback = location ? rewriteLoopbackHost(configured, location.hostname) : configured
+  if (!location || !isPrivateLanHost(location.hostname)) return fallback
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:'
+  return `${proto}//${location.host}${DEV_LIVE_WS_PROXY}`
+}
+
+export function rewriteIceServers(servers, pageHost) {
+  const host = pageHost || (typeof window === 'undefined' ? '' : window.location.hostname)
+  if (!host || isLoopbackHost(host) || !Array.isArray(servers)) return servers || []
+  return servers.map((server) => {
+    const urls = server?.urls
+    const list = Array.isArray(urls) ? urls : urls ? [urls] : []
+    return {
+      ...server,
+      urls: list.map((url) =>
+        String(url || '')
+          .replace(/localhost/gi, host)
+          .replace(/127\.0\.0\.1/g, host)
+      ),
+    }
+  })
+}
+
 export function resolveApiBase(runtimeConfig) {
-  return rewriteLoopbackForLan(normalizeApiBase(runtimeConfig?.public?.apiBase))
+  return lanSafeApiBase(runtimeConfig?.public?.apiBase)
 }

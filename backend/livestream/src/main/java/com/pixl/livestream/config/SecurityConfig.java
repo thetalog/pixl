@@ -40,6 +40,14 @@ public class SecurityConfig {
             config.setAllowedOrigins(origins);
             config.setAllowCredentials(true);
         }
+        config.addAllowedOriginPattern("http://localhost:*");
+        config.addAllowedOriginPattern("https://localhost:*");
+        config.addAllowedOriginPattern("http://127.0.0.1:*");
+        config.addAllowedOriginPattern("https://127.0.0.1:*");
+        config.addAllowedOriginPattern("http://192.168.*.*:*");
+        config.addAllowedOriginPattern("https://192.168.*.*:*");
+        config.addAllowedOriginPattern("http://10.*.*.*:*");
+        config.addAllowedOriginPattern("https://10.*.*.*:*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);

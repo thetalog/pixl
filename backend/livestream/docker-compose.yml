@@ -3,6 +3,7 @@ name: pixl-live
 services:
   postgres:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_DB: pixl_live
       POSTGRES_USER: pixl
@@ -19,6 +20,7 @@ services:
 
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
     ports:
       - "6379:6379"
     command: ["redis-server", "--save", "", "--appendonly", "no"]
@@ -30,6 +32,7 @@ services:
 
   minio:
     image: minio/minio:latest
+    restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
@@ -42,6 +45,7 @@ services:
 
   coturn:
     build: ./docker/coturn
+    restart: unless-stopped
     environment:
       TURN_SECRET: ${TURN_SECRET:-dev-turn-secret-change-me}
       TURN_EXTERNAL_IP: ${TURN_EXTERNAL_IP:-127.0.0.1}
@@ -54,6 +58,7 @@ services:
 
   janus:
     build: ./docker/janus
+    restart: unless-stopped
     environment:
       JANUS_PUBLIC_IP: ${JANUS_PUBLIC_IP:-127.0.0.1}
     volumes:
@@ -67,6 +72,7 @@ services:
 
   pixl-livestream:
     build: .
+    restart: unless-stopped
     environment:
       SERVER_PORT: 8085
       LIVESTREAM_DB_URL: jdbc:postgresql://postgres:5432/pixl_live
@@ -86,7 +92,7 @@ services:
       STUN_URLS: stun:${TURN_PUBLIC_HOST:-localhost}:3478
       LIVE_SIGNALING_URL: ${LIVE_SIGNALING_URL:-ws://localhost:8085/ws/live}
       LIVE_PUBLIC_BASE_URL: ${LIVE_PUBLIC_BASE_URL:-http://localhost:8085}
-      LIVE_CORS_ORIGINS: ${LIVE_CORS_ORIGINS:-http://localhost:3000,https://localhost:8443}
+      LIVE_CORS_ORIGINS: ${LIVE_CORS_ORIGINS:-http://localhost:3000,https://localhost:3000,https://localhost:8443,https://192.168.1.104:3000,http://192.168.1.104:3000}
       RECORDING_STORAGE: minio
       RECORDING_S3_ENDPOINT: http://minio:9000
       RECORDING_S3_BUCKET: pixl-recordings

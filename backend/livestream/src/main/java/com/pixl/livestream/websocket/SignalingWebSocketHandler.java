@@ -106,7 +106,10 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
             SignalingMessage incoming = mapper.readValue(message.getPayload(), SignalingMessage.class);
             LivePrincipal principal = principal(session);
             switch (incoming.type() == null ? "" : incoming.type()) {
-                case SignalingTypes.JOIN_STREAM, SignalingTypes.RECONNECT -> handleJoinMedia(session, principal);
+                case SignalingTypes.JOIN_STREAM, SignalingTypes.RECONNECT -> {
+                    log.info("join media role={} streamId={}", principal.role(), principal.streamId());
+                    handleJoinMedia(session, principal);
+                }
                 case SignalingTypes.OFFER -> handleOffer(session, principal, incoming);
                 case SignalingTypes.ANSWER -> handleAnswer(session, principal, incoming);
                 case SignalingTypes.ICE_CANDIDATE -> handleIce(session, principal, incoming);
@@ -119,6 +122,7 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
                 default -> sendError(session, "Unknown message type");
             }
         } catch (ApiException ex) {
+            log.warn("signaling api error: {}", ex.getMessage());
             sendError(session, ex.getMessage());
         } catch (Exception ex) {
             log.warn("signaling error: {}", ex.getMessage());
@@ -129,6 +133,11 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         LivePrincipal principal = (LivePrincipal) session.getAttributes().get("principal");
+        log.info("ws closed streamId={} host={} code={} reason={}",
+                principal == null ? "-" : principal.streamId(),
+                principal != null && principal.isHost(),
+                status.getCode(),
+                status.getReason());
         if (principal == null) {
             return;
         }
@@ -149,10 +158,6 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
 
     private void handleJoinMedia(WebSocketSession session, LivePrincipal principal) {
         LivestreamEntity stream = streams.require(UUID.fromString(principal.streamId()));
-        if (stream.getJanusRoomId() == null) {
-            sendError(session, "Media room is not ready");
-            return;
-        }
         MediaSession existing = mediaSessions.get(session.getId());
         if (principal.isHost() && existing != null && existing.publisher()) {
             send(session, message(SignalingTypes.READY, principal, mapper.createObjectNode()
@@ -165,9 +170,19 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
             mediaSessions.remove(session.getId());
         }
         if (principal.isHost() && principal.has(LivePermission.PUBLISH)) {
-            MediaSession media = mediaRouter.attachPublisher(principal.streamId(), stream.getJanusRoomId(), principal.userId());
+            stream = streams.ensureMediaRoom(stream);
+            MediaSession media;
+            try {
+                media = mediaRouter.attachPublisher(principal.streamId(), stream.getJanusRoomId(), principal.userId());
+            } catch (Exception ex) {
+                log.warn("publisher join failed streamId={} room={}: {}", principal.streamId(), stream.getJanusRoomId(), ex.getMessage());
+                stream.setJanusRoomId(null);
+                stream = streams.ensureMediaRoom(stream);
+                media = mediaRouter.attachPublisher(principal.streamId(), stream.getJanusRoomId(), principal.userId());
+            }
             mediaSessions.put(session.getId(), media);
             forwardJanusIce(session, principal, media);
+            log.info("publisher attached streamId={} room={} feed={}", principal.streamId(), stream.getJanusRoomId(), media.feedId());
             send(session, message(SignalingTypes.READY, principal, mapper.createObjectNode()
                     .put("media", "publisher")
                     .put("reconnect", true)));

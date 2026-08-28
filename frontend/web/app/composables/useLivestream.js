@@ -1,4 +1,4 @@
-import { rewriteLoopbackForLan } from '~/utils/apiBase'
+import { lanSafeWsBase } from '~/utils/apiBase'
 
 export function useLivestream() {
   const api = usePixlApi()
@@ -52,7 +52,7 @@ export function useLivestream() {
 
   function signalingUrl(session) {
     const token = session?.token
-    const base = rewriteLoopbackForLan(session?.signalingUrl || useRuntimeConfig().public.liveWsBase)
+    const base = lanSafeWsBase(session?.signalingUrl || useRuntimeConfig().public.liveWsBase)
     if (!base || !token) return ''
     const wsBase = String(base)
       .replace(/^https:\/\//i, 'wss://')

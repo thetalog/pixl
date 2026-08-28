@@ -1,10 +1,13 @@
 const {
+  isObjectId,
   createLiveStream,
   updateLiveStream,
   endLiveStream,
   getLiveStream,
   listLiveStreams,
+  getActiveLiveByUserId,
   getActiveLiveByUsername,
+  findByJavaStreamId,
   addViewer,
   removeViewer,
   addLiveComment,
@@ -70,6 +73,77 @@ async function canJoin(reqUser, stream) {
   return false;
 }
 
+function javaStatusToMongo(status) {
+  const value = String(status || "CREATED").toUpperCase();
+  if (["CREATED", "STARTING", "LIVE", "ENDING", "ENDED", "FAILED"].includes(value)) return value;
+  return "CREATED";
+}
+
+async function hostSessionFor(user, stream, session) {
+  const payload = session || {};
+  payload.token = signLiveToken({
+    user,
+    streamId: stream.javaStreamId || payload.streamId,
+    pixlStreamId: stream.id,
+    role: "HOST",
+    permissions: permissionsFor("HOST"),
+  });
+  return payload;
+}
+
+async function attachJavaCreate(user, stream, created) {
+  const javaStream = created.stream;
+  const session = created.session;
+  const updated = await updateLiveStream(stream.id, {
+    javaStreamId: javaStream.streamId,
+    url: session?.signalingUrl || stream.url,
+    status: javaStatusToMongo(javaStream.status),
+  });
+  return { stream: updated, session: await hostSessionFor(user, updated, session) };
+}
+
+async function syncActiveJavaStreams() {
+  let javaLives = [];
+  try {
+    javaLives = await live.listLive();
+  } catch (error) {
+    console.error("Java list live error:", live.unwrapAxios(error).message);
+    return;
+  }
+  if (!Array.isArray(javaLives)) {
+    javaLives = Array.isArray(javaLives?.data) ? javaLives.data : [];
+  }
+  const placeholderUrl = process.env.LIVE_SIGNALING_URL || "ws://localhost:8085/ws/live";
+  for (const item of javaLives) {
+    const javaId = item?.streamId;
+    const pixlId = item?.pixlStreamId;
+    const status = javaStatusToMongo(item?.status);
+    if (!javaId || ["ENDED", "FAILED"].includes(status)) continue;
+
+    let row = pixlId ? await getLiveStream(pixlId) : null;
+    if (!row) row = await findByJavaStreamId(javaId);
+    if (row) {
+      const patch = {};
+      if (row.javaStreamId !== javaId) patch.javaStreamId = javaId;
+      if (row.status !== status) patch.status = status;
+      if (item.signalingUrl && row.url !== item.signalingUrl) patch.url = item.signalingUrl;
+      if (Object.keys(patch).length) {
+        await updateLiveStream(row.id, patch).catch(() => {});
+      }
+      continue;
+    }
+    if (isObjectId(item.hostUserId) && item.title) {
+      await createLiveStream(item.hostUserId, item.title, item.signalingUrl || placeholderUrl, {
+        status,
+        javaStreamId: javaId,
+        visibility: ["PUBLIC", "FOLLOWERS", "PRIVATE"].includes(String(item.visibility || "").toUpperCase())
+          ? String(item.visibility).toUpperCase()
+          : "PUBLIC",
+      }).catch(() => {});
+    }
+  }
+}
+
 exports.startLiveController = async (req, res) => {
   try {
     const title = String(req.body?.title || "").trim();
@@ -79,6 +153,42 @@ exports.startLiveController = async (req, res) => {
 
     if (!title) {
       return res.status(400).json({ message: "Title is required" });
+    }
+
+    const existing = await getActiveLiveByUserId(user.id, { requireJava: false });
+    if (existing) {
+      try {
+        const created = existing.javaStreamId
+          ? {
+              stream: { streamId: existing.javaStreamId, status: existing.status },
+              session: await live.joinStream(existing.javaStreamId, {
+                userId: user.id,
+                userName: user.userName,
+                displayName: user.name,
+                avatarUrl: user.profilePic || "",
+                role: "HOST",
+              }),
+            }
+          : await live.createStream({
+              pixlStreamId: existing.id,
+              hostUserId: user.id,
+              hostUsername: user.userName,
+              hostDisplayName: user.name,
+              hostAvatarUrl: user.profilePic || "",
+              title: title || existing.title,
+              visibility: existing.visibility,
+              recordingEnabled: existing.recordingEnabled,
+            });
+        const attached = await attachJavaCreate(user, existing, {
+          stream: created.stream || { streamId: existing.javaStreamId, status: existing.status },
+          session: created.session || created,
+        });
+        return res.status(200).json(shapeStream(attached.stream, attached.session));
+      } catch (error) {
+        const wrapped = live.unwrapAxios(error);
+        console.error("Resume live error:", wrapped.message);
+        return res.status(wrapped.status || 503).json({ message: wrapped.message });
+      }
     }
 
     const placeholderUrl = process.env.LIVE_SIGNALING_URL || "ws://localhost:8085/ws/live";
@@ -99,24 +209,8 @@ exports.startLiveController = async (req, res) => {
         visibility: stream.visibility,
         recordingEnabled,
       });
-      const javaStream = created.stream;
-      const session = created.session;
-      const updated = await updateLiveStream(stream.id, {
-        javaStreamId: javaStream.streamId,
-        url: session.signalingUrl,
-        status: javaStream.status || "CREATED",
-      });
-
-      const token = signLiveToken({
-        user,
-        streamId: javaStream.streamId,
-        pixlStreamId: stream.id,
-        role: "HOST",
-        permissions: permissionsFor("HOST"),
-      });
-      session.token = token;
-
-      return res.status(200).json(shapeStream(updated, session));
+      const attached = await attachJavaCreate(user, stream, created);
+      return res.status(200).json(shapeStream(attached.stream, attached.session));
     } catch (error) {
       const wrapped = live.unwrapAxios(error);
       await updateLiveStream(stream.id, { status: "FAILED" }).catch(() => {});
@@ -215,6 +309,7 @@ exports.getLiveByUsernameController = async (req, res) => {
 
 exports.listLiveController = async (req, res) => {
   try {
+    await syncActiveJavaStreams();
     const streams = await listLiveStreams();
     const visible = [];
     for (const stream of streams) {

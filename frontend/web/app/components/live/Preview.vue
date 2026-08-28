@@ -16,29 +16,48 @@ const props = defineProps({
   mirror: { type: Boolean, default: false },
 })
 
+const emit = defineEmits(['audible'])
+
 const el = ref(null)
 
-function attach(stream) {
+function report(video) {
+  emit('audible', Boolean(video) && !video.muted && !video.paused)
+}
+
+/** Must run inside a user gesture: autoplay policies reject audible playback otherwise. */
+async function enableAudio() {
+  const video = el.value
+  if (!video?.srcObject || props.muted) return false
+  video.muted = false
+  video.volume = 1
+  try {
+    await video.play()
+  } catch {
+    video.muted = true
+    video.play().catch(() => {})
+  }
+  report(video)
+  return !video.muted && !video.paused
+}
+
+async function attach(stream) {
   const video = el.value
   if (!video) return
   if (video.srcObject !== stream) {
     video.srcObject = stream || null
   }
-  if (stream) {
-    video.playsInline = true
-    video.muted = true
-    const play = video.play()
-    const unmute = () => {
-      if (!props.muted) video.muted = false
-    }
-    if (play?.then) {
-      play.then(unmute).catch(() => {
-        video.muted = true
-      })
-    } else {
-      unmute()
-    }
+  if (!stream) {
+    emit('audible', false)
+    return
   }
+  video.playsInline = true
+  video.muted = true
+  try {
+    await video.play()
+  } catch {
+    return
+  }
+  await enableAudio()
 }
 
 watch(
@@ -47,5 +66,9 @@ watch(
   { immediate: true, flush: 'post' }
 )
 
+watch(() => props.muted, () => attach(props.stream))
+
 onMounted(() => attach(props.stream))
+
+defineExpose({ enableAudio })
 </script>

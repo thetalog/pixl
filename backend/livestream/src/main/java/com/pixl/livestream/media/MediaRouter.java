@@ -23,6 +23,10 @@ public interface MediaRouter {
 
     boolean isAvailable();
 
+    default boolean roomExists(long roomId) {
+        return true;
+    }
+
     default CompletableFuture<String> waitForSubscriberOffer(MediaSession session) {
         return CompletableFuture.completedFuture(null);
     }

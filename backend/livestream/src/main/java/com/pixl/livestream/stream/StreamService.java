@@ -69,17 +69,31 @@ public class StreamService {
         this.node = node;
     }
 
+    private static final List<StreamStatus> ACTIVE_STATUSES = List.of(
+            StreamStatus.CREATED,
+            StreamStatus.STARTING,
+            StreamStatus.LIVE
+    );
+
+    private static boolean isActive(LivestreamEntity entity) {
+        return entity != null && ACTIVE_STATUSES.contains(entity.getStatus());
+    }
+
     @Transactional
     public CreateStreamResponse create(CreateStreamRequest request) {
-        streams.findByPixlStreamId(request.pixlStreamId()).ifPresent(existing -> {
+        var byPixl = streams.findByPixlStreamId(request.pixlStreamId());
+        if (byPixl.isPresent() && isActive(byPixl.get())) {
+            return resume(byPixl.get(), request);
+        }
+        if (byPixl.isPresent()) {
             throw ApiException.conflict("Stream already exists");
-        });
+        }
         List<LivestreamEntity> liveAlready = streams.findByHostUserIdAndStatusIn(
                 request.hostUserId(),
-                List.of(StreamStatus.CREATED, StreamStatus.STARTING, StreamStatus.LIVE)
+                ACTIVE_STATUSES
         );
         if (!liveAlready.isEmpty()) {
-            throw ApiException.conflict("Host already has an active livestream");
+            return resume(liveAlready.get(0), request);
         }
 
         LivestreamEntity entity = new LivestreamEntity();
@@ -116,6 +130,43 @@ public class StreamService {
 
         LivePrincipal principal = hostPrincipal(entity);
         return new CreateStreamResponse(toView(entity), sessionFor(principal));
+    }
+
+    private CreateStreamResponse resume(LivestreamEntity existing, CreateStreamRequest request) {
+        if (request.pixlStreamId() != null && !request.pixlStreamId().equals(existing.getPixlStreamId())) {
+            existing.setPixlStreamId(request.pixlStreamId());
+        }
+        if (request.title() != null && !request.title().isBlank()) {
+            existing.setTitle(request.title());
+        }
+        ensureMediaRoom(existing);
+        log.info("stream resumed id={} pixlStreamId={} host={} room={}",
+                existing.getId(), existing.getPixlStreamId(), existing.getHostUserId(), existing.getJanusRoomId());
+        return new CreateStreamResponse(toView(existing), sessionFor(hostPrincipal(existing)));
+    }
+
+    @Transactional
+    public LivestreamEntity ensureMediaRoom(LivestreamEntity entity) {
+        Long roomId = entity.getJanusRoomId();
+        if (roomId != null && mediaRouter.roomExists(roomId)) {
+            return entity;
+        }
+        try {
+            if (roomId != null) {
+                mediaRouter.destroyRoom(roomId);
+            }
+        } catch (Exception ex) {
+            log.debug("destroy stale janus room {} failed: {}", roomId, ex.getMessage());
+        }
+        long created = mediaRouter.createRoom(entity.getId().toString(), entity.isRecordingEnabled());
+        entity.setJanusRoomId(created);
+        entity.setPublisherFeedId(null);
+        if (entity.getStatus() == StreamStatus.LIVE || entity.getStatus() == StreamStatus.STARTING) {
+            entity.setStatus(StreamStatus.CREATED);
+        }
+        streams.save(entity);
+        log.info("janus room recreated streamId={} room={}", entity.getId(), created);
+        return entity;
     }
 
     @Transactional
@@ -196,7 +247,11 @@ public class StreamService {
     }
 
     public List<StreamView> listLive() {
-        return streams.findByStatusOrderByStartedAtDesc(StreamStatus.LIVE).stream().map(this::toView).toList();
+        Instant cutoff = Instant.now().minus(Duration.ofHours(24));
+        return streams.findByStatusInOrderByCreatedAtDesc(ACTIVE_STATUSES).stream()
+                .filter(entity -> entity.getCreatedAt() == null || !entity.getCreatedAt().isBefore(cutoff))
+                .map(this::toView)
+                .toList();
     }
 
     public LivestreamEntity require(UUID streamId) {

@@ -1,4 +1,4 @@
-import { normalizeApiBase, rewriteLoopbackForLan } from './apiBase'
+import { lanSafeApiBase } from './apiBase'
 
 export function firstString(value) {
   if (typeof value === 'string') return value
@@ -8,7 +8,7 @@ export function firstString(value) {
 
 function apiBase() {
   try {
-    return rewriteLoopbackForLan(normalizeApiBase(useRuntimeConfig()?.public?.apiBase))
+    return lanSafeApiBase(useRuntimeConfig()?.public?.apiBase)
   } catch {
     return 'https://api.pixl-personal-project.online'
   }

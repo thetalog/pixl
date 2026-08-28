@@ -15,5 +15,7 @@ public interface LivestreamRepository extends JpaRepository<LivestreamEntity, UU
 
     List<LivestreamEntity> findByStatusOrderByStartedAtDesc(StreamStatus status);
 
+    List<LivestreamEntity> findByStatusInOrderByCreatedAtDesc(List<StreamStatus> statuses);
+
     List<LivestreamEntity> findByHostUserIdAndStatusIn(String hostUserId, List<StreamStatus> statuses);
 }

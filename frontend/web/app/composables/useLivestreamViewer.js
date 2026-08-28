@@ -21,12 +21,14 @@ export function useLivestreamViewer() {
 
   function attachPeer() {
     webrtc.attachPeer(iceServers, {
+      recvonly: true,
       onCandidate: (candidate) => socket.send('ICE_CANDIDATE', candidate),
     })
   }
 
-  function tryJoin() {
-    if (subscribed || awaitingOffer) return
+  function tryJoin(force = false) {
+    if (subscribed) return
+    if (awaitingOffer && !force) return
     awaitingOffer = true
     socket.send('JOIN_STREAM')
   }
@@ -71,7 +73,7 @@ export function useLivestreamViewer() {
         clearTimeout(joinRetry)
         joinRetry = null
       }
-      tryJoin()
+      tryJoin(true)
     }
     if (message.type === 'STREAM_ENDED') {
       ended.value = true

@@ -65,8 +65,8 @@ class StreamLifecycleTest {
     }
 
     @Test
-    void hostCannotCreateTwoActiveStreams() {
-        streams.create(new CreateStreamRequest(
+    void hostCreateWhileActiveResumesExistingStream() {
+        CreateStreamResponse first = streams.create(new CreateStreamRequest(
                 "pixl-" + System.nanoTime(),
                 "host-3",
                 "host",
@@ -76,7 +76,7 @@ class StreamLifecycleTest {
                 "PUBLIC",
                 false
         ));
-        assertThatThrownBy(() -> streams.create(new CreateStreamRequest(
+        CreateStreamResponse second = streams.create(new CreateStreamRequest(
                 "pixl-" + System.nanoTime(),
                 "host-3",
                 "host",
@@ -85,6 +85,9 @@ class StreamLifecycleTest {
                 "Two",
                 "PUBLIC",
                 false
-        ))).isInstanceOf(ApiException.class);
+        ));
+        assertThat(second.stream().streamId()).isEqualTo(first.stream().streamId());
+        assertThat(second.stream().title()).isEqualTo("Two");
+        assertThat(second.session().token()).isNotBlank();
     }
 }

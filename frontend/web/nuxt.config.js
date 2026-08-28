@@ -3,6 +3,7 @@
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { attachLiveWsProxy } from './server/utils/liveWsProxy.js'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
 
@@ -83,11 +84,31 @@ export default defineNuxtConfig({
     },
   },
 
+  devServer: {
+    host: '0.0.0.0',
+    https: true,
+  },
+
+  routeRules: {
+    '/pixl-api/**': { proxy: `${process.env.NUXT_DEV_API_PROXY || 'http://127.0.0.1:3001'}/**` },
+  },
+
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      host: true,
+    },
   },
 
   hooks: {
+    listen(server) {
+      attachLiveWsProxy(server)
+    },
+    'nitro:init'(nitro) {
+      nitro.hooks.hook('listen', (listener) => {
+        attachLiveWsProxy(listener?.server || listener)
+      })
+    },
     'pages:extend'(pages) {
       if (!pages.some((page) => page.path === '/settings')) {
         pages.push({

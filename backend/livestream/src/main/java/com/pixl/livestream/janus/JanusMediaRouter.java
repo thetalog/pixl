@@ -72,6 +72,26 @@ public class JanusMediaRouter implements MediaRouter {
     }
 
     @Override
+    public boolean roomExists(long roomId) {
+        long session = janus.createSession();
+        long handle = janus.attachVideoRoom(session);
+        try {
+            JsonNode response = janus.sendMessage(session, handle, Map.of(
+                    "request", "exists",
+                    "room", roomId
+            ), null);
+            boolean exists = response.path("plugindata").path("data").path("exists").asBoolean(false);
+            log.info("janus room exists {} = {}", roomId, exists);
+            return exists;
+        } catch (Exception ex) {
+            log.warn("janus room exists check failed {}: {}", roomId, ex.getMessage());
+            return false;
+        } finally {
+            janus.destroySession(session);
+        }
+    }
+
+    @Override
     public MediaSession attachPublisher(String streamId, long roomId, String userId) {
         MediaSession session = openHandle(streamId, roomId, userId, true);
         CompletableFuture<Long> joined = new CompletableFuture<>();
