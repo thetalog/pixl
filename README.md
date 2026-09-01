@@ -210,6 +210,8 @@ Browser / Mobile
 
 Backend runs on AWS EC2 behind nginx. Media is stored in S3. The web app calls the API over HTTPS.
 
+Manual API deploy (EC2 + SSL): [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ### Upload / “Failed to fetch” on create post
 
 nginx defaults to `client_max_body_size 1m`. Photos larger than ~1MB are rejected before Express, and the browser shows `Failed to fetch`.
@@ -225,7 +227,7 @@ sudo nano /etc/nginx/sites-available/api.pixl-personal-project.online
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-See `deploy/nginx/api.conf.snippet` for the full recommended lines. The web app also compresses images before upload.
+The web app also compresses images before upload. Full nginx + SSL steps are in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 

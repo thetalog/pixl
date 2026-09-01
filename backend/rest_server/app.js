@@ -22,16 +22,40 @@ const reportsRoutes = require("./routes/reports.routes");
 const appealsRoutes = require("./routes/appeals.routes");
 const { proxyStoredMedia } = require("./controller/storage/proxyMedia");
 
+function corsAllowOrigin(origin) {
+  if (!origin) return null;
+  const extra = String(process.env.FRONTEND_URL || "")
+    .trim()
+    .replace(/\/$/, "");
+  const allowed = new Set([
+    "https://pixl-personal-project.online",
+    "https://www.pixl-personal-project.online",
+    "http://localhost:3000",
+    "https://localhost:3000",
+  ]);
+  if (extra) allowed.add(extra);
+  if (allowed.has(origin)) return origin;
+  try {
+    const host = new URL(origin).hostname;
+    if (
+      host === "pixl-personal-project.online" ||
+      host.endsWith(".pixl-personal-project.online")
+    ) {
+      return origin;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 // ================= CORS (for browser clients) =================
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  if (origin) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
+  const allowOrigin = corsAllowOrigin(req.headers.origin);
+  if (allowOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowOrigin);
     res.setHeader("Vary", "Origin");
     res.setHeader("Access-Control-Allow-Credentials", "true");
-  } else {
-    res.setHeader("Access-Control-Allow-Origin", "*");
   }
 
   res.setHeader(
@@ -42,9 +66,11 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
+  res.setHeader("Access-Control-Max-Age", "86400");
 
   if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
+    res.status(204).end();
+    return;
   }
 
   return next();
