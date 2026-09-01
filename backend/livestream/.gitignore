@@ -7,4 +7,5 @@ out/
 .env
 *.log
 recordings/
+redis-data/
 .DS_Store

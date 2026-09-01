@@ -27,6 +27,32 @@ Nuxt  →  Node.js (auth / social / live metadata)  →  Java livestream
 
 The older Kurento prototype in `backend/livestream_server` is superseded.
 
+## Deploy to EC2 (easy)
+
+Puts the app and Docker data on **`/dev/nvme1n1`** (mounted at `/data`). MongoDB is Atlas.
+
+Pass the URI in one of these ways (the value is not printed):
+
+```bash
+cd backend/livestream
+
+# 1) Flag (clearest)
+./deploy-ec2.sh -i ~/.ssh/YOUR_KEY.pem \
+  --mongodb-uri 'mongodb+srv://USER:PASSWORD@CLUSTER/DB' \
+  ubuntu@YOUR_EC2_IP
+
+# 2) Environment variable
+MONGODB_URI='mongodb+srv://USER:PASSWORD@CLUSTER/DB' \
+  ./deploy-ec2.sh -i ~/.ssh/YOUR_KEY.pem ubuntu@YOUR_EC2_IP
+
+# 3) Local .env (gitignored)
+cp .env.ec2.example .env
+# set MONGODB_URI=mongodb+srv://...
+./deploy-ec2.sh -i ~/.ssh/YOUR_KEY.pem ubuntu@YOUR_EC2_IP
+```
+
+If you omit the URI, `DATABASE_URL` from `backend/rest_server/.env` is reused. Open ports **22** and **8085**. Allow the EC2 public IP in Atlas Network Access. On Node: `LIVESTREAM_SERVICE_URL=http://127.0.0.1:8085`.
+
 ## Quick start
 
 ```bash

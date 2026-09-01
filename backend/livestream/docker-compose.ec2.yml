@@ -1,0 +1,36 @@
+name: pixl-live-ec2
+
+# Java + Redis only. MongoDB is Atlas (MONGODB_URI). No Postgres, no Janus.
+# On EC2, this project directory lives on /dev/nvme1n1 (/data/pixl-livestream).
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    volumes:
+      - ./redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  pixl-livestream:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      SERVER_PORT: "8085"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      JANUS_ENABLED: ${JANUS_ENABLED:-false}
+      PIXL_NODE_URL: ${PIXL_NODE_URL:-http://host.docker.internal:3001}
+    ports:
+      - "8085:8085"
+    depends_on:
+      redis:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./recordings:/var/pixl/recordings
