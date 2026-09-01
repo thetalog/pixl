@@ -85,7 +85,8 @@ async function verifyOTP({ email, otp }) {
     const jwtResponse = await signJWT(
       dbResponse.email,
       dbResponse.name,
-      dbResponse.userName
+      dbResponse.userName,
+      { sid: dbResponse.sessionVersion || 0 }
     );
     if (jwtResponse?.status !== 201) {
       return { status: 500, message: "Something went wrong" };

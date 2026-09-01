@@ -1,5 +1,6 @@
 const { createStory } = require("../../database/post/createStory");
 const { uploadPostOrReel } = require("../storage/uploadToS3");
+const { assertCanPostContent } = require("../../lib/admin/restrictions");
 
 /* ================= CREATE STORY ================= */
 
@@ -17,6 +18,16 @@ const createStoryController = async (req, res) => {
     if (!file) {
       return res.status(400).json({
         message: "Story media file is required",
+      });
+    }
+
+    try {
+      await assertCanPostContent(user);
+    } catch (flagError) {
+      return res.status(flagError.status || 403).json({
+        error: true,
+        message: flagError.message,
+        code: flagError.code,
       });
     }
 

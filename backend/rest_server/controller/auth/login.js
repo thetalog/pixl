@@ -4,6 +4,9 @@ const { signJWT } = require("../jwt");
 const { getUserByEmailAndPassword } = require("../../database/auth/user");
 const { createLogin } = require("../../database/auth/login");
 const { loginSchema } = require("./validator");
+const prisma = require("../../lib/prisma");
+const { isStaff } = require("../../lib/admin/authorize");
+const { writeAudit } = require("../../lib/admin/audit");
 
 async function auditLogin(...args) {
   try {
@@ -53,7 +56,8 @@ exports.loginController = async (req, res) => {
     const jwtResponse = await signJWT(
       dbResponse.email || email,
       dbResponse.name,
-      dbResponse.userName
+      dbResponse.userName,
+      { sid: dbResponse.sessionVersion || 0 }
     );
 
     if (jwtResponse.status !== 201 || !jwtResponse.data) {
@@ -81,11 +85,28 @@ exports.loginController = async (req, res) => {
       "Login successful!"
     );
 
+    prisma.user.update({
+      where: { id: dbResponse.id },
+      data: { lastLoginAt: new Date() },
+    }).catch(() => {});
+
+    if (isStaff(dbResponse)) {
+      writeAudit({
+        actor: dbResponse,
+        action: "STAFF_LOGIN",
+        targetType: "USER",
+        targetId: dbResponse.id,
+        req: { headers: req.headers, ip: req.ip, requestId: req.headers["x-request-id"] },
+      }).catch(() => {});
+    }
+
     return res.status(200).json({
       status: 200,
       message: "Login successful!",
       data: jwtResponse.data,
       userName: dbResponse.userName,
+      roleKey: dbResponse.roleKey || "USER",
+      accountStatus: dbResponse.accountStatus || "ACTIVE",
     });
   } catch (error) {
     console.error("loginController error:", error);

@@ -17,6 +17,7 @@ import com.pixl.livestream.dto.StreamDtos.CreateStreamRequest;
 import com.pixl.livestream.dto.StreamDtos.CreateStreamResponse;
 import com.pixl.livestream.dto.StreamDtos.JoinStreamRequest;
 import com.pixl.livestream.dto.StreamDtos.SessionPayload;
+import com.pixl.livestream.dto.StreamDtos.ForceEndRequest;
 import com.pixl.livestream.dto.StreamDtos.StartStreamRequest;
 import com.pixl.livestream.dto.StreamDtos.StreamView;
 import com.pixl.livestream.dto.StreamDtos.ViewerView;
@@ -72,6 +73,19 @@ public class InternalStreamController {
         LivestreamEntity entity = resolve(streamId);
         String actor = request == null || request.actorUserId() == null ? entity.getHostUserId() : request.actorUserId();
         return streams.end(entity.getId(), actor);
+    }
+
+    @PostMapping("/{streamId}/force-end")
+    @Operation(summary = "Platform-moderator terminate; bypasses host-only check")
+    public StreamView forceEnd(@PathVariable String streamId, @RequestBody(required = false) ForceEndRequest request) {
+        LivestreamEntity entity = resolve(streamId);
+        String actor = request == null || request.actorUserId() == null || request.actorUserId().isBlank()
+                ? "platform"
+                : request.actorUserId();
+        String reason = request == null || request.reason() == null || request.reason().isBlank()
+                ? "platform_moderation"
+                : request.reason();
+        return streams.forceEnd(entity, actor, reason);
     }
 
     @GetMapping("/{streamId}")

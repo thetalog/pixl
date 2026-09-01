@@ -8,8 +8,9 @@
     "build": "prisma generate",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate",
-    "test": "node --test test/**/*.test.js",
-    "prisma": "prisma generate && prisma db push"
+    "test": "node --test 'test/**/*.test.js'",
+    "prisma": "prisma generate && prisma db push",
+    "seed:admin": "node -e \"require('./lib/admin/seed').seedAdminSystem().then(() => process.exit(0)).catch((e) => { console.error(e); process.exit(1); })\""
   },
   "author": "",
   "license": "ISC",

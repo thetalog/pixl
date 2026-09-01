@@ -30,6 +30,12 @@ public final class StreamDtos {
     ) {
     }
 
+    public record ForceEndRequest(
+            String actorUserId,
+            String reason
+    ) {
+    }
+
     public record JoinStreamRequest(
             @NotBlank String userId,
             @NotBlank String userName,

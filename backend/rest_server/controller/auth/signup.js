@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const { createUserAccount } = require("../../database/auth/signup");
 const { signupSchema } = require("./validator");
+const { assertCanRegister } = require("../../lib/admin/restrictions");
 
 exports.signupController = async (req, res) => {
   try {
@@ -11,6 +12,16 @@ exports.signupController = async (req, res) => {
     if (error) {
       return res.status(400).json({
         message: "Validation Error",
+      });
+    }
+
+    try {
+      await assertCanRegister();
+    } catch (flagError) {
+      return res.status(flagError.status || 403).json({
+        error: true,
+        message: flagError.message,
+        code: flagError.code,
       });
     }
 

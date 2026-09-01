@@ -63,6 +63,8 @@ Kurento was an MCU (transcode everything). Janus VideoRoom is an SFU (forward co
 
 Internal Node ↔ Java REST uses `X-Internal-Secret`. That secret is never sent to Nuxt.
 
+Platform staff terminate a stream through Node `/admin/livestreams/:id/stop`, which calls Java `POST /internal/v1/streams/{id}/force-end`. That runs `StreamService.forceEnd` (destroys the Janus room). Host-only `/end` stays host-gated. The Nuxt `/ws/live` proxy must not be used as a kill switch.
+
 ### Scaling later
 
 ```

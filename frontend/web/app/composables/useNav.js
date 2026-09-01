@@ -2,6 +2,10 @@ export function useNav() {
   const { user, myUsername } = useAuth()
   const { count } = useRequests()
   const { unreadCount } = useNotifications()
+  const isStaff = computed(() => {
+    const key = user.value?.roleKey
+    return Boolean(user.value?.capabilities?.isStaff || (key && key !== 'USER'))
+  })
 
   const profilePath = computed(() => {
     const name = myUsername.value || user.value?.userName
@@ -22,6 +26,7 @@ export function useNav() {
     { to: '/live', label: 'Live', icon: 'live' },
     { to: profilePath.value, label: 'Profile', icon: 'user', matchPrefix: '/profile/' },
     { to: '/settings', label: 'Settings', icon: 'settings' },
+    ...(isStaff.value ? [{ to: '/admin', label: 'Console', icon: 'shield' }] : []),
   ])
 
   const tabs = computed(() => [

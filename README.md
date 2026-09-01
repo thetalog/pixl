@@ -16,7 +16,7 @@ Instagram-style social platform with posts, reels, stories, messaging, and live 
 - **Messaging** — Direct and group chat with media attachments
 - **Live** — Self-hosted WebRTC livestreams (Java + Janus SFU + coturn), live comments, reactions
 - **Media** — Upload to AWS S3, served via API proxy
-- **Moderation** — Amazon Rekognition blocks unsafe photos; alerts appear under Activity (♡)
+- **Moderation** — Staff console (roles, reports, appeals, audit logs); Amazon Rekognition blocks unsafe photos; alerts appear under Activity (♡)
 - **AI search** — Natural-language image search + visual similarity
 - **Push** — Firebase Cloud Messaging (optional)
 
@@ -96,6 +96,12 @@ LIVESTREAM_JWT_SECRET=dev-live-jwt-secret-change-me-32
 LIVE_INTERNAL_SECRET=dev-internal-secret-change-me
 LIVE_SIGNALING_URL=ws://localhost:8085/ws/live
 
+# Staff bootstrap (created on API start / npm run seed:admin)
+# ADMIN_BOOTSTRAP_EMAIL=admin@pixl.app
+# ADMIN_BOOTSTRAP_PASSWORD=PixlAdmin!2026
+# ADMIN_MODERATOR_EMAIL=moderator@pixl.app
+# ADMIN_MODERATOR_PASSWORD=PixlMod!2026
+
 
 # Firebase (optional)
 FIREBASE_PROJECT_ID=
@@ -166,6 +172,9 @@ backend/rest_server/postman/Pixl_API.postman_collection.json
 | Users & follow | `/users/*` | JWT |
 | Profile | `/profile/*` | JWT |
 | Live | `/live/*` | JWT |
+| Admin | `/admin/*` | JWT + staff RBAC |
+| Reports | `/reports` | JWT |
+| Appeals | `/appeals` | JWT |
 | Media proxy | `GET /storage/:bucket/:key` | Public |
 
 ---
@@ -188,6 +197,7 @@ Browser / Mobile
 - **Database layer** holds Prisma queries (shared client via `lib/prisma.js`)
 - **JWT middleware** protects all routes after public auth/notification/storage endpoints
 - **Livestream** signaling and media run on infrastructure you operate (not a hosted RTC vendor)
+- **Admin / moderator** console lives at `/admin` (see `docs/ADMIN.md`). Livestream termination is executed by the Java service (`POST /internal/v1/streams/{id}/force-end`), never by a Nuxt flag.
 
 ---
 

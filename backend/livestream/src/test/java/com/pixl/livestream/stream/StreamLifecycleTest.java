@@ -65,6 +65,26 @@ class StreamLifecycleTest {
     }
 
     @Test
+    void platformForceEndBypassesHostCheck() {
+        CreateStreamResponse created = streams.create(new CreateStreamRequest(
+                "pixl-" + System.nanoTime(),
+                "host-force",
+                "host",
+                "Host",
+                null,
+                "Force end",
+                "PUBLIC",
+                false
+        ));
+        var live = streams.markLive(java.util.UUID.fromString(created.stream().streamId()), 1L);
+        assertThat(live.status()).isEqualTo("LIVE");
+        var entity = streams.require(java.util.UUID.fromString(created.stream().streamId()));
+        var ended = streams.forceEnd(entity, "staff-moderator", "platform_moderation");
+        assertThat(ended.status()).isEqualTo("ENDED");
+        assertThat(ended.endedAt()).isNotBlank();
+    }
+
+    @Test
     void hostCreateWhileActiveResumesExistingStream() {
         CreateStreamResponse first = streams.create(new CreateStreamRequest(
                 "pixl-" + System.nanoTime(),

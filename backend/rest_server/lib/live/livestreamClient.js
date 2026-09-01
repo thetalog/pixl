@@ -35,6 +35,14 @@ async function endStream(streamId, actorUserId) {
   return res.data;
 }
 
+async function forceEndStream(streamId, actorUserId, reason) {
+  const res = await client().post(`/internal/v1/streams/${encodeURIComponent(streamId)}/force-end`, {
+    actorUserId,
+    reason: reason || "platform_moderation",
+  });
+  return res.data;
+}
+
 async function getStream(streamId) {
   const res = await client().get(`/internal/v1/streams/${encodeURIComponent(streamId)}`);
   return res.data;
@@ -80,6 +88,7 @@ module.exports = {
   createStream,
   startStream,
   endStream,
+  forceEndStream,
   getStream,
   joinStream,
   getViewers,

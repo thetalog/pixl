@@ -15,6 +15,7 @@ const listUsers = ref([])
 const listLoading = ref(false)
 const picUploading = ref(false)
 const picInput = ref(null)
+const reportOpen = ref(false)
 
 const { data: response, pending, error, refresh } = await useAsyncData(
   () => `profile-by-username:${username.value}`,
@@ -187,6 +188,7 @@ watch(tab, (next) => {
               <UiButton v-if="liveNow?.id" size="sm" @click="navigateTo(`/live/${encodeURIComponent(liveNow.id)}`)">Watch live</UiButton>
               <UiFollowButton :username="username" :initial-followed="!!profile.isFollowed" @change="refresh" />
               <UiButton variant="secondary" size="sm" @click="navigateTo(`/messages/direct/${encodeURIComponent(username)}`)">Message</UiButton>
+              <UiButton variant="ghost" size="sm" @click="reportOpen = true">Report</UiButton>
             </template>
           </div>
         </div>
@@ -279,5 +281,12 @@ watch(tab, (next) => {
         </li>
       </ul>
     </UiModal>
+    <UiReportDialog
+      v-if="profile?.id"
+      :open="reportOpen"
+      target-type="USER"
+      :target-id="profile.id"
+      @close="reportOpen = false"
+    />
   </div>
 </template>

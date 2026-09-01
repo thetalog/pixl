@@ -155,6 +155,16 @@ exports.startLiveController = async (req, res) => {
       return res.status(400).json({ message: "Title is required" });
     }
 
+    try {
+      await require("../../lib/admin/restrictions").assertCanGoLive(user);
+    } catch (flagError) {
+      return res.status(flagError.status || 403).json({
+        error: true,
+        message: flagError.message,
+        code: flagError.code,
+      });
+    }
+
     const existing = await getActiveLiveByUserId(user.id, { requireJava: false });
     if (existing) {
       try {

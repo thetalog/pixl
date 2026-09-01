@@ -37,7 +37,8 @@ Base: `/internal/v1/streams`
 
 - `POST /` create
 - `POST /{id}/start`
-- `POST /{id}/end`
+- `POST /{id}/end` (host actor only)
+- `POST /{id}/force-end` (Node/staff gateway; body `{ actorUserId, reason }`; runs `StreamService.forceEnd`, no host check)
 - `GET /{id}`
 - `POST /{id}/join`
 - `POST /{id}/leave`

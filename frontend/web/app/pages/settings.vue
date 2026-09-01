@@ -90,6 +90,19 @@ async function toggleVis() {
       </div>
     </div>
 
+    <div class="mt-4 space-y-2">
+      <NuxtLink to="/appeals" class="block rounded-card bg-pixl-card px-4 py-3 text-sm ring-1 ring-white/6 hover:bg-white/4">
+        Appeal a moderation decision
+      </NuxtLink>
+      <NuxtLink
+        v-if="user?.capabilities?.isStaff || (user?.roleKey && user.roleKey !== 'USER')"
+        to="/admin"
+        class="block rounded-card bg-pixl-card px-4 py-3 text-sm ring-1 ring-white/6 hover:bg-white/4"
+      >
+        Open admin console
+      </NuxtLink>
+    </div>
+
     <UiButton class="mt-8" variant="danger" block @click="logout">Log out</UiButton>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-pixl-bg text-pixl-text">
+    <AdminImpersonationBanner />
     <NavAppSidebar class="hidden lg:flex" />
 
     <div class="lg:pl-[72px] xl:pl-[240px]">

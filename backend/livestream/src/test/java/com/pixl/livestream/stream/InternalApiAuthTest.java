@@ -75,5 +75,13 @@ class InternalApiAuthTest {
                                 {"userId":"v1","userName":"bob"}
                                 """))
                 .andExpect(status().isOk());
+
+        mvc.perform(post("/internal/v1/streams/" + streamId + "/force-end")
+                        .header("X-Internal-Secret", properties.getInternalSecret())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"actorUserId":"staff-1","reason":"platform_moderation"}
+                                """))
+                .andExpect(status().isOk());
     }
 }

@@ -13,6 +13,12 @@ enum ProfileVisibility {
   BANNED
 }
 
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
 model User {
   id                     String               @id @default(auto()) @map("_id") @db.ObjectId
   email                  String               @unique
@@ -58,8 +64,23 @@ model User {
   MessageSeen            MessageSeen[]
   postsCount             Int                  @default(0)
   fcmToken               String?
+  roleKey                String               @default("USER")
+  directPermissions      String[]             @default([])
+  deniedPermissions      String[]             @default([])
+  accountStatus          AccountStatus        @default(ACTIVE)
+  suspendedUntil         DateTime?
+  sessionVersion         Int                  @default(0)
+  livePrivilegesRevoked  Boolean              @default(false)
+  commentsLocked         Boolean              @default(false)
+  featureRestrictions    Json?
+  deletedAt              DateTime?
+  lastLoginAt            DateTime?
   createdAt              DateTime             @default(now())
   updatedAt              DateTime             @updatedAt
+
+  @@index([roleKey])
+  @@index([accountStatus])
+  @@index([createdAt])
 }
 
 model Group {
@@ -160,8 +181,14 @@ model LiveStream {
   likeCount         Int                  @default(0)
   startedAt         DateTime?
   endedAt           DateTime?
+  terminatedById    String?              @db.ObjectId
+  terminateReason   String?
   createdAt         DateTime             @default(now())
   updatedAt         DateTime             @updatedAt
+
+  @@index([status])
+  @@index([userId])
+  @@index([createdAt])
 }
 
 model LiveStreamComments {
@@ -248,16 +275,23 @@ model UserNotification {
 }
 
 model Stories {
-  id        String             @id @default(auto()) @map("_id") @db.ObjectId
-  media     Media              @relation(fields: [mediaId], references: [id])
-  userId    String             @db.ObjectId
-  user      User               @relation(fields: [userId], references: [id])
-  mentions  StoriesMentions[]
-  seen      StoriesSeen[]
-  reactions StoriesReactions[]
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  mediaId   String             @db.ObjectId
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  media        Media              @relation(fields: [mediaId], references: [id])
+  userId       String             @db.ObjectId
+  user         User               @relation(fields: [userId], references: [id])
+  mentions     StoriesMentions[]
+  seen         StoriesSeen[]
+  reactions    StoriesReactions[]
+  hidden       Boolean            @default(false)
+  hiddenReason String?
+  hiddenAt     DateTime?
+  hiddenById   String?            @db.ObjectId
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  mediaId      String             @db.ObjectId
+
+  @@index([userId])
+  @@index([hidden])
 }
 
 model StoriesSeen {
@@ -301,18 +335,25 @@ model FavouriteUsers {
 }
 
 model Reels {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
-  media       Media[]
-  caption     String
-  tags        String[] // Array of tags
-  taggedUsers String[] // Array of usernames tagged in this reel
-  reactions   Reaction[]
-  comments    Comment[]
-  mentions    ReelMentions[] @relation("PostToMentions")
-  userId      String         @db.ObjectId
-  user        User           @relation(fields: [userId], references: [id])
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  media        Media[]
+  caption      String
+  tags         String[] // Array of tags
+  taggedUsers  String[] // Array of usernames tagged in this reel
+  reactions    Reaction[]
+  comments     Comment[]
+  mentions     ReelMentions[] @relation("PostToMentions")
+  userId       String         @db.ObjectId
+  user         User           @relation(fields: [userId], references: [id])
+  hidden       Boolean        @default(false)
+  hiddenReason String?
+  hiddenAt     DateTime?
+  hiddenById   String?        @db.ObjectId
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([hidden])
 }
 
 enum MediaType {
@@ -373,17 +414,26 @@ model SubComment {
 }
 
 model Comment {
-  id         String       @id @default(auto()) @map("_id") @db.ObjectId
-  text       String
-  userId     String       @db.ObjectId
-  user       User         @relation(fields: [userId], references: [id])
-  postId     String?      @db.ObjectId
-  post       Post?        @relation(fields: [postId], references: [id])
-  reelId     String?      @db.ObjectId
-  reel       Reels?       @relation(fields: [reelId], references: [id])
-  subComment SubComment[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  text         String
+  userId       String       @db.ObjectId
+  user         User         @relation(fields: [userId], references: [id])
+  postId       String?      @db.ObjectId
+  post         Post?        @relation(fields: [postId], references: [id])
+  reelId       String?      @db.ObjectId
+  reel         Reels?       @relation(fields: [reelId], references: [id])
+  subComment   SubComment[]
+  hidden       Boolean      @default(false)
+  hiddenReason String?
+  hiddenAt     DateTime?
+  hiddenById   String?      @db.ObjectId
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([postId])
+  @@index([reelId])
+  @@index([userId])
+  @@index([hidden])
 }
 
 model Share {
@@ -426,9 +476,15 @@ model Post {
   postDisabled       Boolean        @default(false)
   postDisabledReason String?
   postDisabledAt     DateTime?
+  postDisabledById   String?        @db.ObjectId
+  commentsLocked     Boolean        @default(false)
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   reactions          Reaction[]
+
+  @@index([userId])
+  @@index([postDisabled])
+  @@index([createdAt])
 }
 
 model SavedPost {
@@ -468,4 +524,234 @@ model EmailOTP {
   user            User      @relation(fields: [userID], references: [id])
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+}
+
+model Role {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  key         String   @unique
+  name        String
+  description String
+  permissions String[]
+  rank        Int
+  isSystem    Boolean  @default(false)
+  archived    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([archived])
+  @@index([rank])
+}
+
+model StaffAssignment {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String    @db.ObjectId
+  roleKey        String
+  assignedById   String?   @db.ObjectId
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  deactivatedAt  DateTime?
+
+  @@index([userId, active])
+  @@index([roleKey])
+}
+
+model Report {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  reporterId   String    @db.ObjectId
+  targetType   String
+  targetId     String
+  targetUserId String?   @db.ObjectId
+  category     String
+  severity     String    @default("MEDIUM")
+  status       String    @default("NEW")
+  reason       String
+  details      String?
+  evidence     Json?
+  assigneeId   String?   @db.ObjectId
+  caseId       String?   @db.ObjectId
+  resolution   String?
+  resolvedById String?   @db.ObjectId
+  resolvedAt   DateTime?
+  version      Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([status, createdAt])
+  @@index([targetType, targetId])
+  @@index([targetUserId])
+  @@index([reporterId])
+  @@index([assigneeId])
+  @@index([category])
+  @@index([severity])
+}
+
+model ModerationCase {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  source       String
+  status       String    @default("NEW")
+  priority     String    @default("NORMAL")
+  severity     String    @default("MEDIUM")
+  category     String
+  targetType   String
+  targetId     String
+  targetUserId String?   @db.ObjectId
+  reportId     String?   @db.ObjectId
+  assigneeId   String?   @db.ObjectId
+  slaDueAt     DateTime?
+  version      Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([status, priority, createdAt])
+  @@index([assigneeId, status])
+  @@index([targetType, targetId])
+  @@index([targetUserId])
+  @@index([reportId])
+}
+
+model ModerationAction {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  type           String
+  actorId        String    @db.ObjectId
+  targetType     String
+  targetId       String
+  targetUserId   String?   @db.ObjectId
+  reason         String?
+  severity       String?
+  expiresAt      DateTime?
+  caseId         String?   @db.ObjectId
+  reportId       String?   @db.ObjectId
+  previousState  Json?
+  resultingState Json?
+  createdAt      DateTime  @default(now())
+
+  @@index([targetType, targetId])
+  @@index([targetUserId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([caseId])
+  @@index([type])
+}
+
+model ModerationNote {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  caseId     String?  @db.ObjectId
+  userId     String?  @db.ObjectId
+  reportId   String?  @db.ObjectId
+  authorId   String   @db.ObjectId
+  body       String
+  visibility String   @default("INTERNAL")
+  createdAt  DateTime @default(now())
+
+  @@index([caseId])
+  @@index([userId])
+  @@index([reportId])
+}
+
+model ModerationStrike {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+  type        String
+  reason      String
+  severity    String    @default("MEDIUM")
+  expiresAt   DateTime?
+  actorId     String    @db.ObjectId
+  reportId    String?   @db.ObjectId
+  contentType String?
+  contentId   String?
+  notes       String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@index([userId, active])
+  @@index([expiresAt])
+}
+
+model Appeal {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String    @db.ObjectId
+  actionId         String?   @db.ObjectId
+  type             String
+  status           String    @default("NEW")
+  statement        String
+  evidence         Json?
+  reviewerId       String?   @db.ObjectId
+  reviewReason     String?
+  originalActorId  String?   @db.ObjectId
+  createdAt        DateTime  @default(now())
+  resolvedAt       DateTime?
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status, createdAt])
+  @@index([userId])
+  @@index([actionId])
+}
+
+model AuditLog {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  actorId          String?  @db.ObjectId
+  actorRole        String?
+  action           String
+  targetType       String?
+  targetId         String?
+  reason           String?
+  requestId        String?
+  ip               String?
+  userAgent        String?
+  before           Json?
+  after            Json?
+  caseId           String?  @db.ObjectId
+  reportId         String?  @db.ObjectId
+  impersonationId  String?  @db.ObjectId
+  createdAt        DateTime @default(now())
+
+  @@index([action, createdAt])
+  @@index([actorId, createdAt])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+}
+
+model FeatureFlag {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  key         String   @unique
+  enabled     Boolean  @default(false)
+  description String
+  updatedById String?  @db.ObjectId
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model SystemSetting {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  key         String   @unique
+  value       Json
+  updatedById String?  @db.ObjectId
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model AdminAnnouncement {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  body          String
+  audience      String    @default("ALL")
+  targetUserIds String[]  @default([])
+  createdById   String    @db.ObjectId
+  scheduledAt   DateTime?
+  sentAt        DateTime?
+  status        String    @default("SENT")
+  createdAt     DateTime  @default(now())
+
+  @@index([createdAt])
+}
+
+model ImpersonationSession {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  actorId   String    @db.ObjectId
+  targetId  String    @db.ObjectId
+  active    Boolean   @default(true)
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+
+  @@index([actorId, active])
+  @@index([targetId])
 }

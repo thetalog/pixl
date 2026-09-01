@@ -1,4 +1,5 @@
 const { addReelComment } = require("../../database/post/reelComment");
+const { assertCanComment } = require("../../lib/admin/restrictions");
 
 /* ================= REEL COMMENT ================= */
 
@@ -19,6 +20,16 @@ exports.reelCommentController = async (req, res) => {
         if (!commentText || typeof commentText !== "string" || !commentText.trim()) {
             return res.status(400).json({
                 message: "commentText is required",
+            });
+        }
+
+        try {
+            await assertCanComment(user);
+        } catch (flagError) {
+            return res.status(flagError.status || 403).json({
+                error: true,
+                message: flagError.message,
+                code: flagError.code,
             });
         }
 

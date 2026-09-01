@@ -110,6 +110,21 @@
       fill="currentColor"
     />
     <path
+      v-else-if="name === 'flag'"
+      d="M5 4h9.5L13 8.5 14.5 13H5V4Zm0 0v16"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      v-else-if="name === 'shield'"
+      d="M12 3 5 6v6c0 4.2 2.8 7.2 7 8.5 4.2-1.3 7-4.3 7-8.5V6l-7-3Z"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linejoin="round"
+    />
+    <path
       v-else-if="name === 'close'"
       d="M6 6l12 12M18 6 6 18"
       stroke="currentColor"

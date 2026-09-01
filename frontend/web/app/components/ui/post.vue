@@ -42,6 +42,15 @@
       </div>
       <span v-if="post.createdAt" class="shrink-0 text-xs text-pixl-tertiary">{{ formatRelative(post.createdAt) }}</span>
       <button
+        v-if="!isOwn && post.id"
+        type="button"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full text-pixl-muted hover:bg-white/6 hover:text-pixl-text"
+        aria-label="Report post"
+        @click="reportOpen = true"
+      >
+        <UiIcon name="flag" :size="16" />
+      </button>
+      <button
         v-if="isOwn"
         type="button"
         class="inline-flex h-8 w-8 items-center justify-center rounded-full text-pixl-muted hover:bg-white/6 hover:text-pixl-text"
@@ -228,6 +237,12 @@
         </label>
       </div>
     </UiModal>
+    <UiReportDialog
+      :open="reportOpen"
+      target-type="POST"
+      :target-id="post.id"
+      @close="reportOpen = false"
+    />
   </article>
 </template>
 
@@ -303,6 +318,7 @@ const commentsLoading = ref(false)
 const commentsError = ref('')
 const commentsLoadedForPostId = ref('')
 const menuOpen = ref(false)
+const reportOpen = ref(false)
 const editCaption = ref('')
 const editCategory = ref(props.post?.uiCategory || 'UNSET')
 const savingCaption = ref(false)

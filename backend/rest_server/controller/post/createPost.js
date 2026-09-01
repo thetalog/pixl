@@ -2,6 +2,7 @@ const { createPostRecord } = require("../../database/post/createPost");
 const { uploadPostOrReel } = require("../storage/uploadToS3");
 const { moderateAndLabelFiles } = require("../../lib/rekognition");
 const { notifyUser } = require("../../lib/notifyUser");
+const { assertCanPostContent } = require("../../lib/admin/restrictions");
 
 /* ================= SAFE PARSE ================= */
 
@@ -41,6 +42,16 @@ exports.createPostController = async (req, res) => {
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    try {
+      var uploadFlags = await assertCanPostContent(req.user);
+    } catch (flagError) {
+      return res.status(flagError.status || 403).json({
+        error: true,
+        message: flagError.message,
+        code: flagError.code,
+      });
     }
 
     let { taggedUsers, location, caption, tags } = req.body || {};
@@ -118,6 +129,28 @@ exports.createPostController = async (req, res) => {
       tags,
       uploadResults
     );
+
+    if (response?.status === 400) {
+      return res.status(400).json({ message: response.message || "Invalid request." });
+    }
+
+    if (response?.status === 500) {
+      return res.status(500).json({
+        message: response.message || "Post failed.",
+      });
+    }
+
+    if (uploadFlags?.emergency_moderation_mode && response?.post?.id) {
+      const prisma = require("../../lib/prisma");
+      await prisma.post.update({
+        where: { id: response.post.id },
+        data: {
+          postDisabled: true,
+          postDisabledReason: "Held for emergency moderation review",
+          postDisabledAt: new Date(),
+        },
+      }).catch(() => {});
+    }
 
     if (response?.status === 400) {
       return res.status(400).json({ message: response.message || "Invalid request." });

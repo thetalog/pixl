@@ -1,4 +1,6 @@
 const { addPostComment } = require("../../database/post/commentPost");
+const { assertCanComment } = require("../../lib/admin/restrictions");
+const prisma = require("../../lib/prisma");
 
 /* ================= POST COMMENT ================= */
 
@@ -19,6 +21,25 @@ exports.postCommentController = async (req, res) => {
         if (!commentText || typeof commentText !== "string" || !commentText.trim()) {
             return res.status(400).json({
                 message: "commentText is required",
+            });
+        }
+
+        try {
+            await assertCanComment(user);
+        } catch (flagError) {
+            return res.status(flagError.status || 403).json({
+                error: true,
+                message: flagError.message,
+                code: flagError.code,
+            });
+        }
+
+        const post = await prisma.post.findUnique({ where: { id: postId }, select: { commentsLocked: true } }).catch(() => null);
+        if (post?.commentsLocked) {
+            return res.status(403).json({
+                error: true,
+                message: "Comments are locked on this post.",
+                code: "DISCUSSION_LOCKED",
             });
         }
 

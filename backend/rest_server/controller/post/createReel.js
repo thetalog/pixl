@@ -1,5 +1,6 @@
 const { createReelRecord } = require("../../database/post/createReel");
 const { uploadPostOrReel } = require("../storage/uploadToS3");
+const { assertCanPostContent } = require("../../lib/admin/restrictions");
 
 /* ================= CREATE REEL ================= */
 
@@ -11,6 +12,16 @@ exports.createReelController = async (req, res) => {
     if (!req.body?.data) {
       return res.status(400).json({
         message: "Missing JSON data in request.",
+      });
+    }
+
+    try {
+      await assertCanPostContent(req.user);
+    } catch (flagError) {
+      return res.status(flagError.status || 403).json({
+        error: true,
+        message: flagError.message,
+        code: flagError.code,
       });
     }
 

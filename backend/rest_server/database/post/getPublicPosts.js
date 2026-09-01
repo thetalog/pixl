@@ -10,6 +10,7 @@ async function findPublicPosts() {
             include: {
                 media: true,
                 comments: {
+                    where: { hidden: { not: true } },
                     include: {
                         user: {
                             select: {

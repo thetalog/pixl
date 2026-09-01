@@ -17,6 +17,9 @@ const liveInternalRoutes = require("./routes/live.internal.routes");
 const usersRoutes = require("./routes/users.routes");
 const profileRoutes = require("./routes/profile.routes");
 const servicesRoutes = require("./routes/services.routes");
+const adminRoutes = require("./routes/admin.routes");
+const reportsRoutes = require("./routes/reports.routes");
+const appealsRoutes = require("./routes/appeals.routes");
 const { proxyStoredMedia } = require("./controller/storage/proxyMedia");
 
 // ================= CORS (for browser clients) =================
@@ -82,6 +85,9 @@ app.use("/stories", storiesRoutes);
 app.use("/live", liveRoutes);
 app.use("/users", usersRoutes);
 app.use("/profile", profileRoutes);
+app.use("/admin", adminRoutes);
+app.use("/reports", reportsRoutes);
+app.use("/appeals", appealsRoutes);
 
 /* ================= ERROR HANDLER ================= */
 
