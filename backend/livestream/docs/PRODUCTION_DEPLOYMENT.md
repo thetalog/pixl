@@ -26,7 +26,7 @@ proxy_set_header Connection "upgrade";
 proxy_read_timeout 3600s;
 ```
 
-Do not buffer WS. See `deploy/nginx/live.conf.snippet`.
+Do not buffer WS.
 
 ## Firewall / UDP
 
