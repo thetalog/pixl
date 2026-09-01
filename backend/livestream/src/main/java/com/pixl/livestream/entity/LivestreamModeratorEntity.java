@@ -3,31 +3,27 @@ package com.pixl.livestream.entity;
 import java.time.Instant;
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "livestream_moderator")
+@Document(collection = "livestream_moderator")
+@CompoundIndex(name = "stream_user_unique", def = "{'streamId': 1, 'userId': 1}", unique = true)
 public class LivestreamModeratorEntity {
 
     @Id
     private UUID id;
 
-    @Column(name = "stream_id", nullable = false)
     private UUID streamId;
 
-    @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name = "granted_by", nullable = false)
     private String grantedBy;
 
-    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 }

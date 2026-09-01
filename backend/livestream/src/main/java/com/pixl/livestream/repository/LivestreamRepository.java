@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.pixl.livestream.entity.LivestreamEntity;
 import com.pixl.livestream.stream.StreamStatus;
 
-public interface LivestreamRepository extends JpaRepository<LivestreamEntity, UUID> {
+public interface LivestreamRepository extends MongoRepository<LivestreamEntity, UUID> {
 
     Optional<LivestreamEntity> findByPixlStreamId(String pixlStreamId);
 

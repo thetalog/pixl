@@ -3,9 +3,9 @@ package com.pixl.livestream.health;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
+import org.bson.Document;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +16,16 @@ import com.pixl.livestream.media.MediaRouter;
 @RestController
 public class HealthController {
 
-    private final DataSource dataSource;
+    private final MongoTemplate mongoTemplate;
     private final ObjectProvider<StringRedisTemplate> redis;
     private final MediaRouter mediaRouter;
 
     public HealthController(
-            DataSource dataSource,
+            MongoTemplate mongoTemplate,
             ObjectProvider<StringRedisTemplate> redis,
             MediaRouter mediaRouter
     ) {
-        this.dataSource = dataSource;
+        this.mongoTemplate = mongoTemplate;
         this.redis = redis;
         this.mediaRouter = mediaRouter;
     }
@@ -50,8 +50,9 @@ public class HealthController {
     }
 
     private boolean pingDb() {
-        try (var conn = dataSource.getConnection()) {
-            return conn.isValid(2);
+        try {
+            mongoTemplate.getDb().runCommand(new Document("ping", 1));
+            return true;
         } catch (Exception ex) {
             return false;
         }

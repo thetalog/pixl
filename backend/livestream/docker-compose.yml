@@ -1,23 +1,6 @@
 name: pixl-live
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: pixl_live
-      POSTGRES_USER: pixl
-      POSTGRES_PASSWORD: pixl
-    ports:
-      - "5433:5432"
-    volumes:
-      - live_pg:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pixl -d pixl_live"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
   redis:
     image: redis:7-alpine
     restart: unless-stopped
@@ -75,9 +58,7 @@ services:
     restart: unless-stopped
     environment:
       SERVER_PORT: 8085
-      LIVESTREAM_DB_URL: jdbc:postgresql://postgres:5432/pixl_live
-      LIVESTREAM_DB_USER: pixl
-      LIVESTREAM_DB_PASSWORD: pixl
+      MONGODB_URI: ${MONGODB_URI}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       LIVE_INTERNAL_SECRET: ${LIVE_INTERNAL_SECRET:-dev-internal-secret-change-me}
@@ -101,8 +82,6 @@ services:
     ports:
       - "8085:8085"
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
       janus:
@@ -113,5 +92,4 @@ services:
       - ./build/libs/pixl-livestream-1.0.0.jar:/app/app.jar:ro
 
 volumes:
-  live_pg:
   live_minio:
