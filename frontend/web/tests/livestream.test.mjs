@@ -55,12 +55,12 @@ test('LAN phone uses same-origin API and websocket proxies', async () => {
   )
 })
 
-test('LAN phone rewrites ICE servers off localhost', async () => {
+test('public site does not rewrite ICE servers to the website hostname', async () => {
   const { rewriteIceServers } = await import('../app/utils/apiBase.js')
   const ice = rewriteIceServers(
-    [{ urls: ['stun:localhost:3478', 'turn:127.0.0.1:3478?transport=udp'] }],
-    '192.168.1.104'
+    [{ urls: ['stun:203.0.113.10:3478', 'turn:203.0.113.10:3478?transport=udp'] }],
+    'pixl-personal-project.online'
   )
-  assert.equal(ice[0].urls[0], 'stun:192.168.1.104:3478')
-  assert.equal(ice[0].urls[1], 'turn:192.168.1.104:3478?transport=udp')
+  assert.equal(ice[0].urls[0], 'stun:203.0.113.10:3478')
+  assert.equal(ice[0].urls[1], 'turn:203.0.113.10:3478?transport=udp')
 })

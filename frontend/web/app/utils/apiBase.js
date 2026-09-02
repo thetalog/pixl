@@ -106,6 +106,9 @@ export function lanSafeWsBase(configured, location = pageLocation()) {
 export function rewriteIceServers(servers, pageHost) {
   const host = pageHost || (typeof window === 'undefined' ? '' : window.location.hostname)
   if (!host || isLoopbackHost(host) || !Array.isArray(servers)) return servers || []
+  // Public production pages must keep STUN/TURN hosts from the API (EC2 public IP).
+  // Rewriting 127.0.0.1 to pixl-personal-project.online breaks phone viewers.
+  if (!isPrivateLanHost(host)) return servers
   return servers.map((server) => {
     const urls = server?.urls
     const list = Array.isArray(urls) ? urls : urls ? [urls] : []
